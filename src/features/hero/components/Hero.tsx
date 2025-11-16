@@ -6,7 +6,6 @@ export const Hero: React.FC = () => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const lettersRef = useRef<HTMLSpanElement[]>([]);
   
   const titles = ['Développeur Full Stack', 'Expert React & Angular', 'Architecte Backend'];
 
@@ -21,27 +20,24 @@ export const Hero: React.FC = () => {
     const container = containerRef.current;
     const currentWord = titles[currentWordIndex];
     
-    // Réinitialiser le conteneur et le tableau de références
+    // Réinitialiser le conteneur
     container.innerHTML = '';
-    lettersRef.current = [];
+    
 
     // Créer les spans pour chaque lettre
     Array.from(currentWord).forEach((char, index) => {
       const span = document.createElement('span');
       span.textContent = char === ' ' ? '\u00A0' : char;
       span.style.opacity = '0';
-      span.style.display = 'inline-block';
-      span.style.position = 'relative'; // Important pour le positionnement
       container.appendChild(span);
-      lettersRef.current.push(span);
     });
 
-    // Attendre que le DOM soit mis à jour avant de calculer les positions
     setTimeout(() => {
+      const spans = container.querySelectorAll('span');
       const containerRect = container.getBoundingClientRect();
       const centerX = containerRect.left + containerRect.width / 2;
 
-      lettersRef.current.forEach((span, index) => {
+      spans.forEach((span, index) => {
         const spanRect = span.getBoundingClientRect();
         const x = spanRect.left;
         const randomX = (centerX - x) + ((centerX < x ? -1 : 1) * Math.random() * 32.5);
@@ -53,99 +49,27 @@ export const Hero: React.FC = () => {
             --rot: rotate(${centerX < x ? '-' : ''}${Math.random() * 300}deg);
             animation: letterDrop 2s linear forwards;
             opacity: 1;
-            display: inline-block;
-            position: relative;
           `);
           span.classList.add('drop');
         }, Math.random() * 1000);
       });
 
-      // Après l'animation de chute, pulvériser les lettres
+      // Après l'animation de chute, préparer le prochain mot
       setTimeout(() => {
-        pulverizeLetters();
-      }, 5000); // Temps d'affichage avant la pulvérisation
-    }, 100); // Petit délai pour assurer le rendu DOM
-  };
-
-  const pulverizeLetters = () => {
-    if (!containerRef.current) return;
-
-    const container = containerRef.current;
-    const containerRect = container.getBoundingClientRect();
-
-    lettersRef.current.forEach((span, index) => {
-      setTimeout(() => {
-        const spanRect = span.getBoundingClientRect();
-        
-        // Vérifier que la lettre est bien positionnée
-        if (spanRect.width === 0 || spanRect.height === 0) {
-          console.warn('Letter has no dimensions, skipping pulverization');
-          return;
-        }
-
-        // Créer plusieurs particules pour chaque lettre
-        const particleCount = 8;
-        
-        for (let i = 0; i < particleCount; i++) {
-          const particle = document.createElement('span');
-          particle.className = 'particle';
-          particle.textContent = span.textContent;
-          
-          // Calculer la position relative correcte
-          const relativeLeft = spanRect.left - containerRect.left + (spanRect.width / 2);
-          const relativeTop = spanRect.top - containerRect.top + (spanRect.height / 2);
-          
-          // Direction aléatoire pour chaque particule
-          const angle = (Math.random() * 360) * (Math.PI / 180);
-          const distance = 100 + Math.random() * 150;
-          const translateX = Math.cos(angle) * distance;
-          const translateY = Math.sin(angle) * distance;
-          const rotation = Math.random() * 720 - 360;
-          const scale = 0.3 + Math.random() * 0.7;
-          
-          particle.style.cssText = `
-            position: absolute;
-            left: ${relativeLeft}px;
-            top: ${relativeTop}px;
-            font-size: 1.5em;
-            color: var(--color-primary);
-            text-shadow: 1px 0 var(--color-primary);
-            opacity: 1;
-            pointer-events: none;
-            z-index: 1000;
-            --tx: ${translateX}px;
-            --ty: ${translateY}px;
-            --rot: ${rotation}deg;
-            --scale: ${scale};
-            animation: particleExplode 0.8s ease-out forwards;
-            animation-delay: ${i * 0.02}s;
-            transform-origin: center;
-          `;
-          
-          container.appendChild(particle);
-          
-          // Supprimer la particule après l'animation
+        // Effacer les lettres
+        spans.forEach((span, index) => {
           setTimeout(() => {
-            if (particle.parentNode) {
-              particle.remove();
-            }
-          }, 1000);
-        }
-        
-        // Cacher la lettre originale
-        span.style.opacity = '0';
-        
-      }, Math.random() * 300);
-    });
+            span.style.opacity = '0';
+          }, index * 60);
+        });
 
-    // Passer au mot suivant après toutes les explosions
-    setTimeout(() => {
-      if (containerRef.current) {
-        containerRef.current.innerHTML = '';
-      }
-      setIsAnimating(false);
-      setCurrentWordIndex((prev) => (prev + 1) % titles.length);
-    }, 1500);
+        // Passer au mot suivant
+        setTimeout(() => {
+          setIsAnimating(false);
+          setCurrentWordIndex((prev) => (prev + 1) % titles.length);
+        }, 0);
+      }, 4000);
+    }, 0);
   };
 
   const scrollToContact = () => {
@@ -164,7 +88,7 @@ export const Hero: React.FC = () => {
 
   return (
     <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20 px-4 sm:px-6 lg:px-8">
-      {/* Styles inline pour l'animation */}
+      {/* Styles inline pour l'animation - conservés car spécifiques à l'animation dynamique */}
       <style>{`
         @keyframes letterDrop {
           0% {
@@ -181,57 +105,69 @@ export const Hero: React.FC = () => {
           }
         }
 
-        @keyframes particleExplode {
-          0% {
-            transform: translate(0, 0) rotate(0deg) scale(1);
-            opacity: 1;
-          }
-          20% {
-            transform: translate(calc(var(--tx) * 0.3), calc(var(--ty) * 0.3)) rotate(calc(var(--rot) * 0.3)) scale(var(--scale));
-            opacity: 1;
-          }
-          100% {
-            transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.1);
-            opacity: 0;
-          }
-        }
-
-        .letter-container {
-          position: relative;
-          min-height: 3rem;
-          display: inline-block;
-        }
-
-        .letter-container span:not(.particle) {
+        .letter-container span {
           opacity: 0;
           font-size: 1.5em;
-          transition: transform 0.5s ease-out, opacity 0.3s ease-out;
+          transition: transform 0.5s ease-out, opacity 0.5s;
           text-shadow: 1px 0 var(--color-primary);
           color: var(--color-primary);
           pointer-events: none;
           display: inline-block;
-          position: relative;
         }
 
         .letter-container span.drop {
           opacity: 1;
         }
 
-        .particle {
+        .rain-tube {
+          width: 2rem;
+          height: 2.4em;
+          left: calc(50% - 1rem);
+          background-color: var(--color-primary);
           position: absolute;
-          display: inline-block;
-          will-change: transform, opacity;
+          top: -3em;
+          transition: all 1s ease;
+          z-index: 10;
         }
 
-        /* Assurer que le conteneur a une taille minimale même quand vide */
-        .title-container {
-          min-width: 300px;
-          min-height: 60px;
-          display: flex;
+        .rain-tube::before {
+          content: '';
+          position: absolute;
+          width: 4rem;
+          height: 2rem;
+          top: calc(3em - 1.2em - 0.4em);
+          left: 50%;
+          transform: translateX(-50%);
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(0, 240, 255, 0.6) 0%, rgba(0, 240, 255, 0) 70%);
+          opacity: 0;
+          transition: opacity 0.5s ease;
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        .rain-tube.active::before {
+          opacity: 1;
+        }
+
+        .rain-tube::after {
+          content: '';
+          width: 3rem;
+          height: 1.2em;
+          background-color: var(--color-surface);
+          position: absolute;
+          top: calc(3em - 1.2em);
+          left: 50%;
+          transform: translateX(-50%);
+          border-radius: 4px;
+        }
+
+        .rain-tube.active {
+          top: 0;
         }
       `}</style>
 
-      {/* Fond animé */}
+      {/* Fond animé - refactorisé avec Tailwind */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 md:w-96 md:h-96 bg-primary rounded-full mix-blend-multiply blur-3xl opacity-10 animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-64 h-64 md:w-96 md:h-96 bg-secondary rounded-full mix-blend-multiply blur-3xl opacity-10 animate-pulse" style={{ animationDelay: '2s' }} />
@@ -239,7 +175,7 @@ export const Hero: React.FC = () => {
 
       <div className="container mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Contenu texte */}
+          {/* Contenu texte - refactorisé avec Tailwind */}
           <div className="text-center lg:text-left space-y-6 order-2 lg:order-1">
             <div className="space-y-2">
               <p className="text-text-secondary text-sm sm:text-base font-medium tracking-wide uppercase">
@@ -253,11 +189,11 @@ export const Hero: React.FC = () => {
               </h1>
             </div>
 
-            {/* Titre animé avec effet de pluie et pulvérisation */}
-            <div className="h-12 sm:h-16 flex items-center justify-center lg:justify-start relative title-container">
+            {/* Titre animé avec effet de pluie */}
+            <div className="h-12 sm:h-16 flex items-center justify-center lg:justify-start relative">
               <div 
                 ref={containerRef}
-                className="letter-container flex justify-center lg:justify-start items-center"
+                className="letter-container flex justify-center lg:justify-start items-center min-h-[3rem]"
               />
             </div>
 
@@ -295,7 +231,7 @@ export const Hero: React.FC = () => {
               </Button>
             </div>
 
-            {/* Stats rapides */}
+            {/* Stats rapides - refactorisé avec Tailwind */}
             <div className="grid grid-cols-3 gap-4 pt-8 max-w-md mx-auto lg:mx-0">
               <div className="text-center lg:text-left">
                 <div className="text-2xl sm:text-3xl font-bold text-gradient">5+</div>
@@ -319,7 +255,7 @@ export const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* Indicateur de scroll */}
+      {/* Indicateur de scroll - refactorisé avec Tailwind */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce hidden md:block">
         <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
