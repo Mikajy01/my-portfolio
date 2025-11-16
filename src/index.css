@@ -1,0 +1,319 @@
+@import "tailwindcss";
+
+/* ============================================
+   PALETTE OPTIMISÉE POUR LE CONFORT VISUEL
+   ============================================ */
+
+:root {
+  /* 🎨 MODE CLAIR - Palette douce et professionnelle */
+  
+  /* Primaire : Cyan plus doux avec meilleur contraste */
+  --color-primary: #0891b2;           /* Cyan 600 - Plus professionnel */
+  --color-primary-dark: #0e7490;      /* Cyan 700 */
+  --color-primary-light: #06b6d4;     /* Cyan 500 */
+  
+  /* Secondaire : Violet plus subtil */
+  --color-secondary: #9333ea;         /* Purple 600 */
+  --color-accent: #ec4899;            /* Pink 500 */
+  
+  /* Arrière-plans : Gris chauds au lieu de blanc pur */
+  --color-background: #fafaf9;        /* Stone 50 - Réduit la fatigue oculaire */
+  --color-surface: #f5f5f4;           /* Stone 100 */
+  --color-surface-elevated: #ffffff;  /* Blanc réservé aux éléments élevés */
+  
+  /* Texte : Gris foncés au lieu de noir pur */
+  --color-text-primary: #1c1917;      /* Stone 900 - Plus doux que le noir */
+  --color-text-secondary: #57534e;    /* Stone 600 */
+  --color-text-muted: #78716c;        /* Stone 500 */
+  
+  /* Bordures : Plus visibles */
+  --color-border: #d6d3d1;            /* Stone 300 */
+  --color-border-light: #e7e5e4;      /* Stone 200 */
+  
+  /* Ombres : Plus subtiles */
+  --color-shadow: rgba(28, 25, 23, 0.08);
+  --color-glow: rgba(8, 145, 178, 0.15);
+}
+
+/* 🌙 MODE SOMBRE - Conservé avec vos couleurs vives */
+:root.dark {
+  --color-primary: #00f0ff;
+  --color-primary-dark: #00c9d9;
+  --color-primary-light: #4df4ff;
+  --color-secondary: #bf00ff;
+  --color-accent: #ff00aa;
+  --color-background: #0a0a0a;
+  --color-surface: #141414;
+  --color-surface-elevated: #1a1a1a;
+  --color-text-primary: #fafafa;
+  --color-text-secondary: #a3a3a3;
+  --color-text-muted: #737373;
+  --color-border: #262626;
+  --color-border-light: #1f1f1f;
+  --color-shadow: rgba(0, 0, 0, 0.5);
+  --color-glow: rgba(0, 240, 255, 0.4);
+}
+
+@theme {
+  /* Couleurs */
+  --color-primary: var(--color-primary);
+  --color-primary-dark: var(--color-primary-dark);
+  --color-primary-light: var(--color-primary-light);
+  --color-secondary: var(--color-secondary);
+  --color-accent: var(--color-accent);
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-surface-elevated: var(--color-surface-elevated);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+  --color-border: var(--color-border);
+  --color-border-light: var(--color-border-light);
+  --color-shadow: var(--color-shadow);
+  --color-glow: var(--color-glow);
+  
+  /* Typographie */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Fira Code', 'Courier New', monospace;
+  
+  /* Espacements */
+  --spacing-section: 6rem;
+  --spacing-section-mobile: 4rem;
+  
+  /* Animations */
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+  --animate-slide-up: slideUp 0.6s ease-out;
+  --animate-fade-in: fadeIn 0.8s ease-out;
+  
+  /* Border radius */
+  --radius-card: 1.5rem;
+  --radius-button: 0.75rem;
+  
+  /* Ombres optimisées */
+  --shadow-sm: 0 1px 2px 0 var(--color-shadow);
+  --shadow-md: 0 4px 6px -1px var(--color-shadow), 0 2px 4px -1px var(--color-shadow);
+  --shadow-lg: 0 10px 15px -3px var(--color-shadow), 0 4px 6px -2px var(--color-shadow);
+  --shadow-xl: 0 20px 25px -5px var(--color-shadow), 0 10px 10px -5px var(--color-shadow);
+  --shadow-glow: 0 0 20px var(--color-glow);
+  --shadow-glow-lg: 0 0 40px var(--color-glow);
+}
+
+/* ============================================
+   CLASSES UTILITAIRES
+   ============================================ */
+
+@layer utilities {
+  /* Gradients de texte */
+  .text-gradient {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .text-gradient-accent {
+    background: linear-gradient(135deg, var(--color-accent), var(--color-primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  /* Gradients de fond */
+  .bg-gradient-primary {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  }
+  
+  .bg-gradient-dark {
+    background: linear-gradient(180deg, var(--color-surface), var(--color-background));
+  }
+  
+  /* Bordure gradient */
+  .border-gradient {
+    border: 2px solid transparent;
+    background: linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+                linear-gradient(135deg, var(--color-primary), var(--color-secondary)) border-box;
+  }
+  
+  /* Effet verre (glassmorphism) */
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(28, 25, 23, 0.1);
+  }
+  
+  :root.dark .glass-effect {
+    background: rgba(20, 20, 20, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  /* Effets de glow */
+  .glow-effect {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .glow-effect-lg {
+    box-shadow: var(--shadow-glow-lg);
+  }
+  
+  /* Effet de carte élevée */
+  .card-elevated {
+    background: var(--color-surface-elevated);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+  }
+  
+  .card-elevated:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes glow {
+  from {
+    filter: drop-shadow(0 0 5px var(--color-primary))
+            drop-shadow(0 0 15px var(--color-primary));
+  }
+  to {
+    filter: drop-shadow(0 0 10px var(--color-primary))
+            drop-shadow(0 0 25px var(--color-primary));
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+/* ============================================
+   STYLES DE BASE
+   ============================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  /* Améliore le rendu des polices */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar personnalisée */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-dark);
+}
+
+/* Sélection de texte */
+::selection {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+:root.dark ::selection {
+  background-color: var(--color-primary);
+  color: var(--color-background);
+}
+
+/* Conteneur de particules */
+.particles-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.3;
+}
+
+/* Transitions globales */
+a, button {
+  transition: all 0.3s ease;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ============================================
+   AMÉLIORATIONS D'ACCESSIBILITÉ
+   ============================================ */
+
+/* Focus visible pour la navigation au clavier */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Réduction des animations pour les utilisateurs sensibles */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
