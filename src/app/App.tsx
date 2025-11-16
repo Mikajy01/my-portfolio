@@ -6,6 +6,8 @@ import Contact from "../features/contact";
 import { Header } from "../shared/components/Header";
 import { Hero } from "../features/hero";
 import { Footer } from "../shared/components/Footer";
+import { Education } from "../features/education";
+import { Experience } from "../features/experience";
 
 function App() {
   useEffect(() => {
@@ -55,10 +57,12 @@ function App() {
 
       <Header />
 
-      <main className="relative z-10">
+      <main className="relative z-10 overflow-x-hidden">
         <Hero />
         <About />
         <Skills />
+        <Education /> {/* ✨ AJOUTER */}
+        <Experience />
         <Projects />
         <Contact />
       </main>

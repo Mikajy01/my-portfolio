@@ -21,6 +21,8 @@ export const Footer: React.FC = () => {
     { label: "Accueil", id: "hero" },
     { label: "À propos", id: "about" },
     { label: "Compétences", id: "skills" },
+    { label: "Education", id: "education" },
+    { label: "Expérience", id: "experience" },
     { label: "Projets", id: "projects" },
     { label: "Contact", id: "contact" },
   ];

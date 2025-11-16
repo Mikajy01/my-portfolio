@@ -75,10 +75,10 @@ const Skills = () => {
       className="py-16 md:py-24 px-4 md:px-8 relative overflow-hidden bg-surface"
     >
       {/* Effet de grille animée */}
-      <div className="absolute inset-0 opacity-5">
+      <div className="absolute inset-0 opacity-7">
         <div className="absolute inset-0" style={{
           backgroundImage: `radial-gradient(circle at center, var(--color-primary) 1px, transparent 1px)`,
-          backgroundSize: '30px 30px'
+          backgroundSize: '30px 30px',
         }} />
       </div>
 
