@@ -1,6 +1,7 @@
 import React from 'react';
 import { GraduationCap } from 'lucide-react';
 import { TimelineItem, type TimelineItemData } from '../../../shared/components/TimelineItem';
+import { SectionHeader } from '../../../shared/components/SectionHeader';
 
 // ============================================
 // DONNÉES - PERSONNALISEZ AVEC VOS INFOS
@@ -10,9 +11,9 @@ const educationData: TimelineItemData[] = [
   {
     id: '1',
     title: 'Master en Informatique',
-    organization: 'Université de...',
+    organization: 'EMIT Fianarantsoa',
     location: 'Antananarivo, Madagascar',
-    period: '2020 - 2022',
+    period: '2024 - 2025',
     description: 'Spécialisation en développement web et génie logiciel',
     highlights: [
       'Mention Très Bien',
@@ -24,9 +25,9 @@ const educationData: TimelineItemData[] = [
   {
     id: '2',
     title: 'Licence en Informatique',
-    organization: 'Université de...',
+    organization: 'EMIT Fianarantsoa',
     location: 'Antananarivo, Madagascar',
-    period: '2017 - 2020',
+    period: '2021 - 2024',
     description: 'Formation générale en informatique et programmation',
     highlights: [
       'Major de promotion',
@@ -49,15 +50,7 @@ export const Education: React.FC = () => {
 
       <div className="max-w-6xl mx-auto relative z-10">
         {/* En-tête de section */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-4">
-            <GraduationCap className="w-8 h-8 text-primary" />
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-gradient mb-4">
-            Formation
-          </h2>
-          <div className="w-24 h-1 bg-gradient-primary rounded-full mx-auto" />
-        </div>
+        <SectionHeader icon={GraduationCap} title="Formation" />
         
         {/* Timeline */}
         <div className="relative">

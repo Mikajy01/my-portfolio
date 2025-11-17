@@ -140,7 +140,7 @@ export const Header: React.FC = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      const offset = 80;
+      const offset = 0;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.scrollY - offset;
       window.scrollTo({

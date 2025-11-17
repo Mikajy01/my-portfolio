@@ -1,6 +1,7 @@
 import React from 'react';
 import { Briefcase } from 'lucide-react';
 import { TimelineItem, type TimelineItemData } from '../../../shared/components/TimelineItem';
+import { SectionHeader } from '../../../shared/components/SectionHeader';
 
 // ============================================
 // DONNÉES - PERSONNALISEZ AVEC VOS INFOS
@@ -9,10 +10,10 @@ import { TimelineItem, type TimelineItemData } from '../../../shared/components/
 const experienceData: TimelineItemData[] = [
   {
     id: '1',
-    title: 'Développeur Full Stack',
-    organization: 'Entreprise XYZ',
+    title: 'Développeur Backend',
+    organization: 'AccèsBanque Madagascar',
     location: 'Antananarivo, Madagascar',
-    period: '2022 - Présent',
+    period: '2025 - Présent',
     description: 'Développement d\'applications web et mobiles pour des clients internationaux',
     highlights: [
       'Développement de 5+ applications complètes',
@@ -23,10 +24,10 @@ const experienceData: TimelineItemData[] = [
   },
   {
     id: '2',
-    title: 'Développeur Frontend',
-    organization: 'Startup ABC',
-    location: 'Remote',
-    period: '2021 - 2022',
+    title: 'Développeur Full-Stack',
+    organization: 'INNOV-T Madagascar',
+    location: 'Hybrid',
+    period: '2024 - 2025',
     description: 'Création d\'interfaces utilisateur modernes et responsive',
     highlights: [
       'Refonte complète de l\'interface utilisateur',
@@ -57,15 +58,7 @@ export const Experience: React.FC = () => {
 
       <div className="max-w-6xl mx-auto relative z-10">
         {/* En-tête de section */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-4">
-            <Briefcase className="w-8 h-8 text-primary" />
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-gradient mb-4">
-            Expérience Professionnelle
-          </h2>
-          <div className="w-24 h-1 bg-gradient-primary rounded-full mx-auto" />
-        </div>
+        <SectionHeader icon={Briefcase} title="Expérience Professionnelle" />
         
         {/* Timeline */}
         <div className="relative">
