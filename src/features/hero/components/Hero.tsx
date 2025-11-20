@@ -8,7 +8,7 @@ export const Hero: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const lettersRef = useRef<HTMLSpanElement[]>([]);
   
-  const titles = ['Développeur Full Stack', 'Expert React & Angular', 'Architecte Backend'];
+  const titles = ['Développeur Full-Stack', 'Développeur IA', 'Expert React & Angular', 'Architecte Backend'];
 
   useEffect(() => {
     startRainEffect();
@@ -145,7 +145,7 @@ export const Hero: React.FC = () => {
       }
       setIsAnimating(false);
       setCurrentWordIndex((prev) => (prev + 1) % titles.length);
-    }, 1500);
+    }, 500);
   };
 
   const scrollToContact = () => {
