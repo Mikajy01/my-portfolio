@@ -3,11 +3,10 @@ import { useScrollspy } from "../utils/useScrollspy";
 
 const navItems = [
   { id: "hero", label: "Accueil" },
-  { id: "about", label: "À propos" },
   { id: "skills", label: "Compétences" },
-  { id: "education", label: "Education" },
-  { id: "experience", label: "Expérience" },
   { id: "projects", label: "Projets" },
+  { id: "experience", label: "Expérience" },
+  { id: "education", label: "Education" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -46,7 +45,7 @@ const ThemeSwitcher = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="relative w-12 h-6 sm:w-14 sm:h-7 md:w-16 md:h-8 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
+      className="relative cursor-pointer w-12 h-6 sm:w-14 sm:h-7 md:w-16 md:h-8 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
       style={{
         background: isDark
           ? 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)'
@@ -169,7 +168,7 @@ export const Header: React.FC = () => {
               }}
               className="text-lg xs:text-xl sm:text-2xl font-bold text-gradient hover:scale-105 transition-transform"
             >
-              MSR
+              MR. BUG
             </a>
 
             {/* Desktop Navigation */}
