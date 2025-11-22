@@ -237,7 +237,7 @@ export const Hero: React.FC = () => {
         <div className="absolute bottom-1/4 right-1/4 w-64 h-64 md:w-96 md:h-96 bg-secondary rounded-full mix-blend-multiply blur-3xl opacity-10 animate-pulse" style={{ animationDelay: '2s' }} />
       </div>
 
-      <div className="container mx-auto">
+      <div className="container mx-auto py-3">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Contenu texte */}
           <div className="text-center lg:text-left space-y-6 order-2 lg:order-1">
