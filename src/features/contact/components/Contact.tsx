@@ -96,7 +96,7 @@ const Contact = () => {
 
               <div className="space-y-4">
                 <a 
-                  href="mailto:contact@example.com"
+                  href="mailto:sellyrafaj@gmail.com"
                   className="flex items-center gap-4 p-4 rounded-xl bg-surface-elevated hover:bg-surface hover:glow-effect transition-all group"
                 >
                   <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
@@ -104,12 +104,12 @@ const Contact = () => {
                   </div>
                   <div>
                     <div className="text-text-muted text-sm">Email</div>
-                    <div className="text-text-primary font-medium">contact@example.com</div>
+                    <div className="text-text-primary font-medium">sellyrafaj@gmail.com</div>
                   </div>
                 </a>
 
                 <a 
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/mikajisoa-selly-rafaj-ratsimbazafy-7b9365321/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 p-4 rounded-xl bg-surface-elevated hover:bg-surface hover:glow-effect transition-all group"
@@ -124,7 +124,7 @@ const Contact = () => {
                 </a>
 
                 <a 
-                  href="https://github.com"
+                  href="https://github.com/Mikajy01/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 p-4 rounded-xl bg-surface-elevated hover:bg-surface hover:glow-effect transition-all group"
@@ -134,7 +134,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <div className="text-text-muted text-sm">GitHub</div>
-                    <div className="text-text-primary font-medium">@mikajisoa</div>
+                    <div className="text-text-primary font-medium">@Mikajy01</div>
                   </div>
                 </a>
 
@@ -144,7 +144,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <div className="text-text-muted text-sm">Localisation</div>
-                    <div className="text-text-primary font-medium">Antananarivo, Madagascar</div>
+                    <div className="text-text-primary font-medium">Fianarantsoa, Madagascar</div>
                   </div>
                 </div>
               </div>
