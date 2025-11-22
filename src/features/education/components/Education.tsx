@@ -43,7 +43,7 @@ const educationData: TimelineItemData[] = [
 
 export const Education: React.FC = () => {
   return (
-    <section id="education" className="py-20 px-4 relative">
+    <section id="education" className="py-20 px-4 relative overflow-hidden">
       {/* Effet de lumière d'arrière-plan */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary opacity-10 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary opacity-10 rounded-full blur-3xl" />

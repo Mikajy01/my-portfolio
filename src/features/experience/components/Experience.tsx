@@ -44,7 +44,7 @@ const experienceData: TimelineItemData[] = [
 
 export const Experience: React.FC = () => {
   return (
-    <section id="experience" className="py-20 px-4 relative bg-surface/50">
+    <section id="experience" className="py-20 px-4 relative bg-surface overflow-hidden">
         {/* Effet de grille animée */}
       <div className="absolute inset-0 opacity-7">
         <div className="absolute inset-0" style={{
