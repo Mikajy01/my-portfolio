@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 
 // --- VRAIS IMPORTS (Décommente-les dans ton projet) ---
-import About from "../features/about";
 import Skills from "../features/skills";
 import Projects from "../features/projects";
 import Contact from "../features/contact";
@@ -160,7 +159,7 @@ function App() {
 
   return (
     <div className="relative min-h-screen bg-background">
-      <PixelGridLoader onComplete={() => setIsLoaded(true)} />
+      {!isLoaded && <PixelGridLoader onComplete={() => setIsLoaded(true)} />}
 
       <div className="fixed inset-0 pointer-events-none opacity-20">
         <div
@@ -196,13 +195,12 @@ function App() {
 
       <Header />
 
-      <main className="relative z-10">
+      <main className="relative">
         <Hero />
-        <About />
-        <Education />
-        <Experience />
         <Skills />
         <Projects />
+        <Experience />
+        <Education />
         <Contact />
       </main>
 
