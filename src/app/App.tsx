@@ -9,6 +9,7 @@ import { Hero } from "../features/hero";
 import { Footer } from "../shared/components/Footer";
 import { Education } from "../features/education";
 import { Experience } from "../features/experience";
+import { Settings } from "lucide-react";
 
 // --- COMPOSANT LOADER : INCOMING DATA ---
 const PixelGridLoader = ({ onComplete }: { onComplete: () => void }) => {
@@ -94,7 +95,7 @@ const PixelGridLoader = ({ onComplete }: { onComplete: () => void }) => {
             {/* 1. COUCHE NOIRE (Masque le site) */}
             {/* Elle reste opaque jusqu'à ce que le projectile arrive, puis disparait */}
             <div
-              className="absolute inset-0 bg-gray-950 z-10"
+              className="absolute inset-0 bg-text-primary z-10"
               style={{
                 animation: `revealSite 0.1s steps(1) forwards`,
                 animationDelay: `${item.delay + 0.8}s`, // 0.8s est la durée du vol
@@ -122,9 +123,22 @@ const PixelGridLoader = ({ onComplete }: { onComplete: () => void }) => {
       </div>
 
       {/* Titre (Optionnel) */}
-      <div className="absolute inset-0 flex items-center justify-center z-50 pointer-events-none">
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-99999 pointer-events-none gap-6">
+        {/* Icône paramètre qui tourne */}
+        <div
+          className="opacity-0"
+          style={{ animation: "fadeInSpin 3s ease-in-out forwards" }}
+        >
+          <Settings
+            size={64}
+            className="text-primary-dark mix-blend-overlay"
+            style={{ animation: "spin 2s linear infinite" }}
+          />
+        </div>
+
+        {/* Texte ASSEMBLING */}
         <h1
-          className="text-white font-mono text-4xl font-bold tracking-widest mix-blend-overlay opacity-0"
+          className="text-primary-dark font-mono text-4xl font-bold tracking-widest mix-blend-overlay opacity-0"
           style={{ animation: "pulseText 3s ease-in-out forwards" }}
         >
           ASSEMBLING
@@ -132,6 +146,29 @@ const PixelGridLoader = ({ onComplete }: { onComplete: () => void }) => {
       </div>
 
       <style>{`
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        @keyframes fadeInSpin {
+          0% {
+            opacity: 0;
+            transform: scale(0.5);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.1);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
         @keyframes flyIn {
           to {
             transform: translate(0, 0);
