@@ -348,3 +348,16 @@ img {
 .animate-draw {
   animation: draw 0.6s ease-out forwards;
 }
+
+
+.scroll-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scroll-thin::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+}
+
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}

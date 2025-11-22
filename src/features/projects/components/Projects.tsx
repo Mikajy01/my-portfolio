@@ -282,7 +282,7 @@ const Projects = () => {
               </h2>
             </div>
             {/* Contenu scrollable - DOIT avoir une hauteur définie */}
-            <div className="flex-1 min-h-0 overflow-y-auto space-y-6 py-4">
+            <div className="flex-1 min-h-0 overflow-y-auto scroll-thin space-y-6 py-4">
               {" "}
               {/* Ajout de min-h-0 crucial */}
               <p className="text-color-text-primary leading-relaxed">
