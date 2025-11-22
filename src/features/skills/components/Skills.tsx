@@ -1,20 +1,77 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from "react";
+import {
+  Shield,
+  Zap,
+  GitBranch,
+  Puzzle,
+  Rocket,
+  Sparkles,
+  Target,
+  Globe,
+  Lock,
+} from "lucide-react";
+import HandDrawnUnderline from "../../../shared/components/HandDrawnUnderline";
+import { TechIcons } from "../../../shared/icons/TechIcons";
 
-interface Skill {
+
+interface Technology {
   name: string;
-  icon: string;
-  category: 'frontend' | 'backend' | 'database';
-  level: number;
+  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  color?: string;
 }
 
-const skills: Skill[] = [
-  { name: 'Angular', icon: '🅰️', category: 'frontend', level: 90 },
-  { name: 'React.js', icon: '⚛️', category: 'frontend', level: 95 },
-  { name: 'NestJS', icon: '🦅', category: 'backend', level: 88 },
-  { name: 'Express.js', icon: '🚂', category: 'backend', level: 92 },
-  { name: 'MySQL', icon: '🐬', category: 'database', level: 85 },
-  { name: 'PostgreSQL', icon: '🐘', category: 'database', level: 87 },
-  { name: 'SQL Server', icon: '💾', category: 'database', level: 82 },
+interface Concept {
+  name: string;
+  Icon: React.ComponentType<{ className?: string }>;
+}
+
+interface Highlight {
+  title: string;
+  description: string;
+  Icon: React.ComponentType<{ className?: string }>;
+}
+
+const technologies: Technology[] = [
+  { name: "NestJS", Icon: TechIcons.NestJS, color: "#E0234E" },
+  { name: "Node.js", Icon: TechIcons.NodeJS, color: "#339933" },
+  { name: "Express", Icon: TechIcons.Express },
+  { name: "Python", Icon: TechIcons.Python, color: "#3776AB" },
+  { name: "Java", Icon: TechIcons.Java, color: "#007396" },
+  { name: "React", Icon: TechIcons.React, color: "#61DAFB" },
+  { name: "Flutter", Icon: TechIcons.Flutter, color: "#61DAFB" },
+  { name: "PostgreSQL", Icon: TechIcons.PostgreSQL, color: "#4169E1" },
+  { name: "MySQL", Icon: TechIcons.MySQL, color: "#4479A1" },
+  { name: "Git", Icon: TechIcons.Git},
+  { name: "Socket.io", Icon: TechIcons.SocketIO},
+  { name: "Docker", Icon: TechIcons.Docker, color: "#2496ED" },
+  { name: "Kubernetes", Icon: TechIcons.Kubernetes, color: "#326CE5" },
+];
+
+const concepts: Concept[] = [
+  { name: "Architecture SOLID", Icon: GitBranch },
+  { name: "JWT / Auth / Sécurité", Icon: Shield },
+  { name: "Systèmes temps réel", Icon: Zap },
+  { name: "Optimisation algo", Icon: Target },
+  { name: "Concurrence / Sync", Icon: Lock },
+  { name: "Résolution de problèmes", Icon: Puzzle },
+];
+
+const highlights: Highlight[] = [
+  {
+    title: "Rapidité d'exécution",
+    description: "Développement agile avec livraison rapide",
+    Icon: Rocket,
+  },
+  {
+    title: "Code propre",
+    description: "Architecture maintenable et scalable",
+    Icon: Sparkles,
+  },
+  {
+    title: "Problèmes complexes",
+    description: "Solutions innovantes aux défis techniques",
+    Icon: Target,
+  },
 ];
 
 const Skills = () => {
@@ -25,35 +82,29 @@ const Skills = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('animate-slide-up');
-            entry.target.classList.remove('opacity-0');
-            
-            // Animer les barres de progression
-            const bars = entry.target.querySelectorAll('.skill-bar-fill');
-            bars.forEach((bar) => {
-              const level = bar.getAttribute('data-level');
-              if (level) {
-                (bar as HTMLElement).style.width = level + '%';
-              }
+            entry.target.classList.add("animate-slide-up");
+            entry.target.classList.remove("opacity-0");
+
+            // Animer les éléments avec délai progressif
+            const items = entry.target.querySelectorAll(
+              ".tech-item, .concept-item"
+            );
+            items.forEach((item, idx) => {
+              setTimeout(() => {
+                item.classList.add("animate-bounce-scale");
+                item.classList.remove("opacity-0");
+              }, idx * 50);
             });
-          } else {
-            // Optionnel: réinitialiser quand l'élément quitte la vue
-            // entry.target.classList.remove('animate-slide-up');
-            // entry.target.classList.add('opacity-0');
-            // const bars = entry.target.querySelectorAll('.skill-bar-fill');
-            // bars.forEach((bar) => {
-            //   (bar as HTMLElement).style.width = '0%';
-            // });
           }
         });
       },
-      { 
-        threshold: 0.3,
-        rootMargin: '-50px 0px -50px 0px' // Déclenche un peu avant d'entrer dans la vue
+      {
+        threshold: 0.2,
+        rootMargin: "-50px 0px -50px 0px",
       }
     );
 
-    const elements = sectionRef.current?.querySelectorAll('.observe-animation');
+    const elements = sectionRef.current?.querySelectorAll(".observe-animation");
     elements?.forEach((el) => observer.observe(el));
 
     return () => {
@@ -62,63 +113,66 @@ const Skills = () => {
     };
   }, []);
 
-  const categories = {
-    frontend: skills.filter(s => s.category === 'frontend'),
-    backend: skills.filter(s => s.category === 'backend'),
-    database: skills.filter(s => s.category === 'database'),
-  };
-
   return (
-    <section 
-      id="skills" 
+    <section
+      id="skills"
       ref={sectionRef}
-      className="py-16 md:py-24 px-4 md:px-8 relative overflow-hidden bg-surface"
+      className="py-16 md:py-24 px-4 md:px-8 relative overflow-hidden bg-background"
     >
       {/* Effet de grille animée */}
-      <div className="absolute inset-0 opacity-7">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at center, var(--color-primary) 1px, transparent 1px)`,
-          backgroundSize: '30px 30px',
-        }} />
+      <div className="absolute inset-0 opacity-5">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at center, var(--color-primary) 1px, transparent 1px)",
+            backgroundSize: "40px 40px",
+          }}
+        />
       </div>
 
-      <div className="max-w-6xl mx-auto relative z-10">
-        <div className="observe-animation opacity-0 transition-all duration-700 mb-12 md:mb-16 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            <span className="text-gradient">Compétences</span>
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="observe-animation opacity-0 transition-all duration-700 mb-16 text-center">
+          <h2 className="text-4xl md:text-6xl font-bold mb-4">
+            <span className="text-gradient">Tech Stack</span>
           </h2>
-          <p className="text-text-secondary max-w-2xl mx-auto">
-            Technologies et frameworks que je maîtrise pour créer des solutions complètes
+          <p className="text-text-secondary text-lg max-w-2xl mx-auto">
+            Technologies, concepts et approches que je{" "}
+            <HandDrawnUnderline color="var(--color-primary)" delay={300}>
+              maîtrise
+            </HandDrawnUnderline>{" "}
+            pour créer des solutions robustes
           </p>
-          <div className="w-20 h-1 bg-gradient-primary mx-auto rounded-full mt-6" />
+          <div className="w-24 h-1 bg-gradient-primary mx-auto rounded-full mt-6" />
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-          {/* Frontend */}
-          <div className="observe-animation opacity-0 transition-all duration-700">
-            <div className="glass-effect p-6 md:p-8 rounded-2xl h-full border-l-4 border-primary hover:glow-effect transition-all duration-300">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center text-2xl">
-                  🎨
+        <div className="grid lg:grid-cols-3 gap-8 mb-12">
+          {/* Langages & Technologies */}
+          <div className="observe-animation opacity-0 transition-all duration-700 lg:col-span-2">
+            <div className="glass-effect p-8 rounded-2xl h-full border border-border hover:glow-effect transition-all duration-500 group">
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-14 h-14 rounded-xl bg-gradient-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <Target className="w-7 h-7 text-white" />
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold text-primary">Frontend</h3>
+                <h3 className="text-2xl md:text-3xl font-bold">
+                  <span className="text-gradient">Langages & Technologies</span>
+                </h3>
               </div>
-              <div className="space-y-4">
-                {categories.frontend.map((skill, idx) => (
-                  <div key={idx} className="group">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="flex items-center gap-2 text-text-primary font-medium">
-                        <span className="text-xl">{skill.icon}</span>
-                        {skill.name}
-                      </span>
-                      <span className="text-primary font-bold">{skill.level}%</span>
-                    </div>
-                    <div className="h-2 bg-surface-elevated rounded-full overflow-hidden">
-                      <div 
-                        className="skill-bar-fill h-full bg-gradient-primary rounded-full transition-all duration-1000 ease-out"
-                        data-level={skill.level}
-                        style={{ width: '0%' }}
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {technologies.map((tech, idx) => (
+                  <div
+                    key={idx}
+                    className="tech-item opacity-0 glass-effect px-4 py-3 rounded-xl border border-border-light hover:border-primary transition-all duration-300 hover:scale-105 hover:shadow-lg group/item"
+                  >
+                    <div className="flex items-center gap-2">
+                      <tech.Icon
+                        className="w-5 h-5 group-hover/item:scale-125 transition-transform duration-300"
+                        style={{ color: tech.color }}
+                        // L'utilisation de 'fill="currentColor"' dans les SVG permet à ce style de colorer l'icône
                       />
+                      <span className="text-sm font-medium text-text-primary">
+                        {tech.name}
+                      </span>
                     </div>
                   </div>
                 ))}
@@ -126,73 +180,87 @@ const Skills = () => {
             </div>
           </div>
 
-          {/* Backend */}
+          {/* Concepts / Soft Skills */}
           <div className="observe-animation opacity-0 transition-all duration-700 delay-200">
-            <div className="glass-effect p-6 md:p-8 rounded-2xl h-full border-l-4 border-secondary hover:glow-effect transition-all duration-300">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center text-2xl">
-                  ⚙️
+            <div className="glass-effect p-8 rounded-2xl h-full border border-border hover:glow-effect transition-all duration-500 group">
+              <div className="flex items-center gap-3 mb-8">
+                <div
+                  className="w-14 h-14 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, var(--color-secondary), var(--color-accent))",
+                  }}
+                >
+                  <TechIcons.Kubernetes className="w-7 h-7 text-white" />
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold text-secondary">Backend</h3>
+                <h3 className="text-2xl md:text-3xl font-bold">
+                  <span className="text-gradient-accent">Concepts</span>
+                </h3>
               </div>
-              <div className="space-y-4">
-                {categories.backend.map((skill, idx) => (
-                  <div key={idx} className="group">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="flex items-center gap-2 text-text-primary font-medium">
-                        <span className="text-xl">{skill.icon}</span>
-                        {skill.name}
+              <div className="space-y-3">
+                {concepts.map((concept, idx) => (
+                  <div
+                    key={idx}
+                    className="concept-item opacity-0 glass-effect px-4 py-3 rounded-xl border border-border-light hover:border-secondary transition-all duration-300 hover:scale-105 hover:shadow-lg group/item"
+                  >
+                    <div className="flex items-center gap-3">
+                      <concept.Icon className="w-5 h-5 text-secondary group-hover/item:scale-125 transition-transform duration-300" />
+                      <span className="text-sm font-medium text-text-primary">
+                        {concept.name}
                       </span>
-                      <span className="text-secondary font-bold">{skill.level}%</span>
-                    </div>
-                    <div className="h-2 bg-surface-elevated rounded-full overflow-hidden">
-                      <div 
-                        className="skill-bar-fill h-full rounded-full transition-all duration-1000 ease-out"
-                        data-level={skill.level}
-                        style={{ 
-                          width: '0%',
-                          background: 'linear-gradient(135deg, var(--color-secondary), var(--color-accent))'
-                        }}
-                      />
                     </div>
                   </div>
                 ))}
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Database */}
-          <div className="observe-animation opacity-0 transition-all duration-700 delay-400">
-            <div className="glass-effect p-6 md:p-8 rounded-2xl h-full border-l-4 border-accent hover:glow-effect transition-all duration-300">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center text-2xl">
-                  💾
-                </div>
-                <h3 className="text-xl md:text-2xl font-bold text-accent">Database</h3>
+        {/* Highlights personnels */}
+        <div className="observe-animation opacity-0 transition-all duration-700 delay-400">
+          <div className="glass-effect p-8 rounded-2xl border border-border">
+            <div className="flex items-center gap-3 mb-8 justify-center">
+              <div
+                className="w-14 h-14 rounded-xl flex items-center justify-center shadow-lg"
+                style={{
+                  background:
+                    "linear-gradient(135deg, var(--color-accent), var(--color-primary))",
+                }}
+              >
+                <Sparkles className="w-7 h-7 text-white" />
               </div>
-              <div className="space-y-4">
-                {categories.database.map((skill, idx) => (
-                  <div key={idx} className="group">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="flex items-center gap-2 text-text-primary font-medium">
-                        <span className="text-xl">{skill.icon}</span>
-                        {skill.name}
-                      </span>
-                      <span className="text-accent font-bold">{skill.level}%</span>
+              <h3 className="text-2xl md:text-3xl font-bold text-gradient">
+                Points Forts
+              </h3>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              {highlights.map((highlight, idx) => (
+                <div
+                  key={idx}
+                  className="relative group"
+                  style={{ animationDelay: `${idx * 100}ms` }}
+                >
+                  <div className="glass-effect p-6 rounded-xl border border-border-light hover:border-accent transition-all duration-500 hover:scale-105 hover:shadow-xl h-full">
+                    <div className="mb-4 inline-flex p-3 rounded-lg bg-gradient-primary group-hover:scale-110 transition-transform duration-300">
+                      <highlight.Icon className="w-8 h-8 text-white" />
                     </div>
-                    <div className="h-2 bg-surface-elevated rounded-full overflow-hidden">
-                      <div 
-                        className="skill-bar-fill h-full rounded-full transition-all duration-1000 ease-out"
-                        data-level={skill.level}
-                        style={{ 
-                          width: '0%',
-                          background: 'linear-gradient(135deg, var(--color-accent), var(--color-primary))'
-                        }}
-                      />
-                    </div>
+                    <h4 className="text-xl font-bold mb-2 text-text-primary">
+                      {highlight.title}
+                    </h4>
+                    <p className="text-text-secondary text-sm">
+                      {highlight.description}
+                    </p>
                   </div>
-                ))}
-              </div>
+                  {/* Effet de brillance au survol */}
+                  <div
+                    className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                    style={{
+                      background:
+                        "radial-gradient(circle at center, var(--color-glow), transparent 70%)",
+                    }}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>
