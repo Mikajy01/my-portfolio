@@ -18,6 +18,7 @@ interface Technology {
   name: string;
   Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   color?: string;
+  className?: string;
 }
 
 interface Concept {
@@ -34,7 +35,7 @@ interface Highlight {
 const technologies: Technology[] = [
   { name: "NestJS", Icon: TechIcons.NestJS, color: "#E0234E" },
   { name: "Node.js", Icon: TechIcons.NodeJS, color: "#339933" },
-  { name: "Express", Icon: TechIcons.Express },
+  { name: "Express", Icon: TechIcons.Express, className: "invert" },
   { name: "Python", Icon: TechIcons.Python, color: "#3776AB" },
   { name: "Java", Icon: TechIcons.Java, color: "#007396" },
   { name: "React", Icon: TechIcons.React, color: "#61DAFB" },
@@ -42,7 +43,7 @@ const technologies: Technology[] = [
   { name: "PostgreSQL", Icon: TechIcons.PostgreSQL, color: "#4169E1" },
   { name: "MySQL", Icon: TechIcons.MySQL, color: "#4479A1" },
   { name: "Git", Icon: TechIcons.Git},
-  { name: "Socket.io", Icon: TechIcons.SocketIO},
+  { name: "Socket.io", Icon: TechIcons.SocketIO, className: "invert"},
   { name: "Docker", Icon: TechIcons.Docker, color: "#2496ED" },
   { name: "Kubernetes", Icon: TechIcons.Kubernetes, color: "#326CE5" },
 ];
@@ -166,7 +167,7 @@ const Skills = () => {
                   >
                     <div className="flex items-center gap-2">
                       <tech.Icon
-                        className="w-5 h-5 group-hover/item:scale-125 transition-transform duration-300"
+                        className={`w-5 h-5 group-hover/item:scale-125 transition-transform duration-300 ${tech.className}`}
                         style={{ color: tech.color }}
                         // L'utilisation de 'fill="currentColor"' dans les SVG permet à ce style de colorer l'icône
                       />

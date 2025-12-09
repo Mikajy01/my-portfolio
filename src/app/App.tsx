@@ -138,7 +138,7 @@ const PixelGridLoader = ({ onComplete }: { onComplete: () => void }) => {
 
         {/* Texte ASSEMBLING */}
         <h1
-          className="text-primary-dark font-mono text-4xl font-bold tracking-widest mix-blend-overlay opacity-0"
+          className="text-primary-dark bg-surface rounded-2xl px-2 font-mono text-4xl font-bold tracking-widest mix-blend-overlay opacity-0"
           style={{ animation: "pulseText 3s ease-in-out forwards" }}
         >
           ASSEMBLING

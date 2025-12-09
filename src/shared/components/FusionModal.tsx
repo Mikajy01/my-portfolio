@@ -1,5 +1,5 @@
 import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, scale } from "framer-motion";
 import { X } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 
@@ -20,26 +20,26 @@ const FusionModal: React.FC<FusionModalProps> = ({
   const shards = [
     {
       id: "top-left",
-      initial: { x: "-150%", y: "-150%", rotate: -45, opacity: 0 },
+      initial: { x: "-200%", y: "-100%", rotate: -45, opacity: 0, scale: 0 },
       clipPath: "polygon(0 0, 100% 0, 50% 50%, 0 100%)",
       // Coin haut-gauche arrondi selon le thème + bordures primaires
       className: "bg-surface border-b border-r border-primary/30 rounded-tl-[var(--radius-card)]",
     },
     {
       id: "top-right",
-      initial: { x: "150%", y: "-150%", rotate: 45, opacity: 0 },
+      initial: { x: "200%", y: "-100%", rotate: 45, opacity: 0, scale: 0 },
       clipPath: "polygon(0 0, 100% 0, 100% 100%, 50% 50%)",
       className: "bg-surface border-b border-l border-primary/30 rounded-tr-[var(--radius-card)]",
     },
     {
       id: "bottom-left",
-      initial: { x: "-150%", y: "150%", rotate: 45, opacity: 0 },
+      initial: { x: "-200%", y: "100%", rotate: 45, opacity: 0, scale: 0 },
       clipPath: "polygon(0 0, 50% 50%, 100% 100%, 0 100%)",
       className: "bg-surface border-t border-r border-primary/30 rounded-bl-[var(--radius-card)]",
     },
     {
       id: "bottom-right",
-      initial: { x: "150%", y: "150%", rotate: -45, opacity: 0 },
+      initial: { x: "200%", y: "100%", rotate: -45, opacity: 0, scale: 0 },
       clipPath: "polygon(50% 50%, 100% 0, 100% 100%, 0 100%)",
       className: "bg-surface border-t border-l border-primary/30 rounded-br-[var(--radius-card)]",
     },
@@ -59,7 +59,7 @@ const FusionModal: React.FC<FusionModalProps> = ({
           />
 
           {/* Conteneur Principal */}
-          <div className={twMerge("relative w-full max-w-lg max-h-full z-30", className)}>
+          <div className={twMerge("relative w-full max-w-lg max-h-full z-30 rounded-2xl", className)}>
             
             {/* 1. LUMIÈRE D'AMBIANCE (Utilise --color-glow ou --color-primary) */}
             <motion.div
@@ -85,13 +85,13 @@ const FusionModal: React.FC<FusionModalProps> = ({
                 <motion.div
                   key={shard.id}
                   initial={shard.initial}
-                  animate={{ x: 0, y: 0, rotate: 0, opacity: 1 }}
-                  exit={{ ...shard.initial, transition: { duration: 0.4 } }}
+                  animate={{ x: 0, y: 0, rotate: 0, opacity: 1, scale:1 }}
+                  exit={{ ...shard.initial, transition: { duration: 2 } }}
                   transition={{
                     type: "spring",
-                    stiffness: 40,
+                    stiffness: 40, // 40
                     damping: 14,
-                    mass: 1.2,
+                    mass: 1.2, // 1.2
                     delay: 0.1,
                   }}
                   style={{ clipPath: shard.clipPath }}
