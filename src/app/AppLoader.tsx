@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 const GLITCH_CHARS = "!<>-_\\/[]{}—=+*^?#@$%&";
 const BOOT_LINES = [
@@ -14,16 +14,26 @@ const BOOT_LINES = [
   "READY TO BREAK THINGS",
 ];
 
-function useGlitchText(text, active) {
+interface FragmentStyle {
+  size: string;
+  x: string;
+  y: string;
+  rot: number;
+  opacity: number;
+  duration: number;
+  delay: number;
+  clip: string;
+}
+
+function useGlitchText(text: string, active: boolean) {
   const [display, setDisplay] = useState(text);
-  const frameRef = useRef(null);
 
   useEffect(() => {
     if (!active) { setDisplay(text); return; }
     let iteration = 0;
     const interval = setInterval(() => {
       setDisplay(
-        text.split("").map((char, i) =>
+        text.split("").map((char: string, i: number) =>
           i < iteration ? char :
           char === " " ? " " :
           GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)]
@@ -38,7 +48,7 @@ function useGlitchText(text, active) {
   return display;
 }
 
-const Fragment = ({ style, color }) => (
+const Fragment = ({ style, color }: { style: FragmentStyle; color: string }) => (
   <div
     style={{
       position: "absolute",
@@ -56,12 +66,12 @@ const Fragment = ({ style, color }) => (
   />
 );
 
-export const AppLoader = ({ onComplete }) => {
+export const AppLoader = ({ onComplete }: { onComplete: () => void }) => {
   const [progress, setProgress] = useState(0);
   const [lineIndex, setLineIndex] = useState(0);
-  const [visibleLines, setVisibleLines] = useState([]);
+  const [visibleLines, setVisibleLines] = useState<string[]>([]);
   const [phase, setPhase] = useState("boot"); // boot | explode | done
-  const [fragments, setFragments] = useState([]);
+  const [fragments, setFragments] = useState<FragmentStyle[]>([]);
   const [isVisible, setIsVisible] = useState(true);
   const titleGlitch = useGlitchText("MR. BUG", phase === "boot");
 
