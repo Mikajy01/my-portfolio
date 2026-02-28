@@ -1,0 +1,56 @@
+[
+  {
+    "id": "tekbot-robotics-africa",
+    "title": "TekBot Robotics Challenge Africa – Participation Certificate",
+    "issuer": "TekBot Robotics Africa",
+    "year": "2026",
+    "description": "Participated as a member of Team INNOVATOR representing Madagascar. Contributed to robot programming using ROS and Artificial Intelligence technologies. The project received the Jury's Favorite distinction.",
+    "image": "images/certifications/tekbot.webp",
+    "link": "certificates/tekbot.pdf"
+  },
+  {
+    "id": "codingame-speed-legend",
+    "title": "Speed Coding – Legend Rank",
+    "issuer": "CodinGame",
+    "year": "2026",
+    "description": "Achieved Legend rank in speed coding challenges, demonstrating advanced algorithmic skills and fast problem-solving under time constraints.",
+    "image": "images/certifications/codingame-speed.webp",
+    "link": "https://www.codingame.com/certification/8Cs1N7ouiA2kGx7_PPlCSw"
+  },
+  {
+    "id": "codingame-algorithm-silver",
+    "title": "Algorithm Certification – Silver Level",
+    "issuer": "CodinGame",
+    "year": "2025",
+    "description": "Validated strong knowledge of algorithms and data structures through competitive programming challenges.",
+    "image": "images/certifications/codingame-algorithm.webp",
+    "link": "https://www.codingame.com/certification/bmoA5h_M-_YDrFWtJDJB_A"
+  },
+  {
+    "id": "codingame-javascript-honor",
+    "title": "JavaScript Certification with Honors",
+    "issuer": "CodinGame",
+    "year": "2025",
+    "description": "Demonstrated advanced JavaScript programming skills, including performance optimization and complex problem solving.",
+    "image": "images/certifications/codingame-javascript.webp",
+    "link": "https://www.codingame.com/certification/lg1WX_Js-21ZZDvf-t09nw"
+  },
+  {
+    "id": "hackerrank-angular-intermediate",
+    "title": "Angular (Intermediate)",
+    "issuer": "HackerRank",
+    "year": "2025",
+    "description": "Validated intermediate Angular skills, including component architecture, services, and application structure.",
+    "image": "images/certifications/hackerrank-angular-intermediate.webp",
+    "link": "https://www.hackerrank.com/certificates/b8aa5d76781e"
+  },
+  {
+    "id": "hackerrank-rest-api",
+    "title": "REST API (Intermediate)",
+    "issuer": "HackerRank",
+    "year": "2025",
+    "description": "Validated knowledge of RESTful API design, HTTP methods, backend communication, and integration principles.",
+    "image": "images/certifications/hackerrank-rest-api-intermediate.webp",
+    "link": "https://www.hackerrank.com/certificates/9115dc42c3f9"
+  }
+]

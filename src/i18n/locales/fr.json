@@ -1,0 +1,105 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "skills": "Compétences",
+    "awards": "Réalisations & Récompenses",
+    "projects": "Projets",
+    "certifications": "Certifications",
+    "journey": "Parcours",
+    "experience": "Expérience",
+    "education": "Formation",
+    "contact": "Contact"
+  },
+  "hero": {
+    "welcome": "Bienvenue sur mon portfolio",
+    "IAm": "Je suis",
+    "heroDescription": "Passionné par la création d'applications web modernes et performantes. Je transforme les idées en produits numériques fiables, évolutifs et élégants en utilisant React, Angular, NestJS, Node.js et des architectures prêtes pour le cloud.",
+    "titles": [
+      "Développeur Full-Stack",
+      "Développeur IA",
+      "Expert React & Angular",
+      "Architecte Backend"
+    ],
+    "subtitle": "Créer des expériences numériques exceptionnelles",
+    "cta": {
+      "getInTouch": "Me Contacter",
+      "downloadCV": "Télécharger mon CV",
+      "seeProject": "Voir Mes Projets"
+    } 
+  },
+  "skills": {
+    "title": "Compétences",
+    "subtitle": "Technologies et outils que je maîtrise",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "tools": "Outils & DevOps",
+      "languages": "Langages"
+    },
+    "conceptsTitle": "Concepts",
+    "highlightsTitle": "Points forts"
+  },
+  "awards": {
+    "title": "Réalisations & Récompenses",
+    "subtitle": "Reconnaissances et jalons de mon parcours"
+  },
+  "certifications": {
+    "title": "Certifications",
+    "subtitle": "Certifications et formations validées que j'ai suivies",
+    "viewCertificate": "Voir le certificat"
+  },
+  "experience": {
+    "title": "Expérience",
+    "subtitle": "Mon parcours professionnel"
+  },
+  "education": {
+    "title": "Formation",
+    "subtitle": "Mes études et formations"
+  },
+  "projects": {
+    "title": "Projets",
+    "subtitle": "Une sélection de mes travaux",
+    "viewDetails": "Voir les Détails",
+    "viewCode": "Voir le Code",
+    "liveDemo": "Démo en Direct",
+    "allProjects": "Tous les Projets",
+    "backToList": "Retour à la Liste",
+    "professional": "Professionnel",
+    "personal": "Personnel",
+    "viewAll": "Voir Tous",
+    "more": "plus"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Vous avez une idée de projet ? Discutons-en ensemble",
+    "stayInTouch": "Restons en Contact",
+    "description": "Je suis toujours ouvert aux nouvelles opportunités et collaborations. N'hésitez pas à me contacter pour discuter de vos projets.",
+    "form": {
+      "name": "Nom",
+      "email": "Email",
+      "message": "Message",
+      "submit": "Envoyer le Message",
+      "sending": "Envoi en cours...",
+      "success": "Message envoyé avec succès !",
+      "error": "Erreur lors de l'envoi. Veuillez réessayer."
+    },
+    "info": {
+      "email": "Email",
+      "phone": "Téléphone",
+      "location": "Localisation",
+      "available": "Disponible pour les projets en freelance"
+    }
+  },
+  "footer": {
+    "copyright": "Tous droits réservés",
+    "followMe": "Suivez-moi sur les réseaux sociaux",
+    "bacToTop": "Retour en Haut"
+  },
+  "common": {
+    "language": "Langue",
+    "theme": "Thème",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès"
+  }
+}

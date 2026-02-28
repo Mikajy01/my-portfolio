@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1",
+    "title": "Développeur Backend",
+    "organization": "AccèsBanque Madagascar",
+    "location": "Madagascar",
+    "period": "2025 - Présent",
+    "description": "Développement et maintenance de services backend et d’API pour des applications internes.",
+    "highlights": [
+      "Conception et évolution d’API REST",
+      "Implémentation de fonctionnalités métier et corrections d’anomalies",
+      "Collaboration avec les équipes produit et frontend"
+    ],
+    "skills": ["NestJS", "Node.js", "Flutter", "TypeScript", "REST API", "Clean code"]
+  },
+  {
+    "id": "2",
+    "title": "Développeur Full-Stack JavaScript",
+    "organization": "InnovT Madagascar",
+    "location": "Madagascar",
+    "period": "2024 - 2025",
+    "description": "Développement d’applications web en JavaScript/TypeScript, côté frontend et intégration API.",
+    "highlights": [
+      "Développement d’interfaces avec React (TSX) et Angular",
+      "Intégration avec des API et gestion des données côté client",
+      "Participation à la conception et à l’évolution des fonctionnalités"
+    ],
+    "skills": ["React", "TypeScript", "Angular", "JavaScript", "ExpressJs"]
+  }
+]

@@ -1,0 +1,28 @@
+{
+  "concepts": [
+    { "name": "Architecture SOLID", "icon": "gitBranch" },
+    { "name": "JWT / Auth / Sécurité", "icon": "shield" },
+    { "name": "Systèmes temps réel", "icon": "zap" },
+    { "name": "Optimisation algo", "icon": "target" },
+    { "name": "Concurrence / Sync", "icon": "lock" },
+    { "name": "Résolution de problèmes", "icon": "puzzle" }
+  ],
+  "highlights": [
+    {
+      "title": "Rapidité d'exécution",
+      "description": "Développement agile avec livraison rapide",
+      "icon": "rocket"
+    },
+    {
+      "title": "Code propre",
+      "description": "Architecture maintenable et scalable",
+      "icon": "sparkles"
+    },
+    {
+      "title": "Problèmes complexes",
+      "description": "Solutions innovantes aux défis techniques",
+      "icon": "target"
+    }
+  ]
+}
+

@@ -1,0 +1,296 @@
+[
+  {
+    "id": "hotel-management-system",
+    "title": "Hotel Management System",
+    "description": "Multi-hotel SaaS platform with dynamic customization, reservation management, and Stripe payments.",
+    "fullDescription": "A comprehensive hotel management platform built with Angular 18, composed of several applications: a presentation landing page, an admin interface allowing each hotel to customize its website (colors, menu, contact) and manage reservations, a public-facing site with an online booking system integrated with Stripe for secure payments, and a super-admin space to manage all hotels. Modular multi-tenant architecture with dynamic theming and centralized management.",
+    "tags": [
+      "Angular 18",
+      "TypeScript",
+      "Stripe",
+      "RxJS",
+      "REST API",
+      "Multi-tenant",
+      "Dynamic Theming",
+      "SaaS Architecture",
+      "Responsive Design"
+    ],
+    "image": "images/projects/hms/hotel_home_page.webp",
+    "images": [
+      {
+        "url": "images/projects/hms/hotel_home_page.webp",
+        "description": "Public homepage of the hotel website"
+      },
+      {
+        "url": "images/projects/hms/booking_page.webp",
+        "description": "Room booking system with date selection"
+      },
+      {
+        "url": "images/projects/hms/stripe_payment.webp",
+        "description": "Secure payment interface via Stripe"
+      },
+      {
+        "url": "images/projects/hms/admin_login_page.webp",
+        "description": "Authentication page for the admin interface"
+      }
+    ],
+    "link": null,
+    "github": null,
+    "type": "professional"
+  },
+  {
+    "id": "innovt-learning-hub",
+    "title": "InnovT Learning Hub",
+    "description": "Online registration platform for training courses offered by InnovT Madagascar, with Google authentication.",
+    "fullDescription": "A modern web application allowing users to browse and register for training courses offered by InnovT Madagascar. The system includes a filterable catalog, secure Google authentication, and a responsive, intuitive interface built with React and Vite.",
+    "tags": [
+      "React",
+      "TypeScript",
+      "Vite",
+      "Google Auth",
+      "Responsive Design",
+      "REST API",
+      "Tailwind CSS"
+    ],
+    "image": "images/projects/innovt-learning-hub/home_page.webp",
+    "images": [
+      {
+        "url": "images/projects/innovt-learning-hub/home_page.webp",
+        "description": "Homepage with course catalog"
+      },
+      {
+        "url": "images/projects/innovt-learning-hub/formation_page.webp",
+        "description": "Course listing with multiple filters"
+      },
+      {
+        "url": "images/projects/innovt-learning-hub/signin_form.webp",
+        "description": "Google authentication system"
+      },
+      {
+        "url": "images/projects/innovt-learning-hub/formation_detail.webp",
+        "description": "Course detail page"
+      }
+    ],
+    "link": "https://innovt-learning-hub.vercel.app",
+    "github": "https://github.com/Mikajy01/innov-t-learning-hub.git",
+    "type": "professional"
+  },
+  {
+    "id": "portfolio",
+    "title": "My Portfolio",
+    "description": "Modern personal portfolio to showcase my skills, projects, and experience.",
+    "fullDescription": "This portfolio is a web application built with React, TypeScript, and Three.js to deliver a smooth, animated user experience. It brings together my projects, skills, professional experience, and contact information.",
+    "tags": [
+      "React",
+      "TypeScript",
+      "i18n",
+      "Three.js",
+      "i18n",
+      "Tailwind CSS",
+      "CSS3"
+    ],
+    "image": "images/projects/my-portfolio/home_page.webp",
+    "images": [
+      {
+        "url": "images/projects/my-portfolio/home_page.webp",
+        "description": "Homepage of my portfolio"
+      }
+    ],
+    "link": "#",
+    "github": "https://github.com/Mikajy01/my-portfolio.git",
+    "type": "personal"
+  },
+  {
+    "id": "school-management-system",
+    "title": "School Management System",
+    "description": "Complete school management system: enrollments, grades, absences/tardiness, automatic report cards, and supplies management.",
+    "fullDescription": "A web-based school management application covering student enrollment and re-enrollment, class and subject management, grade tracking with automatic average and rank calculation, and report card generation including tardiness and absences. The system also handles school events, class teacher assignment, teacher attendance tracking with hourly pay calculation, and a school supplies module (stock, purchases, and sales).",
+    "tags": [
+      "PHP",
+      "MySQL",
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "CRUD",
+      "Attendance Tracking",
+      "Report Card Generation"
+    ],
+    "image": "images/projects/sms/login.jpg",
+    "images": [
+      {
+        "url": "images/projects/sms/login.jpg",
+        "description": "Authentication page"
+      },
+      {
+        "url": "images/projects/sms/enrollment.jpg",
+        "description": "Student enrollment / re-enrollment"
+      },
+      {
+        "url": "images/projects/sms/grades.jpg",
+        "description": "Grade management, average and rank"
+      }
+    ],
+    "link": null,
+    "github": null,
+    "type": "professional"
+  },
+  {
+    "id": "faritany-game",
+    "title": "Faritany – Multiplayer Strategy Game",
+    "description": "Real-time multiplayer strategy game inspired by the Dot Game, with matchmaking, private rooms, timer, and AI.",
+    "fullDescription": "Faritany is a real-time multiplayer web strategy game inspired by the Dot Game, where players capture opponents' points by surrounding them. The game supports private rooms with a share code, random matchmaking to join public games, and single-player mode against an AI. A pendulum system, similar to a chess clock, limits each player's time per move, adding an extra layer of strategy. The backend uses WebSockets via Socket.IO to ensure instant synchronization between players.",
+    "tags": [
+      "React",
+      "Mini-Max",
+      "NestJS",
+      "Socket.IO",
+      "WebSockets",
+      "Real-time",
+      "Game Development",
+      "Multiplayer"
+    ],
+    "image": "images/projects/dot_game/two_player.jpg",
+    "images": [
+      {
+        "url": "images/projects/dot_game/two_player.jpg",
+        "description": "Game board during a two-player match, with a clock limiting each player's time"
+      },
+      {
+        "url": "images/projects/dot_game/home.jpg",
+        "description": "Game homepage"
+      },
+      {
+        "url": "images/projects/dot_game/matchmaking.jpg",
+        "description": "Matchmaking system"
+      },
+      {
+        "url": "images/projects/dot_game/mobile_view.jpg",
+        "description": "Game view on a mobile device"
+      }
+    ],
+    "link": null,
+    "github": "https://github.com/Mikajy01/jeu-faritany.git",
+    "type": "personal"
+  },
+  {
+    "id": "rock-paper-scissors-online",
+    "title": "Rock Paper Scissors – Online Multiplayer",
+    "description": "Online multiplayer game using WebSockets, with private room creation and interactive sound effects.",
+    "fullDescription": "A multiplayer Rock-Paper-Scissors web game developed as a personal project to experiment with WebSockets and real-time communication. Players can create a private game and invite a friend via a unique code. Once both players are connected, the game begins with instant synchronization of choices. The game features fun sound effects for wins and losses, enhancing the overall user experience.",
+    "tags": [
+      "JavaScript",
+      "WebSockets",
+      "Socket.IO",
+      "Real-time",
+      "Multiplayer Game",
+      "Frontend",
+      "Backend"
+    ],
+    "image": "images/projects/rps/home.jpg",
+    "images": [
+      {
+        "url": "images/projects/rps/home.jpg",
+        "description": "Game homepage"
+      },
+      {
+        "url": "images/projects/rps/game_start.jpg",
+        "description": "Start of a game with a friend"
+      },
+      {
+        "url": "images/projects/rps/winning.jpg",
+        "description": "Victory screen"
+      },
+      {
+        "url": "images/projects/rps/loosing.jpg",
+        "description": "Defeat screen"
+      }
+    ],
+    "link": "https://ppc-frontend-mb.onrender.com/",
+    "github": "https://github.com/Mikajy01/pierre-papier-ciseaux.git",
+    "type": "personal"
+  },
+  {
+    "id": "barbleu",
+    "title": "Barbleu – Bar, Room & Karaoke Management",
+    "description": "Bar management application with hourly room reservations, karaoke, sales tracking, and automatic invoicing (VIP/standard, bottle deposit).",
+    "fullDescription": "Barbleu is a management application designed for a bar offering hourly room rentals and a karaoke space. The system handles room reservations with countdown timers that alert the bartender (with sound) when a customer's time is up. On the sales side, the application automatically calculates amounts based on table type (VIP or standard) and accounts for bottle deposits on takeaway sales. It also includes a user management module with admin validation: when a bartender creates an account, it remains pending until approved by an administrator. The sales module also generates invoices.",
+    "tags": [
+      "PHP",
+      "MySQL",
+      "JavaScript",
+      "Bootstrap",
+      "Invoicing",
+      "Roles & Validation"
+    ],
+    "image": "images/projects/barbleu/admin_dashboard.jpg",
+    "images": [
+      {
+        "url": "images/projects/barbleu/admin_dashboard.jpg",
+        "description": "Admin dashboard"
+      },
+      {
+        "url": "images/projects/barbleu/rooms_karaoke_management.jpg",
+        "description": "Room management (countdown + sound alert at end of reservation) and karaoke management"
+      },
+      {
+        "url": "images/projects/barbleu/users_validation.jpg",
+        "description": "User management (waiting list + admin validation)"
+      },
+      {
+        "url": "images/projects/barbleu/login.jpg",
+        "description": "Login page"
+      },
+      {
+        "url": "images/projects/barbleu/sales_invoice.jpg",
+        "description": "Sales section with invoice generation (VIP/standard + bottle deposit)"
+      }
+    ],
+    "link": null,
+    "github": null,
+    "type": "professional"
+  },
+  {
+    "id": "java-reservation-optimizer",
+    "title": "Smart Reservation Management System – Hôtel Thermal Ranomafana",
+    "description": "Responsive Java application developed for Hôtel Thermal Ranomafana, featuring advanced reservation management, waiting list handling, and intelligent room optimization.",
+    "fullDescription": "A responsive desktop application developed in Java for Hôtel Thermal Ranomafana to digitize reservation management. The system supports reservation creation and tracking, waiting list management, a client follow-up module, a global room planning view, and Excel export. When a room becomes available (due to cancellation or early check-out), an optimization algorithm automatically analyzes pending requests and suggests the best possible allocation to maximize occupancy rates.",
+    "tags": [
+      "JavaFX",
+      "Responsive",
+      "OOP",
+      "MVC",
+      "Inno Setup",
+      "H2"
+    ],
+    "image": "images/projects/java-reservation/dashboard.webp",
+    "images": [
+      {
+        "url": "images/projects/java-reservation/dashboard.webp",
+        "description": "Main dashboard with key indicators and reservation summary"
+      },
+      {
+        "url": "images/projects/java-reservation/new_reservation.webp",
+        "description": "Creating a new reservation with date selection and available room picker"
+      },
+      {
+        "url": "images/projects/java-reservation/reservations_list.webp",
+        "description": "Reservation list with statuses, advanced filters, and Excel export"
+      },
+      {
+        "url": "images/projects/java-reservation/follow_up.webp",
+        "description": "Client follow-up module for upcoming check-in dates"
+      },
+      {
+        "url": "images/projects/java-reservation/waiting_list_ai.webp",
+        "description": "Waiting list management with intelligent room allocation suggestions"
+      },
+      {
+        "url": "images/projects/java-reservation/room_planning.webp",
+        "description": "Global room planning with real-time occupancy visualization"
+      }
+    ],
+    "link": null,
+    "github": null,
+    "type": "professional"
+  }
+]

@@ -1,47 +1,34 @@
-import React from 'react';
-import { GraduationCap } from 'lucide-react';
-import { TimelineItem, type TimelineItemData } from '../../../shared/components/TimelineItem';
-import { SectionHeader } from '../../../shared/components/SectionHeader';
+import React, { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { GraduationCap } from "lucide-react";
+import {
+  TimelineItem,
+  type TimelineItemData,
+} from "../../../shared/components/TimelineItem";
+import { SectionHeader } from "../../../shared/components/SectionHeader";
+import { useLanguage } from "../../../shared/context/LanguageContext";
+import educationFr from "../data/education.fr.json";
+import educationEn from "../data/education.en.json";
 
-// ============================================
-// DONNÉES - PERSONNALISEZ AVEC VOS INFOS
-// ============================================
-
-const educationData: TimelineItemData[] = [
-  {
-    id: '1',
-    title: 'Master en Informatique',
-    organization: 'EMIT Fianarantsoa',
-    location: 'Antananarivo, Madagascar',
-    period: '2024 - 2025',
-    description: 'Spécialisation en développement web et génie logiciel',
-    highlights: [
-      'Mention Très Bien',
-      'Projet de fin d\'études sur...',
-      'Stage de 6 mois chez...'
-    ],
-    skills: ['React', 'Node.js', 'Architecture logicielle']
-  },
-  {
-    id: '2',
-    title: 'Licence en Informatique',
-    organization: 'EMIT Fianarantsoa',
-    location: 'Antananarivo, Madagascar',
-    period: '2021 - 2024',
-    description: 'Formation générale en informatique et programmation',
-    highlights: [
-      'Major de promotion',
-      'Participation à des hackathons'
-    ],
-    skills: ['Java', 'Python', 'Base de données']
+const getEducationByLanguage = (language: string): TimelineItemData[] => {
+  if (language.startsWith("fr")) {
+    return educationFr as TimelineItemData[];
   }
-];
+  return educationEn as TimelineItemData[];
+};
 
 // ============================================
 // COMPOSANT PRINCIPAL
 // ============================================
 
 export const Education: React.FC = () => {
+  const { t } = useTranslation();
+  const { language } = useLanguage();
+
+  const educationData = useMemo(
+    () => getEducationByLanguage(language),
+    [language]
+  );
   return (
     <section id="education" className="py-20 px-4 relative overflow-hidden">
       {/* Effet de lumière d'arrière-plan */}
@@ -50,16 +37,12 @@ export const Education: React.FC = () => {
 
       <div className="max-w-6xl mx-auto relative z-10">
         {/* En-tête de section */}
-        <SectionHeader icon={GraduationCap} title="Formation" />
-        
+        <SectionHeader icon={GraduationCap} title={t("education.title")} />
+
         {/* Timeline */}
         <div className="relative">
           {educationData.map((item, index) => (
-            <TimelineItem
-              key={item.id}
-              item={item}
-              isLeft={index % 2 === 0}
-            />
+            <TimelineItem key={item.id} item={item} isLeft={index % 2 === 0} />
           ))}
         </div>
       </div>

@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Shield,
   Zap,
@@ -7,18 +8,21 @@ import {
   Rocket,
   Sparkles,
   Target,
-  Globe,
   Lock,
 } from "lucide-react";
-import HandDrawnUnderline from "../../../shared/components/HandDrawnUnderline";
 import { TechIcons } from "../../../shared/icons/TechIcons";
+import { useLanguage } from "../../../shared/context/LanguageContext";
+import skillsFr from "../data/skills.fr.json";
+import skillsEn from "../data/skills.en.json";
 
+type TechnologyCategory = "frontend" | "backend" | "tools" | "languages";
 
 interface Technology {
   name: string;
   Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   color?: string;
   className?: string;
+  category: TechnologyCategory;
 }
 
 interface Concept {
@@ -33,50 +37,72 @@ interface Highlight {
 }
 
 const technologies: Technology[] = [
-  { name: "NestJS", Icon: TechIcons.NestJS, color: "#E0234E" },
-  { name: "Node.js", Icon: TechIcons.NodeJS, color: "#339933" },
-  { name: "Express", Icon: TechIcons.Express, className: "invert" },
-  { name: "Python", Icon: TechIcons.Python, color: "#3776AB" },
-  { name: "Java", Icon: TechIcons.Java, color: "#007396" },
-  { name: "React", Icon: TechIcons.React, color: "#61DAFB" },
-  { name: "Flutter", Icon: TechIcons.Flutter, color: "#61DAFB" },
-  { name: "PostgreSQL", Icon: TechIcons.PostgreSQL, color: "#4169E1" },
-  { name: "MySQL", Icon: TechIcons.MySQL, color: "#4479A1" },
-  { name: "Git", Icon: TechIcons.Git},
-  { name: "Socket.io", Icon: TechIcons.SocketIO, className: "invert"},
-  { name: "Docker", Icon: TechIcons.Docker, color: "#2496ED" },
-  { name: "Kubernetes", Icon: TechIcons.Kubernetes, color: "#326CE5" },
+  { name: "NestJS", Icon: TechIcons.NestJS, color: "#E0234E", category: "backend" },
+  { name: "Node.js", Icon: TechIcons.NodeJS, color: "#339933", category: "backend" },
+  { name: "Express", Icon: TechIcons.Express, className: "dark:invert", category: "backend" },
+  { name: "Python", Icon: TechIcons.Python, color: "#3776AB", category: "backend" },
+  { name: "Java", Icon: TechIcons.Java, color: "#007396", category: "backend" },
+  { name: "React", Icon: TechIcons.React, color: "#61DAFB", category: "frontend" },
+  { name: "Angular", Icon: TechIcons.Angular, color: "#61DAFB", category: "frontend" },
+  { name: "HTML5", Icon: TechIcons.HTML5, color: "#61DAFB", category: "frontend" },
+  { name: "CSS3", Icon: TechIcons.CSS3, color: "#61DAFB", category: "frontend" },
+  { name: "Sass", Icon: TechIcons.Sass, color: "#61DAFB", category: "frontend" },
+  { name: "Tailwind", Icon: TechIcons.Tailwind, color: "#61DAFB", category: "frontend" },
+  { name: "Flutter", Icon: TechIcons.Flutter, color: "#61DAFB", category: "frontend" },
+  { name: "PostgreSQL", Icon: TechIcons.PostgreSQL, color: "#4169E1", category: "backend" },
+  { name: "MySQL", Icon: TechIcons.MySQL, color: "#4479A1", category: "backend" },
+  { name: "Git", Icon: TechIcons.Git, category: "tools" },
+  { name: "Socket.io", Icon: TechIcons.SocketIO, className: "invert", category: "tools" },
+  { name: "Docker", Icon: TechIcons.Docker, color: "#2496ED", category: "tools" },
+  { name: "Kubernetes", Icon: TechIcons.Kubernetes, color: "#326CE5", category: "tools" },
 ];
 
-const concepts: Concept[] = [
-  { name: "Architecture SOLID", Icon: GitBranch },
-  { name: "JWT / Auth / Sécurité", Icon: Shield },
-  { name: "Systèmes temps réel", Icon: Zap },
-  { name: "Optimisation algo", Icon: Target },
-  { name: "Concurrence / Sync", Icon: Lock },
-  { name: "Résolution de problèmes", Icon: Puzzle },
+const technologyCategories: TechnologyCategory[] = [
+  "frontend",
+  "backend",
+  "tools",
+  "languages",
 ];
 
-const highlights: Highlight[] = [
-  {
-    title: "Rapidité d'exécution",
-    description: "Développement agile avec livraison rapide",
-    Icon: Rocket,
-  },
-  {
-    title: "Code propre",
-    description: "Architecture maintenable et scalable",
-    Icon: Sparkles,
-  },
-  {
-    title: "Problèmes complexes",
-    description: "Solutions innovantes aux défis techniques",
-    Icon: Target,
-  },
-];
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  gitBranch: GitBranch,
+  shield: Shield,
+  zap: Zap,
+  target: Target,
+  lock: Lock,
+  puzzle: Puzzle,
+  rocket: Rocket,
+  sparkles: Sparkles,
+};
+
+const getSkillsByLanguage = (
+  language: string
+): { concepts: Concept[]; highlights: Highlight[] } => {
+  const raw = language.startsWith("fr") ? skillsFr : skillsEn;
+
+  const concepts: Concept[] = raw.concepts.map((c: any) => ({
+    name: c.name,
+    Icon: iconMap[c.icon] ?? Target,
+  }));
+
+  const highlights: Highlight[] = raw.highlights.map((h: any) => ({
+    title: h.title,
+    description: h.description,
+    Icon: iconMap[h.icon] ?? Target,
+  }));
+
+  return { concepts, highlights };
+};
 
 const Skills = () => {
+  const { t } = useTranslation();
+  const { language } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
+
+  const { concepts, highlights } = useMemo(
+    () => getSkillsByLanguage(language),
+    [language]
+  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -135,14 +161,10 @@ const Skills = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="observe-animation opacity-0 transition-all duration-700 mb-16 text-center">
           <h2 className="text-4xl md:text-6xl font-bold mb-4">
-            <span className="text-gradient">Tech Stack</span>
+            <span className="text-gradient">{t("skills.title")}</span>
           </h2>
           <p className="text-text-secondary text-lg max-w-2xl mx-auto">
-            Technologies, concepts et approches que je{" "}
-            <HandDrawnUnderline color="var(--color-primary)" delay={300}>
-              maîtrise
-            </HandDrawnUnderline>{" "}
-            pour créer des solutions robustes
+            {t("skills.subtitle")}
           </p>
           <div className="w-24 h-1 bg-gradient-primary mx-auto rounded-full mt-6" />
         </div>
@@ -156,27 +178,42 @@ const Skills = () => {
                   <Target className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="text-2xl md:text-3xl font-bold">
-                  <span className="text-gradient">Langages & Technologies</span>
+                  <span className="text-gradient">
+                    {t("skills.subtitle")}
+                  </span>
                 </h3>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                {technologies.map((tech, idx) => (
-                  <div
-                    key={idx}
-                    className="tech-item opacity-0 glass-effect px-4 py-3 rounded-xl border border-border-light hover:border-primary transition-all duration-300 hover:scale-105 hover:shadow-lg group/item"
-                  >
-                    <div className="flex items-center gap-2">
-                      <tech.Icon
-                        className={`w-5 h-5 group-hover/item:scale-125 transition-transform duration-300 ${tech.className}`}
-                        style={{ color: tech.color }}
-                        // L'utilisation de 'fill="currentColor"' dans les SVG permet à ce style de colorer l'icône
-                      />
-                      <span className="text-sm font-medium text-text-primary">
-                        {tech.name}
-                      </span>
+              <div className="space-y-6">
+                {technologyCategories.map((category) => {
+                  const items = technologies.filter((tech) => tech.category === category);
+                  if (items.length === 0) return null;
+
+                  return (
+                    <div key={category}>
+                      <h4 className="text-sm font-semibold text-text-secondary mb-3 uppercase tracking-wide">
+                        {t(`skills.categories.${category}`)}
+                      </h4>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        {items.map((tech, idx) => (
+                          <div
+                            key={`${category}-${idx}`}
+                            className="tech-item opacity-0 glass-effect px-4 py-3 rounded-xl border border-border-light hover:border-primary transition-all duration-300 hover:scale-105 hover:shadow-lg group/item"
+                          >
+                            <div className="flex items-center gap-2">
+                              <tech.Icon
+                                className={`w-5 h-5 group-hover/item:scale-125 transition-transform duration-300 ${tech.className}`}
+                                style={{ color: tech.color }}
+                              />
+                              <span className="text-sm font-medium text-text-primary">
+                                {tech.name}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -195,7 +232,9 @@ const Skills = () => {
                   <TechIcons.Kubernetes className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="text-2xl md:text-3xl font-bold">
-                  <span className="text-gradient-accent">Concepts</span>
+                  <span className="text-gradient-accent">
+                    {t("skills.conceptsTitle")}
+                  </span>
                 </h3>
               </div>
               <div className="space-y-3">
@@ -231,7 +270,7 @@ const Skills = () => {
                 <Sparkles className="w-7 h-7 text-white" />
               </div>
               <h3 className="text-2xl md:text-3xl font-bold text-gradient">
-                Points Forts
+                {t("skills.highlightsTitle")}
               </h3>
             </div>
             <div className="grid md:grid-cols-3 gap-6">

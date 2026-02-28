@@ -1,0 +1,28 @@
+{
+  "concepts": [
+    { "name": "SOLID Principles", "icon": "gitBranch" },
+    { "name": "JWT / Auth / Security", "icon": "shield" },
+    { "name": "Real-time systems", "icon": "zap" },
+    { "name": "Algorithm optimization", "icon": "target" },
+    { "name": "Concurrency / Sync", "icon": "lock" },
+    { "name": "Problem solving", "icon": "puzzle" }
+  ],
+  "highlights": [
+    {
+      "title": "Execution speed",
+      "description": "Agile development with fast delivery",
+      "icon": "rocket"
+    },
+    {
+      "title": "Clean code",
+      "description": "Maintainable and scalable architecture",
+      "icon": "sparkles"
+    },
+    {
+      "title": "Complex problems",
+      "description": "Innovative solutions to technical challenges",
+      "icon": "target"
+    }
+  ]
+}
+

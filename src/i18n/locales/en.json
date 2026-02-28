@@ -1,0 +1,105 @@
+{
+  "nav": {
+    "home": "Home",
+    "skills": "Skills",
+    "awards": "Achievements & Awards",
+    "projects": "Projects",
+    "certifications": "Certifications",
+    "journey": "Journey",
+    "experience": "Experience",
+    "education": "Education",
+    "contact": "Contact"
+  },
+  "hero": {
+    "welcome": "Welcome to my portfolio",
+    "IAm": "I am",
+    "heroDescription": "Passionate about building high-performance, modern web applications. I transform ideas into reliable, scalable and elegant digital products using React, Angular, NestJS, Node.js and cloud-ready architectures.",
+    "titles": [
+      "Full-Stack Developer",
+      "AI Developer",
+      "React & Angular Expert",
+      "Backend Architect"
+    ],
+    "subtitle": "Building exceptional digital experiences",
+    "cta": {
+      "getInTouch": "Get In Touch",
+      "downloadCV": "Download my CV",
+      "seeProject": "See My Projects"
+    } 
+  },
+  "skills": {
+    "title": "Skills",
+    "subtitle": "Technologies and tools I master",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "tools": "Tools & DevOps",
+      "languages": "Languages"
+    },
+    "conceptsTitle": "Concepts",
+    "highlightsTitle": "Highlights"
+  },
+  "awards": {
+    "title": "Achievements & Awards",
+    "subtitle": "Recognition and milestones in my journey"
+  },
+  "certifications": {
+    "title": "Certifications",
+    "subtitle": "Verified skills and courses I have completed",
+    "viewCertificate": "View certificate"
+  },
+  "experience": {
+    "title": "Experience",
+    "subtitle": "My professional journey"
+  },
+  "education": {
+    "title": "Education",
+    "subtitle": "My academic background"
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "A selection of my work",
+    "viewDetails": "View Details",
+    "viewCode": "View Code",
+    "liveDemo": "Live Demo",
+    "allProjects": "All Projects",
+    "backToList": "Back to List",
+    "professional": "Professional",
+    "personal": "Personal",
+    "viewAll": "View All",
+    "more": "more"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Got a project idea? Let's discuss it together",
+    "stayInTouch": "Stay In Touch",
+    "description": "I'm always open to new opportunities and collaborations. Feel free to reach out to discuss your projects.",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "submit": "Send Message",
+      "sending": "Sending...",
+      "success": "Message sent successfully!",
+      "error": "Error sending message. Please try again."
+    },
+    "info": {
+      "email": "Email",
+      "phone": "Phone",
+      "location": "Location",
+      "available": "Available for freelance projects"
+    }
+  },
+  "footer": {
+    "copyright": "All rights reserved",
+    "followMe": "Follow me on social media",
+    "bacToTop": "Back to Top"
+  },
+  "common": {
+    "language": "Language",
+    "theme": "Theme",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  }
+}

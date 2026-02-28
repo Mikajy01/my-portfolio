@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1",
+    "title": "Master en Informatique – Parcours Science des Données et Intelligence Artificielle (SDIA)",
+    "organization": "EMIT Fianarantsoa",
+    "location": "Fianarantsoa, Madagascar",
+    "period": "2024 - 2025",
+    "description": "Formation spécialisée en science des données et intelligence artificielle, incluant l’analyse de données, les algorithmes avancés et les systèmes intelligents.",
+    "highlights": [
+      "Étude des méthodes de traitement et d’analyse de données",
+      "Introduction aux techniques d’intelligence artificielle et d’apprentissage automatique",
+      "Réalisation de projets académiques en programmation et analyse"
+    ],
+    "skills": ["Data Science", "Intelligence Artificielle", "Algorithmes", "Programmation"]
+  },
+  {
+    "id": "2",
+    "title": "Licence en Informatique",
+    "organization": "EMIT Fianarantsoa",
+    "location": "Fianarantsoa, Madagascar",
+    "period": "2021 - 2024",
+    "description": "Formation générale en informatique couvrant la programmation, les bases de données, les algorithmes et les systèmes.",
+    "highlights": [
+      "Apprentissage des fondamentaux de la programmation",
+      "Développement de projets académiques",
+      "3-month internship at InnovT Madagascar"
+    ],
+    "skills": ["Programmation", "Algorithmes", "Bases de données"]
+  }
+]

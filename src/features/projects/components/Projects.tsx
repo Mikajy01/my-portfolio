@@ -1,457 +1,451 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { ProjectCard } from "./ProjectCard";
 import FusionModal from "../../../shared/components/FusionModal";
+import { Briefcase, Heart, ChevronRight } from "lucide-react";
+import { type Project } from "../data/projects";
+import projectsFr from "../data/projects.fr.json";
+import projectsEn from "../data/projects.en.json";
+import { useLanguage } from "../../../shared/context/LanguageContext";
 
-// --- INTERFACES ---
+// Hook personnalisé pour précharger les images
+const useImagePreloader = () => {
+  const preloadedImages = useRef<Set<string>>(new Set());
 
-interface ProjectImage {
-  url: string;
-  description: string;
-}
+  const preloadImage = useCallback((src: string) => {
+    if (!preloadedImages.current.has(src)) {
+      const img = new Image();
+      img.src = src;
+      preloadedImages.current.add(src);
+    }
+  }, []);
 
-export interface Project {
-  title: string;
-  category: "professional" | "personal"; // Nouveau champ
-  description: string;
-  tags: string[];
-  image: string;
-  images: ProjectImage[];
-  link?: string;
-  github?: string;
-  fullDescription?: string;
-}
+  const preloadProjectImages = useCallback((project: Project) => {
+    project.images.forEach(img => preloadImage(img.url));
+  }, [preloadImage]);
 
-interface Award {
-  title: string;
-  event: string;
-  year: string;
-  description: string;
-  image: string; // Background image
-  icon?: string; // Emoji ou icône
-}
+  return { preloadProjectImages };
+};
 
-// --- DATA ---
+// Composant d'image optimisé avec lazy loading
+const OptimizedImage: React.FC<{
+  src: string;
+  alt: string;
+  className?: string;
+  onLoad?: () => void;
+}> = ({ src, alt, className, onLoad }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
-const awards: Award[] = [
-  {
-    title: "1er Prix - Hackathon Innovation",
-    event: "TechWeek Madagascar",
-    year: "2023",
-    description:
-      "Développement d'une solution IA pour l'agriculture durable en 48h.",
-    image:
-      "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80",
-    icon: "🏆",
-  },
-  {
-    title: "Meilleure UI/UX Design",
-    event: "WebCup Regional",
-    year: "2022",
-    description:
-      "Récompense pour l'expérience utilisateur la plus fluide et accessible.",
-    image:
-      "https://images.unsplash.com/photo-1561489413-985b06da5bee?w=800&q=80",
-    icon: "🎨",
-  },
-];
+  const handleLoad = useCallback(() => {
+    setIsLoaded(true);
+    onLoad?.();
+  }, [onLoad]);
 
-const projects: Project[] = [
-  {
-    title: "E-Commerce Platform",
-    category: "professional",
-    description:
-      "Plateforme e-commerce complète avec gestion de stock et paiement.",
-    fullDescription: "Une plateforme e-commerce moderne...",
-    tags: ["React", "NestJS", "PostgreSQL", "Stripe", "Redis", "Docker", "AWS"], // Beaucoup de tags pour tester le +5
-    image:
-      "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80",
-    images: [
-      {
-        url: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80",
-        description: "Accueil",
-      },
-    ],
-    link: "#",
-    github: "#",
-  },
-  {
-    title: "Task Management App",
-    category: "personal",
-    description: "App collaborative avec notifications temps réel.",
-    tags: ["Angular", "Express.js", "Socket.io"],
-    image:
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80",
-    images: [
-      {
-        url: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80",
-        description: "Kanban",
-      },
-    ],
-    github: "#",
-  },
-  {
-    title: "Analytics Dashboard",
-    category: "professional",
-    description: "Dashboard analytique avec visualisations interactives.",
-    tags: ["React", "D3.js", "SQL Server"],
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
-    images: [
-      {
-        url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
-        description: "Dashboard",
-      },
-    ],
-    link: "#",
-  },
-  {
-    title: "Social Media App",
-    category: "personal",
-    description: "Réseau social avec fil d'actualité et messagerie.",
-    tags: ["React", "Firebase", "Tailwind"],
-    image:
-      "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80",
-    images: [
-      {
-        url: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80",
-        description: "Feed",
-      },
-    ],
-    github: "#",
-  },
-  {
-    title: "Booking System",
-    category: "professional",
-    description: "Système de réservation intelligent.",
-    tags: ["Next.js", "Prisma", "PostgreSQL"],
-    image:
-      "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=800&q=80",
-    images: [
-      {
-        url: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=800&q=80",
-        description: "Calendrier",
-      },
-    ],
-    link: "#",
-  },
-];
+  const handleError = useCallback(() => {
+    setHasError(true);
+    setIsLoaded(true);
+  }, []);
 
-// --- COMPONENTS ---
+  return (
+    <div className={`relative ${className}`}>
+      {!isLoaded && !hasError && (
+        <div className="absolute inset-0 bg-color-surface animate-pulse rounded-lg" />
+      )}
+      <img
+        src={src}
+        alt={alt}
+        className={`w-full h-full object-cover transition-opacity duration-300 ${
+          isLoaded ? 'opacity-100' : 'opacity-0'
+        }`}
+        onLoad={handleLoad}
+        onError={handleError}
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  );
+};
+
+// Sélectionne le bon jeu de données projet selon la langue
+const getProjectsByLanguage = (language: string): Project[] => {
+  if (language.startsWith("fr")) {
+    return projectsFr as Project[];
+  }
+  return projectsEn as Project[];
+};
 
 const Projects = () => {
+  const { t } = useTranslation();
+  const { language } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedTranslatedProject, setSelectedTranslatedProject] = useState<Project | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [filter, setFilter] = useState<"all" | "professional" | "personal">(
-    "all"
-  );
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [activeTab, setActiveTab] = useState<
+    "all" | "professional" | "personal"
+  >("all");
 
-  // Observer pour les animations au scroll
+  // Hook de préchargement d'images
+  const { preloadProjectImages } = useImagePreloader();
+
+  // Détection d'appareil lent (Android avec peu de RAM)
+  const isLowEndDevice = useMemo(() => {
+    const deviceMemory = (navigator as any).deviceMemory;
+
+    const isLowMemory = deviceMemory && deviceMemory < 4;
+
+    return isLowMemory || /Android.*Chrome/.test(navigator.userAgent);
+  }, []);
+
+  const translatedProjects = useMemo(
+    () => getProjectsByLanguage(language),
+    [language]
+  );
+
+ 
+
+  const filteredProjects = useMemo(
+    () =>
+      activeTab === "all"
+        ? translatedProjects
+        : translatedProjects.filter((p) => p.type === activeTab),
+    [translatedProjects, activeTab]
+  );
+
+  // --- CORRECTION ICI ---
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("animate-slide-up");
-            entry.target.classList.remove("opacity-0", "translate-y-8");
+            entry.target.classList.remove("opacity-0");
+            // Bonne pratique : arrêter d'observer une fois animé pour économiser des ressources
+            observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.1, rootMargin: "-50px" }
+      {
+        threshold: 0.2, // Légèrement réduit pour déclencher plus facilement sur mobile
+        rootMargin: "0px 0px -50px 0px",
+      }
     );
 
-    const elements = sectionRef.current?.querySelectorAll(".observe-animation");
-    elements?.forEach((el) => observer.observe(el));
+    // On utilise un petit délai pour s'assurer que le DOM est à jour après le filtrage
+    const timer = setTimeout(() => {
+      const elements = sectionRef.current?.querySelectorAll(".observe-animation");
+      elements?.forEach((el) => observer.observe(el));
+    }, 50);
 
-    return () => observer.disconnect();
-  }, [filter]); // Re-run quand le filtre change
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, [filteredProjects]);
 
-  // Gestion du changement de filtre avec petite animation
-  const handleFilterChange = (newFilter: typeof filter) => {
-    if (filter === newFilter) return;
-    setIsAnimating(true);
-    setTimeout(() => {
-      setFilter(newFilter);
-      setIsAnimating(false);
-    }, 300);
-  };
+  const handleOpenModal = useCallback(
+    (project: Project) => {
+      setSelectedProject(project);
+      setSelectedTranslatedProject(project);
+      setCurrentImageIndex(0);
 
-  const filteredProjects = projects.filter(
-    (p) => filter === "all" || p.category === filter
+      // Précharger les images pour les ouvertures futures
+      setTimeout(() => preloadProjectImages(project), 100);
+    },
+    [preloadProjectImages]
   );
 
-  // --- MODAL LOGIC ---
-  const handleOpenModal = (project: Project) => {
-    setSelectedProject(project);
+  const handleCloseModal = useCallback(() => {
+    setSelectedProject(null);
+    setSelectedTranslatedProject(null);
     setCurrentImageIndex(0);
+  }, []);
+
+  const nextImage = () => {
+    if (selectedProject) {
+      setCurrentImageIndex((prev) =>
+        prev === selectedProject.images.length - 1 ? 0 : prev + 1
+      );
+    }
   };
-  const handleCloseModal = () => setSelectedProject(null);
-  const nextImage = () =>
-    selectedProject &&
-    setCurrentImageIndex((prev) =>
-      prev === selectedProject.images.length - 1 ? 0 : prev + 1
-    );
-  const prevImage = () =>
-    selectedProject &&
-    setCurrentImageIndex((prev) =>
-      prev === 0 ? selectedProject.images.length - 1 : prev - 1
-    );
+
+  const prevImage = () => {
+    if (selectedProject) {
+      setCurrentImageIndex((prev) =>
+        prev === 0 ? selectedProject.images.length - 1 : prev - 1
+      );
+    }
+  };
+
+  const professionalCount = translatedProjects.filter(
+    (p) => p.type === "professional"
+  ).length;
+  const personalCount = translatedProjects.filter((p) => p.type === "personal").length;
 
   return (
     <section
       id="projects"
       ref={sectionRef}
-      className="py-20 px-4 md:px-8 relative overflow-hidden bg-color-background"
+      className="py-16 md:py-24 px-4 md:px-8 relative overflow-hidden"
     >
-      {/* --- BACKGROUND AMBIANCE --- */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-20 -left-20 w-96 h-96 bg-color-primary opacity-[0.03] rounded-full blur-3xl animate-float" />
-        <div
-          className="absolute bottom-20 -right-20 w-[500px] h-[500px] bg-color-secondary opacity-[0.03] rounded-full blur-3xl animate-float"
-          style={{ animationDelay: "2s" }}
-        />
-      </div>
+      {/* Effets de lumière */}
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-accent opacity-10 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-color-primary opacity-10 rounded-full blur-3xl" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* --- HEADER --- */}
-        <div className="text-center mb-20 observe-animation opacity-0 translate-y-8 transition-all duration-700">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            Mes{" "}
-            <span className="text-gradient drop-shadow-sm">Réalisations</span>
+      <div className="max-w-6xl mx-auto relative z-10">
+        {/* En-tête */}
+        <div className="observe-animation opacity-0 transition-all duration-700 mb-12 md:mb-16 text-center">
+          <h2 className="text-3xl md:text-5xl font-bold mb-4">
+            <span className="text-gradient">{t("projects.title")}</span>
           </h2>
-          <p className="text-color-text-secondary max-w-2xl mx-auto text-lg">
-            Un mélange de projets professionnels rigoureux et d'expérimentations
-            personnelles créatives.
+          <p className="text-color-text-secondary max-w-2xl mx-auto">
+            {t("projects.subtitle")}
           </p>
-          <div className="w-24 h-1.5 bg-gradient-primary mx-auto rounded-full mt-8 shadow-glow" />
+          <div className="w-20 h-1 bg-gradient-primary mx-auto rounded-full mt-6" />
         </div>
 
-        {/* --- SECTION 1: AWARDS (NOUVEAU) --- */}
-        <div className="mb-24">
-          <div className="flex items-center gap-4 mb-8 observe-animation opacity-0 translate-y-8 transition-all duration-700">
-            <h3 className="text-2xl font-bold text-color-text-primary">
-              🏆 Récompenses & Hackathons
-            </h3>
-            <div className="h-px bg-color-border flex-1" />
-          </div>
+        {/* Filtres avec tabs modernes */}
+        <div className="observe-animation opacity-0 transition-all duration-700 mb-8">
+          <div className="flex flex-wrap justify-center gap-3">
+            <button
+              onClick={() => setActiveTab("all")}
+              className={`group relative px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+                activeTab === "all"
+                  ? "bg-gradient-primary text-white shadow-lg scale-105"
+                  : "bg-color-surface text-color-text-secondary hover:text-color-primary border border-color-border hover:border-color-primary"
+              }`}
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                {t("projects.viewAll")}
+                <span
+                  className={`text-xs px-2 py-0.5 rounded-full ${
+                    activeTab === "all"
+                      ? "bg-white/20"
+                      : "bg-color-primary-light/10 text-color-primary"
+                  }`}
+                >
+                  {translatedProjects.length}
+                </span>
+              </span>
+              {activeTab === "all" && (
+                <div className="absolute inset-0 bg-gradient-primary blur-xl opacity-50" />
+              )}
+            </button>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            {awards.map((award, idx) => (
-              <div
-                key={idx}
-                className="group relative h-48 md:h-64 rounded-2xl overflow-hidden card-elevated observe-animation opacity-0 translate-y-8 transition-all duration-700 hover:shadow-glow-lg"
-                style={{ transitionDelay: `${idx * 150}ms` }}
-              >
-                {/* Background Image with Dark Overlay */}
-                <div className="absolute inset-0">
-                  <img
-                    src={award.image}
-                    alt={award.event}
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent" />
-                </div>
+            <button
+              onClick={() => setActiveTab("professional")}
+              className={`group relative px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+                activeTab === "professional"
+                  ? "bg-gradient-primary text-white shadow-lg scale-105"
+                  : "bg-color-surface text-color-text-secondary hover:text-color-primary border border-color-border hover:border-color-primary"
+              }`}
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                <Briefcase className="w-4 h-4" />
+                {t("projects.professional")}
+                <span
+                  className={`text-xs px-2 py-0.5 rounded-full ${
+                    activeTab === "professional"
+                      ? "bg-white/20"
+                      : "bg-color-primary-light/10 text-color-primary"
+                  }`}
+                >
+                  {professionalCount}
+                </span>
+              </span>
+              {activeTab === "professional" && (
+                <div className="absolute inset-0 bg-gradient-primary blur-xl opacity-50" />
+              )}
+            </button>
 
-                {/* Content */}
-                <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-center items-start z-10">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="text-3xl animate-bounce-scale">
-                      {award.icon}
-                    </span>
-                    <span className="px-3 py-1 bg-color-primary/20 backdrop-blur-md border border-color-primary/40 text-color-primary-light text-xs font-bold rounded-full">
-                      {award.year}
-                    </span>
-                  </div>
-                  <h4 className="text-2xl md:text-3xl font-bold text-white mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-                    {award.title}
-                  </h4>
-                  <p className="text-gray-300 font-medium mb-2">
-                    {award.event}
-                  </p>
-                  <p className="text-gray-400 text-sm max-w-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
-                    {award.description}
-                  </p>
-                </div>
-
-                {/* Border Glow Effect */}
-                <div className="absolute inset-0 border-2 border-white/10 rounded-2xl group-hover:border-color-primary/50 transition-colors duration-300" />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* --- SECTION 2: PROJECTS CONTROLS --- */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6 observe-animation opacity-0 transition-all duration-700">
-          <h3 className="text-2xl font-bold text-color-text-primary self-start md:self-center">
-            📂 Galerie de Projets
-          </h3>
-
-          {/* Custom Tabs */}
-          <div className="bg-color-surface p-1.5 rounded-xl border border-color-border flex relative shadow-inner">
-            {(["all", "professional", "personal"] as const).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => handleFilterChange(tab)}
-                className={`
-                   relative z-10 px-6 py-2 text-sm font-medium rounded-lg transition-all duration-300
-                   ${
-                     filter === tab
-                       ? "text-white"
-                       : "text-color-text-secondary hover:text-color-text-primary"
-                   }
-                 `}
-              >
-                {tab === "all"
-                  ? "Tous"
-                  : tab === "professional"
-                  ? "Professionnel"
-                  : "Personnel"}
-                {filter === tab && (
-                  <span className="absolute inset-0 bg-gradient-primary rounded-lg -z-10 shadow-md animate-bounce-scale" />
-                )}
-              </button>
-            ))}
+            <button
+              onClick={() => setActiveTab("personal")}
+              className={`group relative px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+                activeTab === "personal"
+                  ? "bg-gradient-primary text-white shadow-lg scale-105"
+                  : "bg-color-surface text-color-text-secondary hover:text-color-primary border border-color-border hover:border-color-primary"
+              }`}
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                <Heart className="w-4 h-4" />
+                {t("projects.personal")}
+                <span
+                  className={`text-xs px-2 py-0.5 rounded-full ${
+                    activeTab === "personal"
+                      ? "bg-white/20"
+                      : "bg-color-primary-light/10 text-color-primary"
+                  }`}
+                >
+                  {personalCount}
+                </span>
+              </span>
+              {activeTab === "personal" && (
+                <div className="absolute inset-0 bg-gradient-primary blur-xl opacity-50" />
+              )}
+            </button>
           </div>
         </div>
 
-        {/* --- PROJECTS GRID --- */}
-        <div
-          className={`
-            grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 
-            transition-opacity duration-300 ease-in-out
-            ${isAnimating ? "opacity-0 scale-95" : "opacity-100 scale-100"}
-          `}
-        >
+        {/* Grille de projets */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {filteredProjects.map((project, idx) => (
             <div
-              key={`${project.title}-${idx}`}
-              className="observe-animation opacity-0 translate-y-8 transition-all duration-700"
-              style={{ transitionDelay: `${(idx % 3) * 100}ms` }}
+              key={`${project.id}-${activeTab}`}
+              className={`observe-animation opacity-0 transition-all duration-700`}
+              style={{ transitionDelay: `${(idx % 3) * 100}ms` }} // Délai optimisé
             >
               <ProjectCard
                 {...project}
-                index={idx}
                 onViewDetails={() => handleOpenModal(project)}
               />
             </div>
           ))}
         </div>
+
+        {/* Message si aucun projet */}
+        {filteredProjects.length === 0 && (
+          <div className="text-center py-12 observe-animation opacity-0 transition-all duration-700">
+            <p className="text-color-text-secondary">
+              Aucun projet dans cette catégorie pour le moment.
+            </p>
+          </div>
+        )}
       </div>
 
-      {/* --- MODAL (IDENTIQUE MAIS NETTOYÉ) --- */}
-      <FusionModal isOpen={!!selectedProject} onClose={handleCloseModal}>
-        {selectedProject && (
-          <div className="flex flex-col h-full rounded-2xl max-h-[85vh] bg-color-surface-elevated">
-            {/* Header Modal */}
-            <div className="flex-shrink-0 p-6 border-b border-color-border/50 flex justify-between items-start">
-              <div>
-                <span
-                  className={`inline-block px-3 py-1 mb-3 text-xs font-bold rounded-full border ${
-                    selectedProject.category === "professional"
-                      ? "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-700"
-                      : "bg-purple-100 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-700"
-                  }`}
-                >
-                  {selectedProject.category === "professional"
-                    ? "PRO"
-                    : "PERSO"}
-                </span>
-                <h2 className="text-3xl font-bold text-color-text-primary">
-                  {selectedProject.title}
-                </h2>
+      {/* Modal avec carrousel optimisé pour mobile */}
+      <FusionModal
+        isOpen={!!selectedTranslatedProject}
+        onClose={handleCloseModal}
+        className={isLowEndDevice ? "max-w-sm" : ""}
+        reducedMotion={isLowEndDevice}
+      >
+        {selectedTranslatedProject && (
+          <div className="flex flex-col h-full rounded-2xl max-h-[80vh]">
+            {/* En-tête fixe */}
+            <div className="shrink-0 pb-4 border-b border-color-border">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1">
+                  <h2 className="text-3xl font-bold text-color-primary mb-2">
+                    {selectedTranslatedProject.title}
+                  </h2>
+                  <div className="flex items-center gap-2">
+                    {selectedTranslatedProject.type === "professional" ? (
+                      <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 text-xs font-medium border border-blue-500/20">
+                        <Briefcase className="w-3 h-3" />
+                        Professionnel
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-500/10 text-pink-600 text-xs font-medium border border-pink-500/20">
+                        <Heart className="w-3 h-3" />
+                        Personnel
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Scrollable Content */}
-            <div className="flex-1 min-h-0 overflow-y-auto scroll-thin p-6 space-y-8">
-              {/* Carousel */}
-              <div className="relative group rounded-xl overflow-hidden shadow-2xl border border-color-border/50">
-                <div className="aspect-video bg-black/5">
-                  <img
-                    src={selectedProject.images[currentImageIndex].url}
-                    alt={selectedProject.images[currentImageIndex].description}
-                    className="w-full h-full object-contain md:object-cover"
+            {/* Contenu scrollable */}
+            <div className="flex-1 min-h-0 overflow-y-auto scroll-thin space-y-6 py-4">
+              <p className="text-color-text-primary leading-relaxed">
+                {selectedTranslatedProject.fullDescription || selectedTranslatedProject.description}
+              </p>
+
+              {/* Carrousel d'images optimisé */}
+              <div className="relative">
+                <div className="relative aspect-video bg-color-surface rounded-lg overflow-hidden">
+                  <OptimizedImage
+                    src={selectedTranslatedProject.images[currentImageIndex].url}
+                    alt={selectedTranslatedProject.images[currentImageIndex].description}
+                    className="w-full h-full"
                   />
+
+                  {/* Boutons de navigation */}
+                  {selectedTranslatedProject.images.length > 1 && (
+                    <>
+                      <button
+                        onClick={prevImage}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-gradient-primary bg-opacity-50 hover:bg-opacity-70 text-white flex items-center justify-center transition-all"
+                      >
+                        ‹
+                      </button>
+                      <button
+                        onClick={nextImage}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-gradient-primary bg-opacity-50 hover:bg-opacity-70 text-white flex items-center justify-center transition-all"
+                      >
+                        ›
+                      </button>
+                    </>
+                  )}
+
+                  {/* Indicateurs */}
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                    {selectedTranslatedProject.images.map((_: any, idx: number) => (
+                      <button
+                        key={idx}
+                        onClick={() => setCurrentImageIndex(idx)}
+                        className={`w-2 h-2 rounded-full transition-all ${
+                          idx === currentImageIndex
+                            ? "bg-gradient-primary w-8"
+                            : "bg-text-secondary bg-opacity-50"
+                        }`}
+                      />
+                    ))}
+                  </div>
                 </div>
 
-                {/* Navigation Overlay */}
-                {selectedProject.images.length > 1 && (
-                  <>
-                    <button
-                      onClick={prevImage}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/50 hover:bg-black/70 text-white backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 hover:scale-110"
-                    >
-                      ‹
-                    </button>
-                    <button
-                      onClick={nextImage}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/50 hover:bg-black/70 text-white backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 hover:scale-110"
-                    >
-                      ›
-                    </button>
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                      {selectedProject.images.map((_, idx) => (
-                        <div
-                          key={idx}
-                          className={`h-1.5 rounded-full transition-all duration-300 ${
-                            idx === currentImageIndex
-                              ? "w-8 bg-white"
-                              : "w-2 bg-white/50"
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </>
-                )}
-                <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 to-transparent text-white text-center text-sm font-medium">
-                  {selectedProject.images[currentImageIndex].description}
-                </div>
+                {/* Description de l'image actuelle */}
+                <p className="mt-3 text-sm text-color-text-secondary text-center">
+                  {selectedTranslatedProject.images[currentImageIndex].description}
+                </p>
               </div>
 
-              <div className="prose dark:prose-invert max-w-none text-color-text-secondary leading-relaxed">
-                {selectedProject.fullDescription || selectedProject.description}
-              </div>
-
-              {/* Tags Cloud */}
+              {/* Tags avec affichage limité */}
               <div>
-                <h4 className="text-sm uppercase tracking-wider font-bold text-color-text-muted mb-3">
-                  Technologies
-                </h4>
+                <h3 className="text-sm font-semibold text-color-text-primary mb-3 flex items-center gap-2">
+                  <ChevronRight className="w-4 h-4 text-color-primary" />
+                  Technologies utilisées
+                </h3>
                 <div className="flex flex-wrap gap-2">
-                  {selectedProject.tags.map((tag, idx) => (
+                  {selectedTranslatedProject.tags.slice(0, 5).map((tag: string, idx: number) => (
                     <span
                       key={idx}
-                      className="px-4 py-2 text-sm rounded-lg bg-color-surface border border-color-border text-color-text-primary hover:border-color-primary/50 transition-colors cursor-default"
+                      className="px-3 py-1.5 text-xs font-medium rounded-full bg-color-primary-light/10 text-color-primary border border-color-primary/20 hover:bg-color-primary-light/20 transition-colors"
                     >
                       {tag}
                     </span>
                   ))}
+                  {selectedTranslatedProject.tags.length > 5 && (
+                    <span className="px-3 py-1.5 text-xs font-medium rounded-full bg-color-surface text-color-text-secondary border border-color-border">
+                      +{selectedTranslatedProject.tags.length - 5} more
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
 
-            {/* Footer Action */}
-            <div className="flex-shrink-0 p-6 border-t border-color-border/50 bg-color-surface/30 backdrop-blur-sm">
+            {/* Pied de page fixe */}
+            <div className="shrink-0 pt-4 border-t border-color-border">
               <div className="flex gap-4">
-                {selectedProject.link && (
+                {selectedTranslatedProject.link && (
                   <a
-                    href={selectedProject.link}
+                    href={selectedTranslatedProject.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 py-3 px-6 rounded-lg bg-gradient-primary text-white text-center font-bold hover:shadow-glow hover:-translate-y-0.5 transition-all"
+                    className="flex-1 py-2 rounded-lg transition-colors bg-gradient-primary text-white text-center hover:opacity-90 font-medium"
                   >
                     Voir le site
                   </a>
                 )}
-                {selectedProject.github && (
+                {selectedTranslatedProject.github && (
                   <a
-                    href={selectedProject.github}
+                    href={selectedTranslatedProject.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 py-3 px-6 rounded-lg bg-color-surface border border-color-border text-color-text-primary text-center font-bold hover:bg-color-surface-elevated hover:border-color-primary transition-all"
+                    className="flex-1 py-2 rounded-lg transition-colors bg-color-surface-elevated text-color-text-primary border border-color-primary text-center hover:bg-color-surface font-medium"
                   >
-                    Code Source
+                    Code source
                   </a>
                 )}
               </div>
