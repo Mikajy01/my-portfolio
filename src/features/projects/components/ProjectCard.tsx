@@ -145,7 +145,7 @@ export const ProjectCard = ({
 
       {/* Contenu */}
       <div className="p-6 space-y-4">
-        <h3  className="text-xl font-bold text-color-text-primary group-hover:text-color-primary transition-colors line-clamp-1">
+        <h3 title={title}  className="text-xl font-bold text-color-text-primary group-hover:text-color-primary transition-colors line-clamp-1">
           {title}
         </h3>
 
