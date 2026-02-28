@@ -9,7 +9,7 @@ import { Experience } from "../features/experience";
 import { Awards } from "../features/awards";
 import { Certifications } from "../features/certifications";
 import { LanguageProvider } from "../shared/context/LanguageContext";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { AppLoader } from "./AppLoader";
 
 const revealStyles = `
@@ -46,12 +46,13 @@ const revealStyles = `
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const handleLoaderComplete = useCallback(() => setIsLoaded(true), []);
 
   return (
     <LanguageProvider>
       <style>{revealStyles}</style>
 
-      {!isLoaded && <AppLoader onComplete={() => setIsLoaded(true)} />}
+      {!isLoaded && <AppLoader onComplete={handleLoaderComplete} />}
       <Header />
 
       <div className={`relative min-h-screen bg-background ${isLoaded ? "app-reveal" : "app-hidden"}`}>
