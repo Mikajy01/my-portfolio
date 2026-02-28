@@ -1,37 +1,49 @@
-import { useState, useEffect, useRef, type FormEvent, type ChangeEvent } from 'react';
-import { Button } from '../../../shared/components/Button';
+import {
+  useState,
+  useEffect,
+  useRef,
+  type FormEvent,
+  type ChangeEvent,
+} from "react";
+import { useTranslation } from "react-i18next";
+import emailjs from "@emailjs/browser";
+import { Button } from "../../../shared/components/Button";
+import { Github, Loader2, Mail, MapPin } from "lucide-react";
+
+const EMAILJS_SERVICE_ID  = "service_fkx8a9u";
+const EMAILJS_TEMPLATE_ID = "template_4gpy85q";
+const EMAILJS_PUBLIC_KEY  = "ZAqbmky86xYHx5T5d"; 
 
 const Contact = () => {
+  const { t } = useTranslation();
+  const formRef = useRef<HTMLFormElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
+    name: "",
+    email: "",
+    message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const sectionRef = useRef<HTMLElement>(null);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('animate-slide-up');
-            entry.target.classList.remove('opacity-0');
-          } else {
-            // Optionnel: réinitialiser quand l'élément quitte la vue
-            // entry.target.classList.remove('animate-slide-up');
-            // entry.target.classList.add('opacity-0');
+            entry.target.classList.add("animate-slide-up");
+            entry.target.classList.remove("opacity-0");
           }
         });
       },
-      { 
+      {
         threshold: 0.3,
-        rootMargin: '-50px 0px -50px 0px' // Déclenche un peu avant d'entrer dans la vue
+        rootMargin: "-50px 0px -50px 0px",
       }
     );
 
-    const elements = sectionRef.current?.querySelectorAll('.observe-animation');
+    const elements = sectionRef.current?.querySelectorAll(".observe-animation");
     elements?.forEach((el) => observer.observe(el));
 
     return () => {
@@ -42,28 +54,36 @@ const Contact = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (!formRef.current) return;
+
     setIsSubmitting(true);
-    
-    // Simuler l'envoi du formulaire
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setSubmitStatus('success');
-    setFormData({ name: '', email: '', message: '' });
-    
-    setTimeout(() => setSubmitStatus('idle'), 3000);
+    setSubmitStatus("idle");
+
+    try {
+      await emailjs.sendForm(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        formRef.current,
+        EMAILJS_PUBLIC_KEY
+      );
+      setSubmitStatus("success");
+      setFormData({ name: "", email: "", message: "" });
+    } catch (err) {
+      console.error("EmailJS error:", err);
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => setSubmitStatus("idle"), 4000);
+    }
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   return (
-    <section 
-      id="contact" 
+    <section
+      id="contact"
       ref={sectionRef}
       className="py-16 md:py-24 px-4 md:px-8 relative overflow-hidden bg-surface"
     >
@@ -74,10 +94,10 @@ const Contact = () => {
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="observe-animation opacity-0 transition-all duration-700 mb-12 md:mb-16 text-center">
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            <span className="text-gradient">Contact</span>
+            <span className="text-gradient">{t("contact.title")}</span>
           </h2>
           <p className="text-text-secondary max-w-2xl mx-auto">
-            Une idée de projet ? Discutons-en ensemble
+            {t("contact.subtitle")}
           </p>
           <div className="w-20 h-1 bg-gradient-primary mx-auto rounded-full mt-6" />
         </div>
@@ -87,64 +107,48 @@ const Contact = () => {
           <div className="observe-animation opacity-0 transition-all duration-700 delay-200 space-y-6">
             <div className="glass-effect p-6 md:p-8 rounded-2xl">
               <h3 className="text-2xl font-bold mb-6 text-gradient-accent">
-                Restons en contact
+                {t("contact.stayInTouch")}
               </h3>
               <p className="text-text-secondary mb-8 leading-relaxed">
-                Je suis toujours ouvert aux nouvelles opportunités et collaborations. 
-                N'hésitez pas à me contacter pour discuter de vos projets.
+                {t("contact.description")}
               </p>
 
               <div className="space-y-4">
-                <a 
-                  href="mailto:contact@example.com"
+                <a
+                  href="mailto:sellyrafaj@gmail.com"
                   className="flex items-center gap-4 p-4 rounded-xl bg-surface-elevated hover:bg-surface hover:glow-effect transition-all group"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                    📧
+                  <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Mail className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <div className="text-text-muted text-sm">Email</div>
-                    <div className="text-text-primary font-medium">contact@example.com</div>
+                    <div className="text-text-muted text-sm">{t("contact.info.email")}</div>
+                    <div className="text-text-primary font-medium">sellyrafaj@gmail.com</div>
                   </div>
                 </a>
 
-                <a 
-                  href="https://linkedin.com"
+                <a
+                  href="https://github.com/Mikajy01/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 p-4 rounded-xl bg-surface-elevated hover:bg-surface hover:glow-effect transition-all group"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                    💼
-                  </div>
-                  <div>
-                    <div className="text-text-muted text-sm">LinkedIn</div>
-                    <div className="text-text-primary font-medium">Mikajisoa Selly-Rafaj</div>
-                  </div>
-                </a>
-
-                <a 
-                  href="https://github.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-4 p-4 rounded-xl bg-surface-elevated hover:bg-surface hover:glow-effect transition-all group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
-                    💻
+                  <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Github className="w-6 h-6 text-white" />
                   </div>
                   <div>
                     <div className="text-text-muted text-sm">GitHub</div>
-                    <div className="text-text-primary font-medium">@mikajisoa</div>
+                    <div className="text-text-primary font-medium">@Mikajy01</div>
                   </div>
                 </a>
 
                 <div className="flex items-center gap-4 p-4 rounded-xl bg-surface-elevated">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center text-2xl">
-                    📍
+                  <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center">
+                    <MapPin className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <div className="text-text-muted text-sm">Localisation</div>
-                    <div className="text-text-primary font-medium">Antananarivo, Madagascar</div>
+                    <div className="text-text-muted text-sm">{t("contact.info.location")}</div>
+                    <div className="text-text-primary font-medium">Fianarantsoa, Madagascar</div>
                   </div>
                 </div>
               </div>
@@ -153,10 +157,14 @@ const Contact = () => {
 
           {/* Formulaire de contact */}
           <div className="observe-animation opacity-0 transition-all duration-700 delay-400">
-            <form onSubmit={handleSubmit} className="glass-effect p-6 md:p-8 rounded-2xl space-y-6">
+            <form
+              ref={formRef}
+              onSubmit={handleSubmit}
+              className="glass-effect p-6 md:p-8 rounded-2xl space-y-6"
+            >
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-text-secondary mb-2">
-                  Nom complet
+                  {t("contact.form.name")}
                 </label>
                 <input
                   type="text"
@@ -166,13 +174,13 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 rounded-xl bg-surface-elevated border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-text-primary transition-all"
-                  placeholder="Votre nom"
+                  placeholder={t("contact.form.name")}
                 />
               </div>
 
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-text-secondary mb-2">
-                  Email
+                  {t("contact.form.email")}
                 </label>
                 <input
                   type="email"
@@ -182,13 +190,13 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 rounded-xl bg-surface-elevated border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-text-primary transition-all"
-                  placeholder="votre.email@example.com"
+                  placeholder="email@example.com"
                 />
               </div>
 
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-text-secondary mb-2">
-                  Message
+                  {t("contact.form.message")}
                 </label>
                 <textarea
                   id="message"
@@ -198,34 +206,30 @@ const Contact = () => {
                   required
                   rows={5}
                   className="w-full px-4 py-3 rounded-xl bg-surface-elevated border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-text-primary transition-all resize-none"
-                  placeholder="Parlez-moi de votre projet..."
+                  placeholder={t("contact.form.message")}
                 />
               </div>
 
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full"
-              >
+              <Button type="submit" disabled={isSubmitting} className="w-full">
                 {isSubmitting ? (
                   <span className="flex items-center justify-center gap-2">
-                    <span className="animate-spin">⚡</span>
-                    Envoi en cours...
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    {t("contact.form.sending")}
                   </span>
                 ) : (
-                  'Envoyer le message'
+                  t("contact.form.submit")
                 )}
               </Button>
 
-              {submitStatus === 'success' && (
-                <div className="p-4 rounded-xl bg-primary bg-opacity-10 border border-primary text-primary text-center animate-slide-up">
-                  ✓ Message envoyé avec succès !
+              {submitStatus === "success" && (
+                <div className="p-4 rounded-xl bg-primary/10 border border-primary text-text-primary text-center animate-slide-up">
+                  ✓ {t("contact.form.success")}
                 </div>
               )}
 
-              {submitStatus === 'error' && (
-                <div className="p-4 rounded-xl bg-accent bg-opacity-10 border border-accent text-accent text-center animate-slide-up">
-                  ✗ Une erreur s'est produite. Veuillez réessayer.
+              {submitStatus === "error" && (
+                <div className="p-4 rounded-xl bg-secondary/10 border border-secondary text-secondary text-center animate-slide-up">
+                  ✗ {t("contact.form.error")}
                 </div>
               )}
             </form>

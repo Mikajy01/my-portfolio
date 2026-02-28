@@ -1,152 +1,187 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { useScrollspy } from "../utils/useScrollspy";
+import { ChevronDown } from "lucide-react";
+import ThemeSwitcher from "./ThemeSwitcher";
+import LanguageSwitcher from "./LanguageSwitcher";
+import WaterBubbleIndicator from "./WatterBubleIndicator";
 
-const navItems = [
-  { id: "hero", label: "Accueil" },
-  { id: "about", label: "À propos" },
-  { id: "skills", label: "Compétences" },
-  { id: "education", label: "Education" },
-  { id: "experience", label: "Expérience" },
-  { id: "projects", label: "Projets" },
-  { id: "contact", label: "Contact" },
+// ─── Nav Items Config ─────────────────────────────────────────────────────────
+// "flat" items appear directly in the nav bar.
+// "group" items collapse into a single dropdown button.
+type NavItemFlat = { type: "flat"; id: string; label: string };
+type NavItemGroup = { type: "group"; label: string; children: { id: string; label: string }[] };
+type NavItem = NavItemFlat | NavItemGroup;
+
+const getNavItems = (t: (k: string) => string): NavItem[] => [
+  { type: "flat",  id: "hero",    label: t("nav.home") },
+  { type: "flat",  id: "skills",  label: t("nav.skills") },
+  { type: "flat",  id: "projects", label: t("nav.projects") },
+  {
+    type: "group",
+    label: t("nav.journey"),   // e.g. "Parcours" / "Journey"
+    children: [
+      { id: "awards",         label: t("nav.awards") },
+      { id: "certifications", label: t("nav.certifications") },
+      { id: "experience",     label: t("nav.experience") },
+      { id: "education",      label: t("nav.education") },
+    ],
+  },
+  { type: "flat",  id: "contact", label: t("nav.contact") },
 ];
 
-// Composant ThemeSwitcher moderne et animé
-const ThemeSwitcher = () => {
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
 
+
+
+// ─── Journey Dropdown ─────────────────────────────────────────────────────────
+const JourneyDropdown: React.FC<{
+  label: string;
+  children: { id: string; label: string }[];
+  activeSection: string | null;
+  scrollToSection: (id: string) => void;
+  liRef: (el: HTMLLIElement | null) => void;
+  isActive: boolean;
+}> = ({ label, children, activeSection, scrollToSection, liRef, isActive }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const ref = useRef<HTMLLIElement>(null);
+
+  // Close on outside click
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setTheme(savedTheme as 'light' | 'dark');
-      document.documentElement.classList.add(savedTheme);
-    } else {
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        setTheme('dark');
-        document.documentElement.classList.add('dark');
-      } else {
-        setTheme('light');
-      }
-    }
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setIsOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  };
-
-  const isDark = theme === 'dark';
+  // Auto-open when an inner section becomes active
+  useEffect(() => {
+    if (isActive) setIsOpen(false); // don't force-open; bubble is enough feedback
+  }, [isActive]);
 
   return (
-    <button
-      onClick={toggleTheme}
-      className="relative w-12 h-6 sm:w-14 sm:h-7 md:w-16 md:h-8 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
-      style={{
-        background: isDark
-          ? 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)'
-          : 'linear-gradient(135deg, #00f0ff 0%, #bf00ff 100%)'
-      }}
-      aria-label="Toggle theme"
+    <li
+      ref={(el) => { (ref as React.MutableRefObject<HTMLLIElement | null>).current = el; liRef(el); }}
+      style={{ position: "relative" }}
     >
-      {/* Track glow effect */}
-      <div
-        className="absolute inset-0 rounded-full opacity-50 blur-sm transition-opacity duration-300"
-        style={{
-          background: isDark
-            ? 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)'
-            : 'linear-gradient(135deg, #00f0ff 0%, #bf00ff 100%)'
-        }}
-      />
-    
-      {/* Sliding knob */}
-      <div
-        className={`absolute top-0.5 w-5 h-5 sm:w-6 sm:h-6 rounded-full shadow-lg transition-all duration-500 ease-out flex items-center justify-center ${
-          isDark ? 'translate-x-6 sm:translate-x-7 md:translate-x-9' : 'translate-x-0.5 sm:translate-x-1'
+      <button
+        onClick={() => setIsOpen((o) => !o)}
+        className={`flex items-center gap-1 px-3 lg:px-4 py-2 rounded-lg transition-all duration-300 text-sm lg:text-base ${
+          isActive
+            ? "text-primary font-semibold"
+            : "text-text-secondary hover:text-primary hover:bg-surface"
         }`}
-        style={{
-          background: 'white',
-          boxShadow: isDark
-            ? '0 0 20px rgba(191, 0, 255, 0.5), 0 4px 8px rgba(0, 0, 0, 0.3)'
-            : '0 0 20px rgba(0, 240, 255, 0.5), 0 4px 8px rgba(0, 0, 0, 0.2)'
-        }}
+        style={{ background: "transparent", zIndex: 11, position: "relative" }}
       >
-        {/* Icon container with rotation animation */}
-        <div className={`transition-all duration-500 ${isDark ? 'rotate-0' : 'rotate-180'}`}>
-          {isDark ? (
-            // Moon icon
-            <svg
-              width="10"
-              height="10"
-              className="sm:w-3 sm:h-3 md:w-3.5 md:h-3.5 text-indigo-600"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
-                fill="currentColor"
-                className="transition-all duration-300"
-              />
-            </svg>
-          ) : (
-            // Sun icon
-            <svg
-              width="10"
-              height="10"
-              className="sm:w-3 sm:h-3 md:w-3.5 md:h-3.5 text-yellow-500"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <circle cx="12" cy="12" r="4" fill="currentColor" />
-              <path
-                d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
-          )}
+        {label}
+        <ChevronDown
+          className={`w-3.5 h-3.5 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+        />
+      </button>
+
+      {/* Dropdown panel */}
+      {isOpen && (
+        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 glass-overlay rounded-xl shadow-xl z-50 overflow-hidden">
+          {/* subtle top accent line */}
+          <div className="h-0.5 w-full bg-gradient-to-r from-transparent via-primary to-transparent opacity-60" />
+          <div className="p-2 space-y-0.5">
+            {children.map((child) => (
+              <a
+                key={child.id}
+                href={`#${child.id}`}
+                onClick={(e) => { e.preventDefault(); scrollToSection(child.id); setIsOpen(false); }}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 text-sm ${
+                  activeSection === child.id
+                    ? "text-primary bg-surface font-semibold"
+                    : "text-text-secondary hover:text-primary hover:bg-surface"
+                }`}
+              >
+                {/* tiny active dot */}
+                <span
+                  className={`w-1.5 h-1.5 rounded-full flex-shrink-0 transition-all duration-300 ${
+                    activeSection === child.id ? "bg-primary scale-125" : "bg-transparent"
+                  }`}
+                />
+                {child.label}
+              </a>
+            ))}
+          </div>
         </div>
-      </div>
-    
-      {/* Stars decoration (visible in dark mode) */}
-      <div className={`absolute inset-0 transition-opacity duration-500 ${isDark ? 'opacity-100' : 'opacity-0'}`}>
-        <div className="absolute top-1 left-1 w-0.5 h-0.5 sm:top-2 sm:left-2 sm:w-1 sm:h-1 bg-white rounded-full animate-pulse" />
-        <div className="absolute top-2 left-2 w-0.5 h-0.5 sm:top-4 sm:left-4 bg-white rounded-full animate-pulse delay-100" />
-        <div className="absolute top-1.5 left-3 w-0.5 h-0.5 sm:top-3 sm:left-6 bg-white rounded-full animate-pulse delay-200" />
-      </div>
-    </button>
+      )}
+    </li>
   );
 };
 
+// ─── Header ───────────────────────────────────────────────────────────────────
 export const Header: React.FC = () => {
+  const { t, i18n } = useTranslation();
+  const navItems = getNavItems(t);
+
+  // Collect ALL section ids (flat + inside groups) for the scrollspy
+  const allIds = navItems.flatMap((item) =>
+    item.type === "flat" ? [item.id] : item.children.map((c) => c.id)
+  );
+  const activeSection = useScrollspy(allIds);
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const activeSection = useScrollspy(navItems.map((item) => item.id));
+
+  const navRef = useRef<HTMLUListElement>(null);
+  const itemRefs = useRef<Record<string, HTMLLIElement | null>>({});
+  const [bubbleTarget, setBubbleTarget] = useState<DOMRect | null>(null);
+  const [containerRect, setContainerRect] = useState<DOMRect | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Resolve which <li> the bubble should target:
+  // - for flat items: their own li
+  // - for group items: the group's li when any child is active
+  const bubbleTargetId = React.useMemo(() => {
+    if (!activeSection) return null;
+    for (const item of navItems) {
+      if (item.type === "flat" && item.id === activeSection) return item.id;
+      if (item.type === "group" && item.children.some((c) => c.id === activeSection)) {
+        // Use a synthetic key for the group li
+        return `group:${item.label}`;
+      }
+    }
+    return null;
+  }, [activeSection, navItems]);
+
+  useEffect(() => {
+    if (!bubbleTargetId || !navRef.current) return;
+    // Wait one rAF so the DOM has repainted with the new language labels
+    // before measuring — fixes bubble width mismatch on language switch.
+    const raf = requestAnimationFrame(() => {
+      if (!navRef.current) return;
+      const itemEl = itemRefs.current[bubbleTargetId];
+      if (!itemEl) return;
+      setContainerRect(navRef.current.getBoundingClientRect());
+      setBubbleTarget(itemEl.getBoundingClientRect());
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [bubbleTargetId, i18n.language]); // re-measure whenever language changes
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (!bubbleTargetId || !navRef.current) return;
+      const itemEl = itemRefs.current[bubbleTargetId];
+      if (!itemEl) return;
+      setContainerRect(navRef.current.getBoundingClientRect());
+      setBubbleTarget(itemEl.getBoundingClientRect());
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [bubbleTargetId]);
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      const offset = 0;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.scrollY - offset;
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
+      window.scrollTo({ top: element.getBoundingClientRect().top + window.scrollY, behavior: "smooth" });
     }
     setIsMobileMenuOpen(false);
   };
@@ -163,68 +198,75 @@ export const Header: React.FC = () => {
             {/* Logo */}
             <a
               href="#hero"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection("hero");
-              }}
+              onClick={(e) => { e.preventDefault(); scrollToSection("hero"); }}
               className="text-lg xs:text-xl sm:text-2xl font-bold text-gradient hover:scale-105 transition-transform"
             >
-              MSR
+              MR. BUG
             </a>
 
             {/* Desktop Navigation */}
-            <ul className="hidden md:flex items-center gap-1 lg:gap-2">
-              {navItems.map((item) => (
-                <li key={item.id}>
-                  <a
-                    href={`#${item.id}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(item.id);
-                    }}
-                    className={`px-3 lg:px-4 py-2 rounded-lg transition-all duration-300 text-sm lg:text-base ${
-                      activeSection === item.id
-                        ? "text-primary bg-surface font-semibold"
-                        : "text-text-secondary hover:text-primary hover:bg-surface"
-                    }`}
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
+            <ul ref={navRef} className="hidden md:flex items-center gap-1 lg:gap-2 relative">
+              <WaterBubbleIndicator
+                targetRect={bubbleTarget}
+                containerRect={containerRect}
+                isVisible={!!bubbleTargetId}
+              />
+
+              {navItems.map((item) => {
+                if (item.type === "flat") {
+                  return (
+                    <li
+                      key={item.id}
+                      ref={(el) => { itemRefs.current[item.id] = el; }}
+                      style={{ position: "relative" }}
+                    >
+                      <a
+                        href={`#${item.id}`}
+                        onClick={(e) => { e.preventDefault(); scrollToSection(item.id); }}
+                        className={`px-3 lg:px-4 py-2 rounded-lg transition-all duration-300 text-sm lg:text-base block ${
+                          activeSection === item.id
+                            ? "text-primary font-semibold"
+                            : "text-text-secondary hover:text-primary hover:bg-surface"
+                        }`}
+                        style={{ background: "transparent" }}
+                      >
+                        {item.label}
+                      </a>
+                    </li>
+                  );
+                }
+
+                // Group item
+                const groupKey = `group:${item.label}`;
+                const isGroupActive = item.children.some((c) => c.id === activeSection);
+                return (
+                  <JourneyDropdown
+                    key={groupKey}
+                    label={item.label}
+                    children={item.children}
+                    activeSection={activeSection}
+                    scrollToSection={scrollToSection}
+                    isActive={isGroupActive}
+                    liRef={(el) => { itemRefs.current[groupKey] = el; }}
+                  />
+                );
+              })}
             </ul>
 
-            {/* Right side: Theme Switcher + Mobile Menu */}
+            {/* Right side */}
             <div className="flex items-center gap-2 sm:gap-3">
-              {/* Theme Switcher - visible on all screens */}
               <ThemeSwitcher />
-              
-              {/* Mobile Menu Button */}
+              <LanguageSwitcher />
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="md:hidden p-1.5 xs:p-2 text-text-primary hover:text-primary transition-colors"
                 aria-label="Toggle menu"
               >
-                <svg
-                  className="w-5 h-5 xs:w-6 xs:h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-5 h-5 xs:w-6 xs:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   {isMobileMenuOpen ? (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   ) : (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                   )}
                 </svg>
               </button>
@@ -236,30 +278,53 @@ export const Header: React.FC = () => {
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-40 md:hidden">
-          <div
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-            onClick={() => setIsMobileMenuOpen(false)}
-          />
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)} />
           <div className="absolute top-16 xs:top-20 right-3 xs:right-4 left-3 xs:left-4 glass-effect rounded-xl xs:rounded-2xl p-4 xs:p-6 shadow-xl">
             <ul className="flex flex-col gap-2 xs:gap-3">
-              {navItems.map((item) => (
-                <li key={item.id}>
-                  <a
-                    href={`#${item.id}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(item.id);
-                    }}
-                    className={`block px-3 xs:px-4 py-2 xs:py-3 rounded-lg transition-all duration-300 text-sm xs:text-base ${
-                      activeSection === item.id
-                        ? "text-primary bg-surface font-semibold"
-                        : "text-text-secondary hover:text-primary hover:bg-surface"
-                    }`}
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
+              {navItems.map((item) => {
+                if (item.type === "flat") {
+                  return (
+                    <li key={item.id}>
+                      <a
+                        href={`#${item.id}`}
+                        onClick={(e) => { e.preventDefault(); scrollToSection(item.id); }}
+                        className={`block px-3 xs:px-4 py-2 xs:py-3 rounded-lg transition-all duration-300 text-sm xs:text-base ${
+                          activeSection === item.id
+                            ? "text-primary bg-surface font-semibold"
+                            : "text-text-secondary hover:text-primary hover:bg-surface"
+                        }`}
+                      >
+                        {item.label}
+                      </a>
+                    </li>
+                  );
+                }
+                // Group: render as flat list with subtle indent in mobile
+                return (
+                  <React.Fragment key={`group:${item.label}`}>
+                    <li className="px-3 xs:px-4 pt-1 pb-0.5">
+                      <span className="text-xs font-semibold uppercase tracking-widest text-text-secondary/50">
+                        {item.label}
+                      </span>
+                    </li>
+                    {item.children.map((child) => (
+                      <li key={child.id}>
+                        <a
+                          href={`#${child.id}`}
+                          onClick={(e) => { e.preventDefault(); scrollToSection(child.id); }}
+                          className={`block pl-6 xs:pl-8 pr-3 xs:pr-4 py-2 xs:py-2.5 rounded-lg transition-all duration-300 text-sm xs:text-base ${
+                            activeSection === child.id
+                              ? "text-primary bg-surface font-semibold"
+                              : "text-text-secondary hover:text-primary hover:bg-surface"
+                          }`}
+                        >
+                          {child.label}
+                        </a>
+                      </li>
+                    ))}
+                  </React.Fragment>
+                );
+              })}
             </ul>
           </div>
         </div>

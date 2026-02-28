@@ -79,7 +79,7 @@ export const ProfileImage: React.FC = () => {
         
         {/* Décommentez et utilisez cette ligne quand vous aurez votre photo */}
         <img 
-          src="/src/assets/images/Profile_picture.png" 
+          src="images/profile_picture.png" 
           alt="RATSIMBAZAFY Mikajisoa Selly-Rafaj" 
           className="w-full h-full object-cover"
         />

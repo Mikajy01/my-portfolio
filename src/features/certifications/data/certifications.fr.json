@@ -1,0 +1,56 @@
+[
+  {
+    "id": "tekbot-robotics-africa",
+    "title": "TekBot Robotics Challenge Africa – Attestation de participation",
+    "issuer": "TekBot Robotics Africa",
+    "year": "2026",
+    "description": "Participation en tant que membre de l’équipe INNOVATOR représentant Madagascar. Contribution à la programmation du robot avec les technologies ROS et Intelligence Artificielle. Le projet a reçu le coup de cœur du jury.",
+    "image": "images/certifications/tekbot.webp",
+    "link": "certificates/tekbot.pdf"
+  },
+  {
+    "id": "codingame-speed-legend",
+    "title": "Speed Coding – Rang Légende",
+    "issuer": "CodinGame",
+    "year": "2026",
+    "description": "Obtention du rang Légende dans les défis de programmation rapide, démontrant des compétences avancées en algorithmique et en résolution de problèmes sous contrainte de temps.",
+    "image": "images/certifications/codingame-speed.webp",
+    "link": "https://www.codingame.com/certification/8Cs1N7ouiA2kGx7_PPlCSw"
+  },
+  {
+    "id": "codingame-algorithm-silver",
+    "title": "Certification Algorithmique – Niveau Argent",
+    "issuer": "CodinGame",
+    "year": "2025",
+    "description": "Validation de solides compétences en algorithmes et structures de données à travers des défis de programmation compétitive.",
+    "image": "images/certifications/codingame-algorithm.webp",
+    "link": "https://www.codingame.com/certification/bmoA5h_M-_YDrFWtJDJB_A"
+  },
+  {
+    "id": "codingame-javascript-honor",
+    "title": "Certification JavaScript avec Mention",
+    "issuer": "CodinGame",
+    "year": "2025",
+    "description": "Validation de compétences avancées en JavaScript, incluant l’optimisation des performances et la résolution de problèmes complexes.",
+    "image": "images/certifications/codingame-javascript.webp",
+    "link": "https://www.codingame.com/certification/lg1WX_Js-21ZZDvf-t09nw"
+  },
+  {
+    "id": "hackerrank-angular-intermediate",
+    "title": "Angular (Intermédiaire)",
+    "issuer": "HackerRank",
+    "year": "2025",
+    "description": "Validation de compétences intermédiaires en Angular, incluant l’architecture de composants, les services et la structure des applications.",
+    "image": "images/certifications/hackerrank-angular-intermediate.webp",
+    "link": "https://www.hackerrank.com/certificates/b8aa5d76781e"
+  },
+  {
+    "id": "hackerrank-rest-api",
+    "title": "REST API (Intermédiaire)",
+    "issuer": "HackerRank",
+    "year": "2025",
+    "description": "Validation des connaissances en conception d’API REST, méthodes HTTP, communication backend et principes d’intégration.",
+    "image": "images/certifications/hackerrank-rest-api-intermediate.webp",
+    "link": "https://www.hackerrank.com/certificates/9115dc42c3f9"
+  }
+]

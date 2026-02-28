@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1",
+    "title": "Master’s Degree in Computer Science – Data Science and Artificial Intelligence (SDIA)",
+    "organization": "EMIT Fianarantsoa",
+    "location": "Fianarantsoa, Madagascar",
+    "period": "2024 - 2025",
+    "description": "Specialized program in data science and artificial intelligence, including data analysis, advanced algorithms, and intelligent systems.",
+    "highlights": [
+      "Studied data analysis and processing methods",
+      "Introduction to artificial intelligence and machine learning concepts",
+      "Developed academic projects involving programming and data analysis"
+    ],
+    "skills": ["Data Science", "Artificial Intelligence", "Algorithms", "Programming"]
+  },
+  {
+    "id": "2",
+    "title": "Bachelor’s Degree in Computer Science",
+    "organization": "EMIT Fianarantsoa",
+    "location": "Fianarantsoa, Madagascar",
+    "period": "2021 - 2024",
+    "description": "General computer science education covering programming, databases, algorithms, and systems.",
+    "highlights": [
+      "Programming fundamentals",
+      "Academic software development projects",
+      "3-month internship at InnovT Madagascar"
+    ],
+    "skills": ["Programming", "Algorithms", "Databases"]
+  }
+]

@@ -1,0 +1,21 @@
+[
+  {
+    "id": "emihack-3-algo",
+    "title": "1er Prix - Hackathon Algo",
+    "event": "Emihack 3.0",
+    "year": "2025",
+    "description": "Compétition en algorithmique : résoudre le maximum de problèmes dans les meilleurs délais. Performance et vitesse d'exécution récompensées.",
+    "image": "images/awards/emihack.jpg",
+    "icon": "trophy"
+  },
+  {
+    "id": "ccc-classic-2024",
+    "title": "3e place - CCC Classic 2024 (KIRIKOU)",
+    "event": "Cloudflight Coding Contest Fianarantsoa",
+    "year": "2024",
+    "description": "Compétition de programmation internationale par équipe où les participants doivent résoudre des problèmes algorithmiques complexes dans un temps limité, utilisant le langage de leur choix pour tester leur logique et leur rapidité d'exécution.",
+    "image": "images/awards/ccc.jpg",
+    "icon": "medal"
+  }
+]
+
