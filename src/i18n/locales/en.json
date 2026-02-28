@@ -29,7 +29,7 @@
   },
   "skills": {
     "title": "Skills",
-    "subtitle": "Technologies and tools I master",
+    "subtitle": "Technologies and tools I <underline>master</underline>",
     "categories": {
       "frontend": "Frontend",
       "backend": "Backend",

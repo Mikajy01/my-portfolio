@@ -1,4 +1,5 @@
 import React from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { twMerge } from "tailwind-merge";
@@ -49,10 +50,23 @@ const FusionModal: React.FC<FusionModalProps> = ({
     },
   ];
 
-  return (
+  // ✅ VRAI FIX : createPortal monte le modal directement sur document.body.
+  //
+  // Le bug "faut scroller pour voir le modal" est causé par le stacking context :
+  // si un ancêtre du modal a `transform`, `filter`, `will-change`, `overflow: hidden/auto`,
+  // ou `perspective`, alors `position: fixed` se recalcule PAR RAPPORT à cet ancêtre
+  // au lieu du viewport. Résultat : le modal se positionne relativement à la section
+  // #projects qui peut être à 2000px du haut de la page.
+  //
+  // Avec createPortal, le modal est rendu comme enfant direct de <body>,
+  // donc `position: fixed` fonctionne toujours par rapport au viewport réel.
+  const modalContent = (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div
+          style={{ position: "fixed", inset: 0, zIndex: 9999 }}
+          className="flex items-center justify-center p-4"
+        >
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -60,19 +74,20 @@ const FusionModal: React.FC<FusionModalProps> = ({
             exit={{ opacity: 0 }}
             transition={{ duration: reducedMotion ? 0.2 : 0.3 }}
             onClick={onClose}
-            className={`fixed inset-0 bg-black/80 cursor-pointer ${
-              reducedMotion ? '' : 'backdrop-blur-sm'
+            style={{ position: "fixed", inset: 0 }}
+            className={`bg-black/80 cursor-pointer ${
+              reducedMotion ? "" : "backdrop-blur-sm"
             }`}
           />
 
           {/* Conteneur Principal */}
           <div
             className={twMerge(
-              "relative w-full max-w-lg max-h-full z-30",
+              "relative w-full max-w-lg z-30",
               className
             )}
           >
-            {/* 1. LUMIÈRE D'AMBIANCE - Simplifiée pour appareils lents */}
+            {/* 1. LUMIÈRE D'AMBIANCE */}
             {!reducedMotion && (
               <motion.div
                 initial={{ scale: 0, opacity: 0 }}
@@ -83,7 +98,7 @@ const FusionModal: React.FC<FusionModalProps> = ({
               />
             )}
 
-            {/* 2. FLASH D'IMPACT - Désactivé pour appareils lents */}
+            {/* 2. FLASH D'IMPACT */}
             {!reducedMotion && (
               <motion.div
                 initial={{ scale: 0 }}
@@ -93,52 +108,28 @@ const FusionModal: React.FC<FusionModalProps> = ({
               />
             )}
 
-            {/* 3. LES 4 BLOCS (SHARDS) + OMBRE CORRECTIVE */}
-            <div className="absolute inset-0 z-10 w-full h-full pointer-events-none">
-              
-              <motion.div 
-                initial={{ opacity: 1 }}
-                exit={{ opacity: 0, transition: { duration: 0.1 } }} 
-                className="absolute inset-0 w-full h-full rounded-(--radius-card) shadow-2xl"
-              />
-
-              {shards.map((shard) => (
-                <motion.div
-                  key={shard.id}
-                  initial={reducedMotion ? { opacity: 0 } : shard.initial}
-                  animate={reducedMotion ?
-                    { opacity: 1 } :
-                    { x: 0, y: 0, rotate: 0, opacity: 1, scale: 1 }
-                  }
-                  exit={reducedMotion ?
-                    { opacity: 0, transition: { duration: 0.2 } } :
-                    { ...shard.initial, transition: { duration: 1.5 } }
-                  }
-                  transition={reducedMotion ? {
-                    duration: 0.2
-                  } : {
-                    type: "spring",
-                    stiffness: 40,
-                    damping: 14,
-                    mass: 1.2,
-                    delay: 0.1,
-                  }}
-                  style={{ clipPath: shard.clipPath }}
-                  className={`absolute inset-0 w-full h-full ${shard.className}`}
-                />
-              ))}
-            </div>
-
-            {/* 4. CONTENU DU MODAL */}
+            {/* 3. CONTENU — rendu en premier pour donner la hauteur au parent */}
             <motion.div
-              initial={reducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.9 }}
-              animate={reducedMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }}
+              initial={
+                reducedMotion
+                  ? { opacity: 0 }
+                  : { opacity: 0, scale: 0.95, visibility: "hidden" as const }
+              }
+              animate={
+                reducedMotion
+                  ? { opacity: 1 }
+                  : { opacity: 1, scale: 1, visibility: "visible" as const }
+              }
               exit={{ opacity: 0, transition: { duration: 0.15 } }}
-              transition={reducedMotion ? {
-                duration: 0.2
-              } : {
-                delay: 1.6, duration: 0.4
-              }}
+              transition={
+                reducedMotion
+                  ? { duration: 0.2 }
+                  : {
+                      opacity: { delay: 1.6, duration: 0.4 },
+                      scale: { delay: 1.6, duration: 0.4 },
+                      visibility: { delay: 1.6, duration: 0 },
+                    }
+              }
               className="relative z-30 w-full p-8 text-text-primary flex flex-col"
             >
               <button
@@ -150,11 +141,52 @@ const FusionModal: React.FC<FusionModalProps> = ({
 
               <div className="mt-4">{children}</div>
             </motion.div>
+
+            {/* 4. SHARDS — en absolute, s'étirent sur la hauteur du contenu */}
+            <div className="absolute inset-0 z-10 w-full h-full pointer-events-none">
+              <motion.div
+                initial={{ opacity: 1 }}
+                exit={{ opacity: 0, transition: { duration: 0.1 } }}
+                className="absolute inset-0 w-full h-full rounded-(--radius-card) shadow-2xl"
+              />
+
+              {shards.map((shard) => (
+                <motion.div
+                  key={shard.id}
+                  initial={reducedMotion ? { opacity: 0 } : shard.initial}
+                  animate={
+                    reducedMotion
+                      ? { opacity: 1 }
+                      : { x: 0, y: 0, rotate: 0, opacity: 1, scale: 1 }
+                  }
+                  exit={
+                    reducedMotion
+                      ? { opacity: 0, transition: { duration: 0.2 } }
+                      : { ...shard.initial, transition: { duration: 1.5 } }
+                  }
+                  transition={
+                    reducedMotion
+                      ? { duration: 0.2 }
+                      : {
+                          type: "spring",
+                          stiffness: 40,
+                          damping: 14,
+                          mass: 1.2,
+                          delay: 0.1,
+                        }
+                  }
+                  style={{ clipPath: shard.clipPath }}
+                  className={`absolute inset-0 w-full h-full ${shard.className}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       )}
     </AnimatePresence>
   );
+
+  return createPortal(modalContent, document.body);
 };
 
 export default FusionModal;

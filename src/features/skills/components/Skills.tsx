@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import {
   Shield,
   Zap,
@@ -14,6 +14,7 @@ import { TechIcons } from "../../../shared/icons/TechIcons";
 import { useLanguage } from "../../../shared/context/LanguageContext";
 import skillsFr from "../data/skills.fr.json";
 import skillsEn from "../data/skills.en.json";
+import HandDrawnUnderline from "../../../shared/components/HandDrawnUnderline";
 
 type TechnologyCategory = "frontend" | "backend" | "tools" | "languages";
 
@@ -164,7 +165,16 @@ const Skills = () => {
             <span className="text-gradient">{t("skills.title")}</span>
           </h2>
           <p className="text-text-secondary text-lg max-w-2xl mx-auto">
-            {t("skills.subtitle")}
+            <Trans
+              i18nKey="skills.subtitle"
+              components={{
+                underline: 
+                <HandDrawnUnderline>
+                {/* Trans va remplacer ce contenu */}
+                <></>
+              </HandDrawnUnderline>
+              }}
+            />
           </p>
           <div className="w-24 h-1 bg-gradient-primary mx-auto rounded-full mt-6" />
         </div>

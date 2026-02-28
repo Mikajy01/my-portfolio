@@ -52,6 +52,7 @@ function App() {
       <style>{revealStyles}</style>
 
       {!isLoaded && <AppLoader onComplete={() => setIsLoaded(true)} />}
+      <Header />
 
       <div className={`relative min-h-screen bg-background ${isLoaded ? "app-reveal" : "app-hidden"}`}>
         {/* Grid background */}
@@ -88,7 +89,6 @@ function App() {
           ))}
         </div>
 
-        <Header />
         <main className="relative">
           <Hero />
           <Skills />

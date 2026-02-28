@@ -29,7 +29,7 @@
   },
   "skills": {
     "title": "Compétences",
-    "subtitle": "Technologies et outils que je maîtrise",
+    "subtitle": "Technologies et outils que je <underline>maîtrise</underline>",
     "categories": {
       "frontend": "Frontend",
       "backend": "Backend",

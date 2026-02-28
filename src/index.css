@@ -1,57 +1,62 @@
 @import "tailwindcss";
 
 /* ============================================
-   PALETTE OPTIMISÉE POUR LE CONFORT VISUEL
+   PALETTE MR. BUG — Rouge / Brique / Ambre
    ============================================ */
 
 :root {
-  /* 🎨 MODE CLAIR - Palette douce et professionnelle */
-  
-  /* Primaire : Cyan plus doux avec meilleur contraste */
-  --color-primary: #0891b2;           /* Cyan 600 - Plus professionnel */
-  --color-primary-dark: #0e7490;      /* Cyan 700 */
-  --color-primary-light: #06b6d4;     /* Cyan 500 */
-  
-  /* Secondaire : Violet plus subtil */
-  --color-secondary: #9333ea;         /* Purple 600 */
-  --color-accent: #ec4899;            /* Pink 500 */
-  
-  /* Arrière-plans : Gris chauds au lieu de blanc pur */
-  --color-background: #fafaf9;        /* Stone 50 - Réduit la fatigue oculaire */
-  --color-surface: #f5f5f4;           /* Stone 100 */
-  --color-surface-elevated: #ffffff;  /* Blanc réservé aux éléments élevés */
-  
-  /* Texte : Gris foncés au lieu de noir pur */
-  --color-text-primary: #1c1917;      /* Stone 900 - Plus doux que le noir */
-  --color-text-secondary: #57534e;    /* Stone 600 */
-  --color-text-muted: #78716c;        /* Stone 500 */
-  
-  /* Bordures : Plus visibles */
-  --color-border: #d6d3d1;            /* Stone 300 */
-  --color-border-light: #e7e5e4;      /* Stone 200 */
-  
-  /* Ombres : Plus subtiles */
-  --color-shadow: rgba(28, 25, 23, 0.08);
-  --color-glow: rgba(8, 145, 178, 0.15);
+  /* 🎨 MODE CLAIR */
+
+  /* Primaire : Rouge-orange désaturé — signature sans agressivité */
+  --color-primary: #d94f00;           /* Rouge-orange chaud */
+  --color-primary-dark: #a83b00;      /* Brique profonde */
+  --color-primary-light: #f06830;     /* Orange doux */
+
+  /* Secondaire & accent */
+  --color-secondary: #b5001f;         /* Rouge vin — gradient harmonieux avec primary */
+  --color-accent: #f09000;            /* Ambre chaud — remplace l'orange électrique */
+
+  /* Arrière-plans : neutres chauds, non colorés */
+  --color-background: #faf8f6;        /* Blanc cassé neutre */
+  --color-surface: #f3efeb;           /* Sable très clair */
+  --color-surface-elevated: #ffffff;
+
+  /* Texte : brun neutre, pas rouge — meilleure lisibilité */
+  --color-text-primary: #1c1410;      /* Presque noir chaud */
+  --color-text-secondary: #5a4a42;    /* Gris-brun — bien plus lisible que brun-rouge */
+  --color-text-muted: #8c7b74;        /* Gris rosé doux */
+
+  /* Bordures */
+  --color-border: #e4dbd6;            /* Beige rosé neutre */
+  --color-border-light: #ede7e3;
+
+  /* Ombres */
+  --color-shadow: rgba(140, 50, 10, 0.07);
+  --color-glow: rgba(217, 79, 0, 0.16);
 }
 
-/* 🌙 MODE SOMBRE - Conservé avec vos couleurs vives */
+/* 🌙 MODE SOMBRE */
 :root.dark {
-  --color-primary: #00f0ff;
-  --color-primary-dark: #00c9d9;
-  --color-primary-light: #4df4ff;
-  --color-secondary: #bf00ff;
-  --color-accent: #ff00aa;
-  --color-background: #0a0a0a;
-  --color-surface: #141414;
-  --color-surface-elevated: #1a1a1a;
-  --color-text-primary: #fafafa;
-  --color-text-secondary: #a3a3a3;
-  --color-text-muted: #737373;
-  --color-border: #262626;
-  --color-border-light: #1f1f1f;
-  --color-shadow: rgba(0, 0, 0, 0.5);
-  --color-glow: rgba(0, 240, 255, 0.4);
+  --color-primary: #ff5520;           /* Plus orangé = moins agressif que rouge pur */
+  --color-primary-dark: #c43d00;
+  --color-primary-light: #ff7a45;
+  --color-secondary: #cc1a40;         /* Rouge rosé — moins saturé */
+  --color-accent: #f0a030;            /* Ambre — remplace le jaune fluo */
+
+  /* Fond noir neutre chaud — pas teinté rouge */
+  --color-background: #111010;        /* Noir chaud neutre */
+  --color-surface: #1a1817;
+  --color-surface-elevated: #222120;
+
+  /* Texte : blanc cassé chaud, pas rose saturé */
+  --color-text-primary: #f5f0ec;
+  --color-text-secondary: #c4a898;    /* Sable rosé — moins saturé que #ffb89a */
+  --color-text-muted: #8a7068;
+
+  --color-border: #2e2825;
+  --color-border-light: #252220;
+  --color-shadow: rgba(0, 0, 0, 0.55);
+  --color-glow: rgba(255, 85, 32, 0.35);
 }
 
 @theme {
@@ -71,26 +76,26 @@
   --color-border-light: var(--color-border-light);
   --color-shadow: var(--color-shadow);
   --color-glow: var(--color-glow);
-  
+
   /* Typographie */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'Fira Code', 'Courier New', monospace;
-  
+
   /* Espacements */
   --spacing-section: 6rem;
   --spacing-section-mobile: 4rem;
-  
+
   /* Animations */
   --animate-float: float 6s ease-in-out infinite;
   --animate-glow: glow 2s ease-in-out infinite alternate;
   --animate-slide-up: slideUp 0.6s ease-out;
   --animate-fade-in: fadeIn 0.8s ease-out;
-  
+
   /* Border radius */
   --radius-card: 1.5rem;
   --radius-button: 0.75rem;
-  
-  /* Ombres optimisées */
+
+  /* Ombres */
   --shadow-sm: 0 1px 2px 0 var(--color-shadow);
   --shadow-md: 0 4px 6px -1px var(--color-shadow), 0 2px 4px -1px var(--color-shadow);
   --shadow-lg: 0 10px 15px -3px var(--color-shadow), 0 4px 6px -2px var(--color-shadow);
@@ -111,54 +116,54 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-  
+
   .text-gradient-accent {
     background: linear-gradient(135deg, var(--color-accent), var(--color-primary));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-  
+
   /* Gradients de fond */
   .bg-gradient-primary {
     background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
   }
-  
+
   .bg-gradient-dark {
     background: linear-gradient(180deg, var(--color-surface), var(--color-background));
   }
-  
+
   /* Bordure gradient */
   .border-gradient {
     border: 2px solid transparent;
     background: linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
                 linear-gradient(135deg, var(--color-primary), var(--color-secondary)) border-box;
   }
-  
+
   /* Effet verre (glassmorphism) */
   .glass-effect {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(28, 25, 23, 0.1);
+    border: 1px solid rgba(217, 79, 0, 0.1);
   }
-  
+
   :root.dark .glass-effect {
-    background: rgba(20, 20, 20, 0.7);
+    background: rgba(17, 16, 16, 0.7);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 85, 32, 0.08);
   }
-  
+
   /* Effets de glow */
   .glow-effect {
     box-shadow: var(--shadow-glow);
   }
-  
+
   .glow-effect-lg {
     box-shadow: var(--shadow-glow-lg);
   }
-  
+
   /* Effet de carte élevée */
   .card-elevated {
     background: var(--color-surface-elevated);
@@ -166,7 +171,7 @@
     box-shadow: var(--shadow-md);
     transition: all 0.3s ease;
   }
-  
+
   .card-elevated:hover {
     box-shadow: var(--shadow-lg);
     transform: translateY(-2px);
@@ -178,12 +183,8 @@
    ============================================ */
 
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
 }
 
 @keyframes glow {
@@ -198,32 +199,18 @@
 }
 
 @keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
-  }
-  100% {
-    background-position: 1000px 0;
-  }
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
 }
 
 /* ============================================
@@ -240,7 +227,6 @@ body {
   color: var(--color-text-primary);
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
-  /* Améliore le rendu des polices */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -297,20 +283,16 @@ img {
 }
 
 /* ============================================
-   AMÉLIORATIONS D'ACCESSIBILITÉ
+   ACCESSIBILITÉ
    ============================================ */
 
-/* Focus visible pour la navigation au clavier */
 *:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
-/* Réduction des animations pour les utilisateurs sensibles */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -319,26 +301,14 @@ img {
 }
 
 @keyframes bounce-scale {
-  0% {
-    transform: scale(0.3);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 @keyframes draw {
-  from {
-    stroke-dashoffset: 200;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
+  from { stroke-dashoffset: 200; }
+  to { stroke-dashoffset: 0; }
 }
 
 .animate-bounce-scale {
@@ -348,7 +318,6 @@ img {
 .animate-draw {
   animation: draw 0.6s ease-out forwards;
 }
-
 
 .scroll-thin::-webkit-scrollbar {
   width: 6px;
@@ -363,15 +332,15 @@ img {
 }
 
 .glass-overlay {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(250, 248, 246, 0.95);
   backdrop-filter: blur(24px) saturate(1.5);
   -webkit-backdrop-filter: blur(24px) saturate(1.5);
-  border: 1px solid rgba(28, 25, 23, 0.08);
+  border: 1px solid rgba(217, 79, 0, 0.08);
 }
 
 :root.dark .glass-overlay {
-  background: rgba(10, 10, 10, 0.88);
+  background: rgba(17, 16, 16, 0.88);
   backdrop-filter: blur(24px) saturate(1.5);
   -webkit-backdrop-filter: blur(24px) saturate(1.5);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 85, 32, 0.08);
 }

@@ -265,13 +265,13 @@ export const Hero: React.FC = () => {
       `}</style>
 
       {/* Fond animé */}
-      <div className="absolute inset-0 -z-10">
+      {/* <div className="absolute inset-0 -z-10">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 md:w-96 md:h-96 bg-primary rounded-full mix-blend-multiply blur-3xl opacity-10 animate-pulse" />
         <div
           className="absolute bottom-1/4 right-1/4 w-64 h-64 md:w-96 md:h-96 bg-secondary rounded-full mix-blend-multiply blur-3xl opacity-10 animate-pulse"
           style={{ animationDelay: "2s" }}
         />
-      </div>
+      </div> */}
 
       <div className="container mx-auto py-3">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
