@@ -25,7 +25,12 @@
       "getInTouch": "Get In Touch",
       "downloadCV": "Download my CV",
       "seeProject": "See My Projects"
-    } 
+    },
+    "stats": {
+      "yearsExperience": "Years of experience",
+      "projectsCompleted": "Projects completed",
+      "satisfiedClients": "Satisfied clients"
+    }
   },
   "skills": {
     "title": "Skills",

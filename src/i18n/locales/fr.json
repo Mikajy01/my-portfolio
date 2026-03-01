@@ -25,7 +25,12 @@
       "getInTouch": "Me Contacter",
       "downloadCV": "Télécharger mon CV",
       "seeProject": "Voir Mes Projets"
-    } 
+    },
+    "stats": {
+      "yearsExperience": "Années d'expérience",
+      "projectsCompleted": "Projets réalisés",
+      "satisfiedClients": "Clients satisfaits"
+    }
   },
   "skills": {
     "title": "Compétences",

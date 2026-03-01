@@ -1,6 +1,6 @@
 {
   "concepts": [
-    { "name": "Architecture SOLID", "icon": "gitBranch" },
+    { "name": "Principes SOLID", "icon": "gitBranch" },
     { "name": "JWT / Auth / Sécurité", "icon": "shield" },
     { "name": "Systèmes temps réel", "icon": "zap" },
     { "name": "Optimisation algo", "icon": "target" },

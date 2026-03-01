@@ -357,7 +357,7 @@ export const Hero: React.FC = () => {
                   3+
                 </div>
                 <div className="text-xs sm:text-sm text-text-secondary mt-1">
-                  Années d'expérience
+                  {t("hero.stats.yearsExperience")}
                 </div>
               </div>
               <div className="text-center lg:text-left">
@@ -365,7 +365,7 @@ export const Hero: React.FC = () => {
                   10+
                 </div>
                 <div className="text-xs sm:text-sm text-text-secondary mt-1">
-                  Projets réalisés
+                  {t("hero.stats.projectsCompleted")}
                 </div>
               </div>
               <div className="text-center lg:text-left">
@@ -373,7 +373,7 @@ export const Hero: React.FC = () => {
                   10+
                 </div>
                 <div className="text-xs sm:text-sm text-text-secondary mt-1">
-                  Clients satisfaits
+                  {t("hero.stats.satisfiedClients")}
                 </div>
               </div>
             </div>
