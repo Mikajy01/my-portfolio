@@ -166,7 +166,7 @@ const Skills = () => {
           </h2>
           <p className="text-text-secondary text-lg max-w-2xl mx-auto">
             <Trans
-              i18nKey="skills.subtitle"
+              i18nKey="skills.subtitleWithWordHighlighted"
               components={{
                 underline: 
                 <HandDrawnUnderline>

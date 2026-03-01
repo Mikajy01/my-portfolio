@@ -29,7 +29,8 @@
   },
   "skills": {
     "title": "Skills",
-    "subtitle": "Technologies and tools I <underline>master</underline>",
+    "subtitle": "Technologies and tools I master",
+    "subtitleWithWordHighlighted": "Technologies and tools I <underline>master</underline>",
     "categories": {
       "frontend": "Frontend",
       "backend": "Backend",
@@ -67,6 +68,7 @@
     "professional": "Professional",
     "personal": "Personal",
     "viewAll": "View All",
+    "seeMore": "See more",
     "more": "more"
   },
   "contact": {

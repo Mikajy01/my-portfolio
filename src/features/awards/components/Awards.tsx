@@ -27,10 +27,7 @@ const Awards = () => {
   const { language } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
 
-  const awards = useMemo(
-    () => getAwardsByLanguage(language),
-    [language]
-  );
+  const awards = useMemo(() => getAwardsByLanguage(language), [language]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -45,7 +42,7 @@ const Awards = () => {
       {
         threshold: 0.2,
         rootMargin: "-50px 0px -50px 0px",
-      }
+      },
     );
 
     const elements = sectionRef.current?.querySelectorAll(".observe-animation");
@@ -60,11 +57,16 @@ const Awards = () => {
   const getIcon = (iconType: string) => {
     const iconProps = { className: "w-6 h-6" };
     switch (iconType) {
-      case "trophy": return <Trophy {...iconProps} />;
-      case "medal":  return <Medal {...iconProps} />;
-      case "award":  return <Award {...iconProps} />;
-      case "star":   return <Star {...iconProps} />;
-      default:       return <Trophy {...iconProps} />;
+      case "trophy":
+        return <Trophy {...iconProps} />;
+      case "medal":
+        return <Medal {...iconProps} />;
+      case "award":
+        return <Award {...iconProps} />;
+      case "star":
+        return <Star {...iconProps} />;
+      default:
+        return <Trophy {...iconProps} />;
     }
   };
 
@@ -86,26 +88,24 @@ const Awards = () => {
           {awards.map((award, idx) => (
             <div
               key={award.id}
-              className="group relative h-48 md:h-64 rounded-2xl overflow-hidden card-elevated observe-animation opacity-0 translate-y-8 transition-all duration-700 hover:shadow-glow-lg"
+              className="group relative min-h-48 md:min-h-64 rounded-2xl overflow-hidden card-elevated observe-animation opacity-0 translate-y-8 transition-all duration-700 hover:shadow-glow-lg"
               style={{ transitionDelay: `${idx * 150}ms` }}
             >
-              {/* Background Image */}
+              {/* Background Image — couvre toujours toute la card grâce à absolute inset-0 */}
               <div className="absolute inset-0">
                 <img
                   src={award.image}
                   alt={award.event}
-                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 group-hover:-translate-y-15"
+                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 group-hover:-translate-y-4"
                 />
-                {/* Overlay de base */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent" />
-                {/* Overlay supplémentaire au hover pour assurer la lisibilité de la description */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/95 md:from-black/90 via-black/60 to-transparent" />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
 
-              {/* Content */}
-              <div className="absolute inset-0 p-6 md:p-8 flex flex-col justify-center items-start z-10">
+              {/* Content — relative pour participer au flux et pousser la hauteur de la card */}
+              <div className="relative z-10 p-6 md:p-8 flex flex-col justify-center items-start min-h-48 md:min-h-64">
                 <div className="flex items-center gap-3 mb-2">
-                  <span className="text-3xl animate-bounce-scale text-white">
+                  <span className="text-white">
                     {getIcon(award.icon ?? "")}
                   </span>
                   <span className="px-3 py-1 bg-white/20 backdrop-blur-md border border-white/40 text-white text-xs font-bold rounded-full">
@@ -113,14 +113,19 @@ const Awards = () => {
                   </span>
                 </div>
 
-                <h4 className="text-2xl md:text-3xl font-bold text-transparent mb-2 bg-clip-text bg-gradient-to-r from-white to-gray-400">
+                <h4 className="text-xl md:text-3xl font-bold text-transparent mb-2 bg-clip-text bg-gradient-to-r from-white to-gray-400 leading-tight">
                   {award.title}
                 </h4>
 
-                <p className="text-gray-300 font-medium mb-2">{award.event}</p>
+                <p className="text-gray-300 font-medium mb-2 text-sm md:text-base">
+                  {award.event}
+                </p>
 
                 <p
-                  className="text-white/90 text-sm max-w-md opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0"
+                  className="text-white/90 text-sm max-w-md
+                    opacity-100 md:opacity-0 md:group-hover:opacity-100
+                    translate-y-0 md:translate-y-2 md:group-hover:translate-y-0
+                    transition-all duration-300"
                   style={{ textShadow: "0 1px 3px rgba(0,0,0,0.6)" }}
                 >
                   {award.description}
@@ -128,7 +133,7 @@ const Awards = () => {
               </div>
 
               {/* Border Glow Effect */}
-              <div className="absolute inset-0 border-2 border-white/10 rounded-2xl group-hover:border-color-primary/50 transition-colors duration-300" />
+              <div className="absolute inset-0 border-2 border-white/10 rounded-2xl group-hover:border-color-primary/50 transition-colors duration-300 pointer-events-none" />
             </div>
           ))}
         </div>

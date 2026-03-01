@@ -29,7 +29,8 @@
   },
   "skills": {
     "title": "Compétences",
-    "subtitle": "Technologies et outils que je <underline>maîtrise</underline>",
+    "subtitle": "Technologies et outils que je maîtrise",
+    "subtitleWithWordHighlighted": "Technologies et outils que je <underline>maîtrise</underline>",
     "categories": {
       "frontend": "Frontend",
       "backend": "Backend",
@@ -67,6 +68,7 @@
     "professional": "Professionnel",
     "personal": "Personnel",
     "viewAll": "Voir Tous",
+    "seeMore": "Voir plus",
     "more": "plus"
   },
   "contact": {
