@@ -1,4 +1,10 @@
-import { ExternalLink, Github, Briefcase, Heart, ChevronRight } from "lucide-react";
+import {
+  ExternalLink,
+  Github,
+  Briefcase,
+  Heart,
+  ChevronRight,
+} from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
@@ -57,7 +63,7 @@ const TagsTooltip = ({
         ))}
       </div>
     </div>,
-    document.body
+    document.body,
   );
 };
 
@@ -98,12 +104,12 @@ export const ProjectCard = ({
         {/* Badge type */}
         <div className="absolute top-4 right-4 z-10">
           {type === "professional" ? (
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-500/90 backdrop-blur-sm text-white text-xs font-medium shadow-lg">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/20 backdrop-blur-sm text-primary text-xs font-medium shadow-lg border border-color-primary/30">
               <Briefcase className="w-3 h-3" />
               Pro
             </div>
           ) : (
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-pink-500/90 backdrop-blur-sm text-white text-xs font-medium shadow-lg">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent/20 backdrop-blur-sm text-accent text-xs font-medium shadow-lg border border-color-accent/30">
               <Heart className="w-3 h-3" />
               Perso
             </div>
@@ -145,7 +151,10 @@ export const ProjectCard = ({
 
       {/* Contenu */}
       <div className="p-6 space-y-4">
-        <h3 title={title}  className="text-xl font-bold text-color-text-primary group-hover:text-color-primary transition-colors line-clamp-1">
+        <h3
+          title={title}
+          className="text-xl font-bold text-color-text-primary group-hover:text-color-primary transition-colors line-clamp-1"
+        >
           {title}
         </h3>
 

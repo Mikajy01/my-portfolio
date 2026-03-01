@@ -13,7 +13,7 @@
   "hero": {
     "welcome": "Welcome to my portfolio",
     "IAm": "I am",
-    "heroDescription": "Passionate about building high-performance, modern web applications. I transform ideas into reliable, scalable and elegant digital products using React, Angular, NestJS, Node.js and cloud-ready architectures.",
+    "heroDescription": "I don't just write code — I debug reality. From pixel-perfect frontends to bulletproof backends, I hunt bugs before they hunt you. React, Angular, NestJS, Node.js... and a suspicious number of open terminals.",
     "titles": [
       "Full-Stack Developer",
       "AI Developer",

@@ -100,12 +100,12 @@ const ProjectModal = ({
                 </h2>
                 <div className="flex items-center gap-2">
                   {project.type === "professional" ? (
-                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 text-xs font-medium border border-blue-500/20">
+                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text--primary text-xs font-medium border border-primary/20">
                       <Briefcase className="w-3 h-3" />
                       Professionnel
                     </div>
                   ) : (
-                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-500/10 text-pink-600 text-xs font-medium border border-pink-500/20">
+                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-medium border border-accent/20">
                       <Heart className="w-3 h-3" />
                       Personnel
                     </div>
