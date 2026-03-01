@@ -34,6 +34,8 @@
     "categories": {
       "frontend": "Frontend",
       "backend": "Backend",
+      "database": "Database",
+      "mobile": "Mobile",
       "tools": "Tools & DevOps",
       "languages": "Languages"
     },

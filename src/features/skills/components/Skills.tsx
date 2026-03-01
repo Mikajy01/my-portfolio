@@ -10,17 +10,51 @@ import {
   Target,
   Lock,
 } from "lucide-react";
-import { TechIcons } from "../../../shared/icons/TechIcons";
+
+// ─── react-icons ──────────────────────────────────────────────────────────────
+import {
+  SiNestjs,
+  SiExpress,
+  SiPostgresql,
+  SiMysql,
+  SiPrisma,
+  SiSocketdotio,
+  SiDocker,
+  SiKubernetes,
+  SiTailwindcss,
+  SiSass,
+  SiFlutter,
+  SiAngular,
+  SiTypescript,
+  SiMongodb,
+} from "react-icons/si";
+import {
+  FaReact,
+  FaNodeJs,
+  FaPython,
+  FaJava,
+  FaGitAlt,
+  FaHtml5,
+  FaCss3Alt,
+} from "react-icons/fa";
+// ─────────────────────────────────────────────────────────────────────────────
+
 import { useLanguage } from "../../../shared/context/LanguageContext";
 import skillsFr from "../data/skills.fr.json";
 import skillsEn from "../data/skills.en.json";
 import HandDrawnUnderline from "../../../shared/components/HandDrawnUnderline";
 
-type TechnologyCategory = "frontend" | "backend" | "tools" | "languages";
+type TechnologyCategory =
+  | "frontend"
+  | "backend"
+  | "database"
+  | "mobile"
+  | "tools"
+  | "languages";
 
 interface Technology {
   name: string;
-  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  Icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
   color?: string;
   className?: string;
   category: TechnologyCategory;
@@ -38,42 +72,53 @@ interface Highlight {
 }
 
 const technologies: Technology[] = [
-  { name: "NestJS", Icon: TechIcons.NestJS, color: "#E0234E", category: "backend" },
-  { name: "Node.js", Icon: TechIcons.NodeJS, color: "#339933", category: "backend" },
-  { name: "Express", Icon: TechIcons.Express, className: "dark:invert", category: "backend" },
-  { name: "Python", Icon: TechIcons.Python, color: "#3776AB", category: "backend" },
-  { name: "Java", Icon: TechIcons.Java, color: "#007396", category: "backend" },
-  { name: "React", Icon: TechIcons.React, color: "#61DAFB", category: "frontend" },
-  { name: "Angular", Icon: TechIcons.Angular, color: "#61DAFB", category: "frontend" },
-  { name: "HTML5", Icon: TechIcons.HTML5, color: "#61DAFB", category: "frontend" },
-  { name: "CSS3", Icon: TechIcons.CSS3, color: "#61DAFB", category: "frontend" },
-  { name: "Sass", Icon: TechIcons.Sass, color: "#61DAFB", category: "frontend" },
-  { name: "Tailwind", Icon: TechIcons.Tailwind, color: "#61DAFB", category: "frontend" },
-  { name: "Flutter", Icon: TechIcons.Flutter, color: "#61DAFB", category: "frontend" },
-  { name: "PostgreSQL", Icon: TechIcons.PostgreSQL, color: "#4169E1", category: "backend" },
-  { name: "MySQL", Icon: TechIcons.MySQL, color: "#4479A1", category: "backend" },
-  { name: "Git", Icon: TechIcons.Git, category: "tools" },
-  { name: "Socket.io", Icon: TechIcons.SocketIO, className: "invert", category: "tools" },
-  { name: "Docker", Icon: TechIcons.Docker, color: "#2496ED", category: "tools" },
-  { name: "Kubernetes", Icon: TechIcons.Kubernetes, color: "#326CE5", category: "tools" },
+  // Frontend
+  { name: "React",       Icon: FaReact,       color: "#61DAFB", category: "frontend" },
+  { name: "Angular",     Icon: SiAngular,     color: "#DD0031", category: "frontend" },
+  { name: "HTML5",       Icon: FaHtml5,       color: "#E34F26", category: "frontend" },
+  { name: "CSS3",        Icon: FaCss3Alt,     color: "#1572B6", category: "frontend" },
+  { name: "Sass",        Icon: SiSass,        color: "#CC6699", category: "frontend" },
+  { name: "Tailwind",    Icon: SiTailwindcss, color: "#38BDF8", category: "frontend" },
+  // Backend
+  { name: "NestJS",      Icon: SiNestjs,      color: "#E0234E", category: "backend" },
+  { name: "Node.js",     Icon: FaNodeJs,      color: "#339933", category: "backend" },
+  { name: "Express",     Icon: SiExpress,     color: "currentColor", category: "backend" },
+  { name: "Socket.io",   Icon: SiSocketdotio, color: "currentColor", category: "backend" },
+  // Database
+  { name: "PostgreSQL",  Icon: SiPostgresql,  color: "#4169E1", category: "database" },
+  { name: "MySQL",       Icon: SiMysql,       color: "#4479A1", category: "database" },
+  { name: "Prisma",      Icon: SiPrisma,      color: "currentColor", category: "database" },
+  { name: "MongoDB",     Icon: SiMongodb,     color: "#47A248", category: "database" },
+  // Mobile
+  { name: "Flutter",     Icon: SiFlutter,     color: "#02569B", category: "mobile" },
+  // Tools & DevOps
+  { name: "Git",         Icon: FaGitAlt,      color: "#F05032", category: "tools" },
+  { name: "Docker",      Icon: SiDocker,      color: "#2496ED", category: "tools" },
+  { name: "Kubernetes",  Icon: SiKubernetes,  color: "#326CE5", category: "tools" },
+  // Languages
+  { name: "TypeScript",  Icon: SiTypescript,  color: "#3178C6", category: "languages" },
+  { name: "Python",      Icon: FaPython,      color: "#3776AB", category: "languages" },
+  { name: "Java",        Icon: FaJava,        color: "#007396", category: "languages" },
 ];
 
 const technologyCategories: TechnologyCategory[] = [
   "frontend",
   "backend",
+  "database",
+  "mobile",
   "tools",
   "languages",
 ];
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   gitBranch: GitBranch,
-  shield: Shield,
-  zap: Zap,
-  target: Target,
-  lock: Lock,
-  puzzle: Puzzle,
-  rocket: Rocket,
-  sparkles: Sparkles,
+  shield:    Shield,
+  zap:       Zap,
+  target:    Target,
+  lock:      Lock,
+  puzzle:    Puzzle,
+  rocket:    Rocket,
+  sparkles:  Sparkles,
 };
 
 const getSkillsByLanguage = (
@@ -113,7 +158,6 @@ const Skills = () => {
             entry.target.classList.add("animate-slide-up");
             entry.target.classList.remove("opacity-0");
 
-            // Animer les éléments avec délai progressif
             const items = entry.target.querySelectorAll(
               ".tech-item, .concept-item"
             );
@@ -168,11 +212,11 @@ const Skills = () => {
             <Trans
               i18nKey="skills.subtitleWithWordHighlighted"
               components={{
-                underline: 
-                <HandDrawnUnderline>
-                {/* Trans va remplacer ce contenu */}
-                <></>
-              </HandDrawnUnderline>
+                underline: (
+                  <HandDrawnUnderline>
+                    <></>
+                  </HandDrawnUnderline>
+                ),
               }}
             />
           </p>
@@ -188,14 +232,14 @@ const Skills = () => {
                   <Target className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="text-2xl md:text-3xl font-bold">
-                  <span className="text-gradient">
-                    {t("skills.subtitle")}
-                  </span>
+                  <span className="text-gradient">{t("skills.subtitle")}</span>
                 </h3>
               </div>
               <div className="space-y-6">
                 {technologyCategories.map((category) => {
-                  const items = technologies.filter((tech) => tech.category === category);
+                  const items = technologies.filter(
+                    (tech) => tech.category === category
+                  );
                   if (items.length === 0) return null;
 
                   return (
@@ -211,7 +255,7 @@ const Skills = () => {
                           >
                             <div className="flex items-center gap-2">
                               <tech.Icon
-                                className={`w-5 h-5 group-hover/item:scale-125 transition-transform duration-300 ${tech.className}`}
+                                className={`w-5 h-5 flex-shrink-0 group-hover/item:scale-125 transition-transform duration-300 ${tech.className ?? ""}`}
                                 style={{ color: tech.color }}
                               />
                               <span className="text-sm font-medium text-text-primary">
@@ -239,7 +283,7 @@ const Skills = () => {
                       "linear-gradient(135deg, var(--color-secondary), var(--color-accent))",
                   }}
                 >
-                  <TechIcons.Kubernetes className="w-7 h-7 text-white" />
+                  <SiKubernetes className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="text-2xl md:text-3xl font-bold">
                   <span className="text-gradient-accent">
@@ -301,7 +345,6 @@ const Skills = () => {
                       {highlight.description}
                     </p>
                   </div>
-                  {/* Effet de brillance au survol */}
                   <div
                     className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                     style={{

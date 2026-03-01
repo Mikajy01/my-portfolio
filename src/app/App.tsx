@@ -134,7 +134,7 @@ function useBugParticles(count = 55): BugParticle[] {
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const handleLoaderComplete = useCallback(() => setIsLoaded(true), []);
-  const bugParticles = useBugParticles(110);
+  const bugParticles = useBugParticles(80);
 
   return (
     <LanguageProvider>
