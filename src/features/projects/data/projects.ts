@@ -14,4 +14,5 @@ export interface Project {
   link?: string;
   github?: string;
   type: "professional" | "personal";
+  note: number;
 }

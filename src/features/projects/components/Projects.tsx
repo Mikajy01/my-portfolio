@@ -60,7 +60,7 @@ const Projects = () => {
   }, []);
 
   const translatedProjects = useMemo(
-    () => getProjectsByLanguage(language),
+    () => [...getProjectsByLanguage(language)].sort((a, b) => b.note - a.note),
     [language],
   );
 
@@ -247,7 +247,8 @@ const Projects = () => {
               onClick={() => setShowAllProjects(true)}
               className="px-6 py-3 rounded-xl font-medium transition-all duration-300 bg-gradient-primary text-white shadow-lg hover:opacity-90 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-color-primary focus-visible:ring-offset-2"
             >
-              {t("projects.seeMore")} ({filteredProjects.length - INITIAL_PROJECTS_COUNT})
+              {t("projects.seeMore")} (
+              {filteredProjects.length - INITIAL_PROJECTS_COUNT})
             </button>
           </div>
         )}

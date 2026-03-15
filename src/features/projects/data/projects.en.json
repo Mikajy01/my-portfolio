@@ -36,7 +36,8 @@
     ],
     "link": null,
     "github": null,
-    "type": "professional"
+    "type": "professional",
+    "note": 9
   },
   {
     "id": "innovt-learning-hub",
@@ -73,7 +74,8 @@
     ],
     "link": "https://innovt-learning-hub.vercel.app",
     "github": "https://github.com/Mikajy01/innov-t-learning-hub.git",
-    "type": "professional"
+    "type": "professional",
+    "note": 8
   },
   {
     "id": "portfolio",
@@ -98,7 +100,8 @@
     ],
     "link": "#",
     "github": "https://github.com/Mikajy01/my-portfolio.git",
-    "type": "personal"
+    "type": "personal",
+    "note": 7
   },
   {
     "id": "school-management-system",
@@ -132,7 +135,8 @@
     ],
     "link": null,
     "github": null,
-    "type": "professional"
+    "type": "professional",
+    "note": 6
   },
   {
     "id": "faritany-game",
@@ -170,7 +174,8 @@
     ],
     "link": "https://faritany-game.vercel.app/",
     "github": "https://github.com/Mikajy01/jeu-faritany.git",
-    "type": "personal"
+    "type": "personal",
+    "note": 10
   },
   {
     "id": "rock-paper-scissors-online",
@@ -207,7 +212,8 @@
     ],
     "link": "https://ppc-frontend-mb.onrender.com/",
     "github": "https://github.com/Mikajy01/pierre-papier-ciseaux.git",
-    "type": "personal"
+    "type": "personal",
+    "note": 8
   },
   {
     "id": "barbleu",
@@ -247,7 +253,8 @@
     ],
     "link": null,
     "github": null,
-    "type": "professional"
+    "type": "professional",
+    "note": 7
   },
   {
     "id": "java-reservation-optimizer",
@@ -291,6 +298,7 @@
     ],
     "link": null,
     "github": "https://github.com/Mikajy01/gestion_reservation_chambre.git",
-    "type": "professional"
+    "type": "professional",
+    "note": 8
   }
 ]
