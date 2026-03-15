@@ -149,26 +149,26 @@
       "Développement de jeu",
       "Multijoueur"
     ],
-    "image": "images/projects/dot_game/two_player.jpg",
+    "image": "images/projects/dot_game/two_player.webp",
     "images": [
       {
-        "url": "images/projects/dot_game/two_player.jpg",
+        "url": "images/projects/dot_game/two_player.webp",
         "description": "Plateau de jeu pendant une partie de deux joueurs, avec pendule limitant le temps de chaque joueur"
       },
       {
-        "url": "images/projects/dot_game/home.jpg",
+        "url": "images/projects/dot_game/home.webp",
         "description": "Page d'accueil du jeu"
       },
       {
-        "url": "images/projects/dot_game/matchmaking.jpg",
+        "url": "images/projects/dot_game/matchmaking.webp",
         "description": "Système de matchmaking"
       },
       {
-        "url": "images/projects/dot_game/mobile_view.jpg",
+        "url": "images/projects/dot_game/mobile_view.webp",
         "description": "Vue du jeu sur un appareil mobile"
       }
     ],
-    "link": null,
+    "link": "https://faritany-game.vercel.app/",
     "github": "https://github.com/Mikajy01/jeu-faritany.git",
     "type": "personal"
   },

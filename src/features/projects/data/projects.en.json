@@ -149,26 +149,26 @@
       "Game Development",
       "Multiplayer"
     ],
-    "image": "images/projects/dot_game/two_player.jpg",
+    "image": "images/projects/dot_game/two_player.webp",
     "images": [
       {
-        "url": "images/projects/dot_game/two_player.jpg",
+        "url": "images/projects/dot_game/two_player.webp",
         "description": "Game board during a two-player match, with a clock limiting each player's time"
       },
       {
-        "url": "images/projects/dot_game/home.jpg",
+        "url": "images/projects/dot_game/home.webp",
         "description": "Game homepage"
       },
       {
-        "url": "images/projects/dot_game/matchmaking.jpg",
+        "url": "images/projects/dot_game/matchmaking.webp",
         "description": "Matchmaking system"
       },
       {
-        "url": "images/projects/dot_game/mobile_view.jpg",
+        "url": "images/projects/dot_game/mobile_view.webp",
         "description": "Game view on a mobile device"
       }
     ],
-    "link": null,
+    "link": "https://faritany-game.vercel.app/",
     "github": "https://github.com/Mikajy01/jeu-faritany.git",
     "type": "personal"
   },
