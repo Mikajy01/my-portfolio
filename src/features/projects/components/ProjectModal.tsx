@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import * as Tooltip from "@radix-ui/react-tooltip";
-import FusionModal from "../../../shared/components/FusionModal";
+import Modal from "../../../shared/components/Modal";
 import { Briefcase, Heart, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { type Project } from "../data/projects";
@@ -29,7 +29,7 @@ const OptimizedImage: React.FC<{
   return (
     <div className={`relative ${className}`}>
       {!isLoaded && !hasError && (
-        <div className="absolute inset-0 bg-color-surface animate-pulse rounded-lg" />
+        <div className="absolute inset-0 bg-surface animate-pulse rounded-lg" />
       )}
       <img
         src={src}
@@ -87,7 +87,7 @@ const ProjectModal = ({
 
   return (
     <Tooltip.Provider delayDuration={200}>
-      <FusionModal
+      <Modal
         isOpen={isOpen}
         onClose={onClose}
         className={className}
@@ -97,18 +97,18 @@ const ProjectModal = ({
           <div className="flex flex-col h-full rounded-2xl max-h-[80vh]">
 
             {/* ── En-tête fixe ── */}
-            <div className="shrink-0 pb-4 border-b border-color-border">
-              <h2 className="text-3xl font-bold text-color-primary mb-2">
+            <div className="shrink-0 pb-4 border-b border-border">
+              <h2 className="text-3xl font-bold text-primary mb-2">
                 {project.title}
               </h2>
               <div className="flex items-center gap-2">
                 {project.type === "professional" ? (
-                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-color-primary/10 text-color-primary text-xs font-medium border border-color-primary/20">
+                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium border border-primary/20">
                     <Briefcase className="w-3 h-3" />
                     Professionnel
                   </div>
                 ) : (
-                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-color-accent/10 text-color-accent text-xs font-medium border border-color-accent/20">
+                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-medium border border-accent/20">
                     <Heart className="w-3 h-3" />
                     Personnel
                   </div>
@@ -118,7 +118,7 @@ const ProjectModal = ({
 
             {/* ── Contenu scrollable ── */}
             <div className="flex-1 min-h-0 overflow-y-auto scroll-thin space-y-6 py-4">
-              <p className="text-color-text-primary leading-relaxed">
+              <p className="text-text-primary leading-relaxed">
                 {project.fullDescription || project.description}
               </p>
 
@@ -126,7 +126,7 @@ const ProjectModal = ({
               {project.images.length > 0 && (
                 <div className="relative group">
                   <div
-                    className="overflow-hidden rounded-xl shadow-lg aspect-video bg-color-surface"
+                    className="overflow-hidden rounded-xl shadow-lg aspect-video bg-surface"
                     ref={emblaRef}
                   >
                     <div className="flex h-full">
@@ -207,8 +207,8 @@ const ProjectModal = ({
                           aria-label={`Aller à l'image ${idx + 1}`}
                           className={`rounded-full transition-all duration-300 ${
                             idx === currentIndex
-                              ? "w-5 h-1.5 bg-color-primary"
-                              : "w-1.5 h-1.5 bg-color-border hover:bg-color-primary/50"
+                              ? "w-5 h-1.5 bg-primary"
+                              : "w-1.5 h-1.5 bg-border hover:bg-primary/50"
                           }`}
                         />
                       ))}
@@ -216,7 +216,7 @@ const ProjectModal = ({
                   )}
 
                   {/* Légende */}
-                  <p className="mt-2 text-sm text-color-text-secondary text-center italic">
+                  <p className="mt-2 text-sm text-text-secondary text-center italic">
                     {project.images[currentIndex]?.description}
                   </p>
                 </div>
@@ -224,15 +224,15 @@ const ProjectModal = ({
 
               {/* ── Tags ── */}
               <div>
-                <h3 className="text-sm font-semibold text-color-text-primary mb-3 flex items-center gap-2">
-                  <ChevronRight className="w-4 h-4 text-color-primary" />
+                <h3 className="text-sm font-semibold text-text-primary mb-3 flex items-center gap-2">
+                  <ChevronRight className="w-4 h-4 text-primary" />
                   Technologies utilisées
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {visibleTags.map((tag, idx) => (
                     <span
                       key={idx}
-                      className="px-3 py-1.5 text-xs font-medium rounded-full bg-color-primary-light/10 text-color-primary border border-color-primary/20 hover:bg-color-primary-light/20 transition-colors"
+                      className="px-3 py-1.5 text-xs font-medium rounded-full bg-primary-light/10 text-primary border border-primary/20 hover:bg-primary-light/20 transition-colors"
                     >
                       {tag}
                     </span>
@@ -241,7 +241,7 @@ const ProjectModal = ({
                   {hiddenTags.length > 0 && (
                     <Tooltip.Root>
                       <Tooltip.Trigger asChild>
-                        <span className="px-3 py-1.5 text-xs font-medium rounded-full bg-color-surface text-color-text-secondary border border-color-border cursor-default select-none hover:border-color-primary/40 transition-colors">
+                        <span className="px-3 py-1.5 text-xs font-medium rounded-full bg-surface text-text-secondary border border-border cursor-default select-none hover:border-primary/40 transition-colors">
                           +{hiddenTags.length} {t("projects.more")}
                         </span>
                       </Tooltip.Trigger>
@@ -261,7 +261,7 @@ const ProjectModal = ({
                             {hiddenTags.map((tag, idx) => (
                               <span
                                 key={idx}
-                                className="px-2 py-0.5 text-[11px] font-medium rounded-full bg-color-primary-light/10 text-color-primary border border-color-primary/20"
+                                className="px-2 py-0.5 text-[11px] font-medium rounded-full bg-primary-light/10 text-primary border border-primary/20"
                               >
                                 {tag}
                               </span>
@@ -277,7 +277,7 @@ const ProjectModal = ({
             </div>
 
             {/* ── Pied de page fixe ── */}
-            <div className="shrink-0 pt-4 border-t border-color-border">
+            <div className="shrink-0 pt-4 border-t border-border">
               <div className="flex gap-4">
                 {project.link && (
                   <a
@@ -294,7 +294,7 @@ const ProjectModal = ({
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 py-2 rounded-lg transition-colors bg-color-surface-elevated text-color-text-primary border border-color-primary text-center hover:bg-color-surface font-medium"
+                    className="flex-1 py-2 rounded-lg transition-colors bg-surface-elevated text-text-primary border border-primary text-center hover:bg-surface font-medium"
                   >
                     Code source
                   </a>
@@ -304,7 +304,7 @@ const ProjectModal = ({
 
           </div>
         )}
-      </FusionModal>
+      </Modal>
     </Tooltip.Provider>
   );
 };
