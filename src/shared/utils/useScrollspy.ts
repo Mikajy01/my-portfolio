@@ -2,72 +2,49 @@ import { useState, useEffect } from 'react';
 
 export const useScrollspy = (sectionIds: string[], offset: number = 100) => {
   const [activeSection, setActiveSection] = useState<string>('');
+  const idsKey = sectionIds.join(',');
 
   useEffect(() => {
+    const ids = idsKey ? idsKey.split(',') : [];
+    if (ids.length === 0) return;
+
+    // getBoundingClientRect() est toujours relatif au viewport, contrairement à
+    // offsetTop qui dépend du plus proche ancêtre positionné (peut casser si un
+    // wrapper "relative" est inséré entre la section et son parent d'origine).
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + offset;
+      let current = '';
 
-      for (const sectionId of sectionIds) {
+      for (const sectionId of ids) {
         const section = document.getElementById(sectionId);
-        if (section) {
-          const sectionTop = section.offsetTop;
-          const sectionBottom = sectionTop + section.offsetHeight;
-
-          if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-            setActiveSection(sectionId);
-            break;
-          }
+        if (!section) continue;
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= offset && rect.bottom > offset) {
+          current = sectionId;
+          break;
         }
       }
+
+      // Si on a dépassé la dernière section (ex: dans le footer), on garde
+      // celle-ci active plutôt que de figer l'état sur une valeur périmée.
+      if (!current) {
+        const lastId = ids[ids.length - 1];
+        const lastSection = document.getElementById(lastId);
+        if (lastSection && lastSection.getBoundingClientRect().top <= offset) {
+          current = lastId;
+        }
+      }
+
+      if (current) setActiveSection(current);
     };
 
-    handleScroll(); // Initial check
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [sectionIds, offset]);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, [idsKey, offset]);
 
   return activeSection;
-};
-
-export const useTheme = () => {
-  const [isDark, setIsDark] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-    return true;
-  });
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = (e: MediaQueryListEvent) => {
-      setIsDark(e.matches);
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
-
-  const toggleTheme = () => {
-    setIsDark(prev => !prev);
-    document.documentElement.classList.toggle('dark');
-  };
-
-  return { isDark, toggleTheme };
-};
-
-export const useScrollProgress = () => {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const currentProgress = (window.scrollY / totalHeight) * 100;
-      setProgress(currentProgress);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  return progress;
 };
