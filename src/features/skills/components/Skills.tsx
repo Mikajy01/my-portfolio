@@ -314,15 +314,6 @@ const Skills = () => {
         <div className="observe-animation opacity-0 transition-all duration-700 delay-400">
           <div className="glass-effect p-8 rounded-2xl border border-border">
             <div className="flex items-center gap-3 mb-8 justify-center">
-              <div
-                className="w-14 h-14 rounded-xl flex items-center justify-center shadow-lg"
-                style={{
-                  background:
-                    "linear-gradient(135deg, var(--color-accent), var(--color-primary))",
-                }}
-              >
-                <Sparkles className="w-7 h-7 text-white" />
-              </div>
               <h3 className="text-2xl md:text-3xl font-bold text-gradient">
                 {t("skills.highlightsTitle")}
               </h3>
