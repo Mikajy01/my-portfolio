@@ -33,7 +33,7 @@ export const ProjectCard = ({
   return (
     <Tooltip.Provider delayDuration={200}>
       <div
-        className="group relative h-full rounded-2xl overflow-hidden bg-color-surface border border-color-border transition-all duration-500 hover:shadow-2xl hover:scale-[1.02] hover:border-color-primary/50"
+        className="group relative h-full rounded-2xl overflow-hidden bg-surface border border-border transition-all duration-500 hover:shadow-2xl hover:scale-[1.02] hover:border-primary/50"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -46,17 +46,17 @@ export const ProjectCard = ({
               isHovered ? "scale-110 brightness-75" : "scale-100"
             }`}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-color-surface via-color-surface/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/50 to-transparent" />
 
           {/* Badge type */}
           <div className="absolute top-4 right-4 z-10">
             {type === "professional" ? (
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-color-primary/20 backdrop-blur-sm text-color-primary text-xs font-medium shadow-lg border border-color-primary/30">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/20 backdrop-blur-sm text-primary text-xs font-medium shadow-lg border border-primary/30">
                 <Briefcase className="w-3 h-3" />
                 Pro
               </div>
             ) : (
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-color-accent/20 backdrop-blur-sm text-color-accent text-xs font-medium shadow-lg border border-color-accent/30">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent/20 backdrop-blur-sm text-accent text-xs font-medium shadow-lg border border-accent/30">
                 <Heart className="w-3 h-3" />
                 Perso
               </div>
@@ -75,7 +75,7 @@ export const ProjectCard = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="p-3 rounded-full bg-background/90 hover:bg-background text-color-primary transition-all hover:scale-110 shadow-lg"
+                className="p-3 rounded-full bg-background/90 hover:bg-background text-primary transition-all hover:scale-110 shadow-lg"
                 title="Voir le site"
               >
                 <ExternalLink className="w-5 h-5" />
@@ -87,7 +87,7 @@ export const ProjectCard = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="p-3 rounded-full bg-background/90 hover:bg-background text-color-primary transition-all hover:scale-110 shadow-lg"
+                className="p-3 rounded-full bg-background/90 hover:bg-background text-primary transition-all hover:scale-110 shadow-lg"
                 title="Code source"
               >
                 <Github className="w-5 h-5" />
@@ -100,12 +100,12 @@ export const ProjectCard = ({
         <div className="p-6 space-y-4">
           <h3
             title={title}
-            className="text-xl font-bold text-color-text-primary group-hover:text-color-primary transition-colors line-clamp-1"
+            className="text-xl font-bold text-text-primary group-hover:text-primary transition-colors line-clamp-1"
           >
             {title}
           </h3>
 
-          <p className="text-sm text-color-text-secondary leading-relaxed line-clamp-2">
+          <p className="text-sm text-text-secondary leading-relaxed line-clamp-2">
             {description}
           </p>
 
@@ -114,7 +114,7 @@ export const ProjectCard = ({
             {visibleTags.map((tag, idx) => (
               <span
                 key={idx}
-                className="px-2.5 py-1 text-xs font-medium rounded-full bg-color-primary-light/10 text-color-primary border border-color-primary/20"
+                className="px-2.5 py-1 text-xs font-medium rounded-full bg-primary-light/10 text-primary border border-primary/20"
               >
                 {tag}
               </span>
@@ -123,7 +123,7 @@ export const ProjectCard = ({
             {hiddenTags.length > 0 && (
               <Tooltip.Root>
                 <Tooltip.Trigger asChild>
-                  <span className="px-2.5 py-1 text-xs font-medium rounded-full bg-color-surface-elevated text-color-text-secondary border border-color-border cursor-default select-none hover:border-color-primary/40 transition-colors">
+                  <span className="px-2.5 py-1 text-xs font-medium rounded-full bg-surface-elevated text-text-secondary border border-border cursor-default select-none hover:border-primary/40 transition-colors">
                     +{hiddenTags.length} {t("projects.more")}
                   </span>
                 </Tooltip.Trigger>
@@ -143,7 +143,7 @@ export const ProjectCard = ({
                       {hiddenTags.map((tag, idx) => (
                         <span
                           key={idx}
-                          className="px-2 py-0.5 text-[11px] font-medium rounded-full bg-color-primary-light/10 text-color-primary border border-color-primary/20"
+                          className="px-2 py-0.5 text-[11px] font-medium rounded-full bg-primary-light/10 text-primary border border-primary/20"
                         >
                           {tag}
                         </span>
@@ -161,7 +161,7 @@ export const ProjectCard = ({
           {/* Bouton voir détails */}
           <button
             onClick={onViewDetails}
-            className="w-full cursor-pointer mt-4 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-color-primary-light/10 hover:bg-color-primary text-color-primary hover:text-white border border-color-primary/20 hover:border-color-primary transition-all duration-300 font-medium text-sm group/btn"
+            className="w-full cursor-pointer mt-4 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-primary-light/10 hover:bg-primary text-primary hover:text-white border border-primary/20 hover:border-primary transition-all duration-300 font-medium text-sm group/btn"
           >
             <span>Voir les détails</span>
             <ChevronRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />

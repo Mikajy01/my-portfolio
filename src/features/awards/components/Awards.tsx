@@ -78,10 +78,10 @@ const Awards = () => {
     >
       <div className="mb-24">
         <div className="flex items-center gap-4 mb-8 observe-animation opacity-0 translate-y-8 transition-all duration-700">
-          <h3 className="text-2xl font-bold text-color-text-primary">
+          <h3 className="text-2xl font-bold text-text-primary">
             🏆 {t("awards.title")}
           </h3>
-          <div className="h-px bg-color-border flex-1" />
+          <div className="h-px bg-border flex-1" />
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
@@ -133,7 +133,7 @@ const Awards = () => {
               </div>
 
               {/* Border Glow Effect */}
-              <div className="absolute inset-0 border-2 border-white/10 rounded-2xl group-hover:border-color-primary/50 transition-colors duration-300 pointer-events-none" />
+              <div className="absolute inset-0 border-2 border-white/10 rounded-2xl group-hover:border-primary/50 transition-colors duration-300 pointer-events-none" />
             </div>
           ))}
         </div>

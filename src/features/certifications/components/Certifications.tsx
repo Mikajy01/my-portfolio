@@ -59,7 +59,7 @@ const Certifications = () => {
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
             <span className="text-gradient">{t("certifications.title")}</span>
           </h2>
-          <p className="text-color-text-secondary max-w-2xl mx-auto">
+          <p className="text-text-secondary max-w-2xl mx-auto">
             {t("certifications.subtitle")}
           </p>
           <div className="w-20 h-1 bg-gradient-primary mx-auto rounded-full mt-6" />
@@ -88,7 +88,7 @@ const Certifications = () => {
                   </>
                 ) : (
                   <>
-                    <div className="w-full h-full bg-gradient-to-br from-color-primary/20 via-color-primary/5 to-transparent" />
+                    <div className="w-full h-full bg-gradient-to-br from-primary/20 via-primary/5 to-transparent" />
                     {/* Overlay sombre au hover sur les cartes sans image */}
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
                   </>
@@ -155,7 +155,7 @@ const Certifications = () => {
                 )}
               </div>
 
-              <div className="absolute inset-0 rounded-2xl border border-white/10 group-hover:border-color-primary/60 transition-colors duration-300" />
+              <div className="absolute inset-0 rounded-2xl border border-white/10 group-hover:border-primary/60 transition-colors duration-300" />
             </article>
           ))}
         </div>

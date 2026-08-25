@@ -140,7 +140,7 @@ const Projects = () => {
     >
       {/* Effets de lumière */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-accent opacity-10 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-color-primary opacity-10 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-primary opacity-10 rounded-full blur-3xl" />
 
       <div className="max-w-6xl mx-auto relative z-10">
         {/* En-tête */}
@@ -148,7 +148,7 @@ const Projects = () => {
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
             <span className="text-gradient">{t("projects.title")}</span>
           </h2>
-          <p className="text-color-text-secondary max-w-2xl mx-auto">
+          <p className="text-text-secondary max-w-2xl mx-auto">
             {t("projects.subtitle")}
           </p>
           <div className="w-20 h-1 bg-gradient-primary mx-auto rounded-full mt-6" />
@@ -162,13 +162,13 @@ const Projects = () => {
               className={`group relative px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
                 activeTab === "all"
                   ? "bg-gradient-primary text-white shadow-lg scale-105"
-                  : "bg-color-surface text-color-text-secondary hover:text-color-primary border border-color-border hover:border-color-primary"
+                  : "bg-surface text-text-secondary hover:text-primary border border-border hover:border-primary"
               }`}
             >
               <span className="relative z-10 flex items-center gap-2">
                 {t("projects.viewAll")}
                 <span
-                  className={`text-xs px-2 py-0.5 rounded-full ${activeTab === "all" ? "bg-white/20" : "bg-color-primary-light/10 text-color-primary"}`}
+                  className={`text-xs px-2 py-0.5 rounded-full ${activeTab === "all" ? "bg-white/20" : "bg-primary-light/10 text-primary"}`}
                 >
                   {translatedProjects.length}
                 </span>
@@ -183,14 +183,14 @@ const Projects = () => {
               className={`group relative px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
                 activeTab === "professional"
                   ? "bg-gradient-primary text-white shadow-lg scale-105"
-                  : "bg-color-surface text-color-text-secondary hover:text-color-primary border border-color-border hover:border-color-primary"
+                  : "bg-surface text-text-secondary hover:text-primary border border-border hover:border-primary"
               }`}
             >
               <span className="relative z-10 flex items-center gap-2">
                 <Briefcase className="w-4 h-4" />
                 {t("projects.professional")}
                 <span
-                  className={`text-xs px-2 py-0.5 rounded-full ${activeTab === "professional" ? "bg-white/20" : "bg-color-primary-light/10 text-color-primary"}`}
+                  className={`text-xs px-2 py-0.5 rounded-full ${activeTab === "professional" ? "bg-white/20" : "bg-primary-light/10 text-primary"}`}
                 >
                   {professionalCount}
                 </span>
@@ -205,14 +205,14 @@ const Projects = () => {
               className={`group relative px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
                 activeTab === "personal"
                   ? "bg-gradient-primary text-white shadow-lg scale-105"
-                  : "bg-color-surface text-color-text-secondary hover:text-color-primary border border-color-border hover:border-color-primary"
+                  : "bg-surface text-text-secondary hover:text-primary border border-border hover:border-primary"
               }`}
             >
               <span className="relative z-10 flex items-center gap-2">
                 <Heart className="w-4 h-4" />
                 {t("projects.personal")}
                 <span
-                  className={`text-xs px-2 py-0.5 rounded-full ${activeTab === "personal" ? "bg-white/20" : "bg-color-primary-light/10 text-color-primary"}`}
+                  className={`text-xs px-2 py-0.5 rounded-full ${activeTab === "personal" ? "bg-white/20" : "bg-primary-light/10 text-primary"}`}
                 >
                   {personalCount}
                 </span>
@@ -245,7 +245,7 @@ const Projects = () => {
             <button
               type="button"
               onClick={() => setShowAllProjects(true)}
-              className="px-6 py-3 rounded-xl font-medium transition-all duration-300 bg-gradient-primary text-white shadow-lg hover:opacity-90 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-color-primary focus-visible:ring-offset-2"
+              className="px-6 py-3 rounded-xl font-medium transition-all duration-300 bg-gradient-primary text-white shadow-lg hover:opacity-90 hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               {t("projects.seeMore")} (
               {filteredProjects.length - INITIAL_PROJECTS_COUNT})
@@ -255,7 +255,7 @@ const Projects = () => {
 
         {filteredProjects.length === 0 && (
           <div className="text-center py-12 observe-animation opacity-0 transition-all duration-700">
-            <p className="text-color-text-secondary">
+            <p className="text-text-secondary">
               Aucun projet dans cette catégorie pour le moment.
             </p>
           </div>
