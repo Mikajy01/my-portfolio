@@ -1,5 +1,23 @@
 [
   {
+    "id": "emihack-4-dev",
+    "title": "1st place - Dev Hackathon (Team OMNIA)",
+    "event": "Emihack 4.0",
+    "year": "2026",
+    "description": "Team development hackathon: design and ship a complete solution within a limited time. First place won with team OMNIA.",
+    "image": "images/awards/OMNIA.jpg",
+    "icon": "trophy"
+  },
+  {
+    "id": "emihack-4-algo",
+    "title": "1st place - Algo Hackathon",
+    "event": "Emihack 4.0",
+    "year": "2026",
+    "description": "Solo algorithmic competition: solve as many problems as possible in the shortest time. Individual first place.",
+    "image": "images/awards/algo_2026.jpg",
+    "icon": "trophy"
+  },
+  {
     "id": "emihack-3-algo",
     "title": "1st place - Algo Hackathon",
     "event": "Emihack 3.0",
