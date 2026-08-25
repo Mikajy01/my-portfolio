@@ -24,11 +24,11 @@
   /* Texte : brun neutre, pas rouge — meilleure lisibilité */
   --color-text-primary: #1c1410;      /* Presque noir chaud */
   --color-text-secondary: #5a4a42;    /* Gris-brun — bien plus lisible que brun-rouge */
-  --color-text-muted: #8c7b74;        /* Gris rosé doux */
+  --color-text-muted: #74625a;        /* Gris rosé, assez sombre pour rester lisible */
 
   /* Bordures */
-  --color-border: #e4dbd6;            /* Beige rosé neutre */
-  --color-border-light: #ede7e3;
+  --color-border: #ddd0c8;            /* Beige rosé, contraste renforcé avec le fond */
+  --color-border-light: #e8e0da;
 
   /* Ombres */
   --color-shadow: rgba(140, 50, 10, 0.07);
@@ -51,10 +51,10 @@
   /* Texte : blanc cassé chaud, pas rose saturé */
   --color-text-primary: #f5f0ec;
   --color-text-secondary: #c4a898;    /* Sable rosé — moins saturé que #ffb89a */
-  --color-text-muted: #8a7068;
+  --color-text-muted: #9c8479;
 
-  --color-border: #2e2825;
-  --color-border-light: #252220;
+  --color-border: #3a332e;
+  --color-border-light: #2c2723;
   --color-shadow: rgba(0, 0, 0, 0.55);
   --color-glow: rgba(255, 85, 32, 0.35);
 }
