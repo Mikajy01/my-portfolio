@@ -1,1 +1,2 @@
-export { default } from './components/Skills';
+export { Toolbox } from './components/Toolbox';
+export { BeyondTheCode } from './components/BeyondTheCode';

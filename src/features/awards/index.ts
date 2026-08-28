@@ -1,1 +1,1 @@
-export { default as Awards } from "./components/Awards";
+export { AwardsCertifications } from "./components/AwardsCertifications";

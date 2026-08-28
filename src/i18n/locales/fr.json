@@ -1,36 +1,101 @@
 {
   "nav": {
     "home": "Accueil",
-    "skills": "Compétences",
-    "awards": "Réalisations & Récompenses",
-    "projects": "Projets",
-    "certifications": "Certifications",
+    "about": "À propos",
+    "work": "Projets",
     "journey": "Parcours",
-    "experience": "Expérience",
-    "education": "Formation",
-    "contact": "Contact"
+    "contact": "Contact",
+    "openToWork": "ouvert aux opportunités"
   },
   "hero": {
-    "welcome": "Bienvenue sur mon portfolio",
-    "IAm": "Je suis",
-    "heroDescription": "Je n'écris pas juste du code — je débogue la réalité. Du frontend pixel-perfect au backend blindé, je traque les bugs avant qu'ils ne vous traquent. React, Angular, NestJS, Node.js... et un nombre suspect de terminaux ouverts.",
+    "eyebrowGreeting": "Salut, je suis Mikajisoa",
+    "eyebrowRole": "développeur full-stack, Fianarantsoa",
+    "headline1": "Je traque les bugs,",
+    "headline2": "avant vos utilisateurs,",
+    "headline3": "puis je les corrige",
+    "headline3Accent": "pour de bon.",
+    "bio": "Je suis développeur full-stack, plutôt orienté backend, et j'aime démonter les systèmes pour voir comment ils sont câblés. Le plus souvent pour de vraies entreprises — parfois un jeu temps réel, parfois un algorithme de hackathon codé à 2h du matin qui ne devait marcher qu'une fois.",
+    "ctaExplore": "Voir mes projets",
+    "ctaTalk": "Discutons",
+    "terminalWhoami": "développeur · chasseur de bugs · habitué des hackathons",
+    "terminalCurrently": "je livre EduCore, je vise le prochain podium",
+    "scroll": "scroll",
     "titles": [
       "Développeur Full-Stack",
-      "Développeur IA",
-      "Expert React & Angular",
-      "Architecte Backend"
-    ],
-    "subtitle": "Créer des expériences numériques exceptionnelles",
-    "cta": {
-      "getInTouch": "Me Contacter",
-      "downloadCV": "Télécharger mon CV",
-      "seeProject": "Voir Mes Projets"
-    },
-    "stats": {
-      "yearsExperience": "Années d'expérience",
-      "projectsCompleted": "Projets réalisés",
-      "satisfiedClients": "Clients satisfaits"
-    }
+      "Architecte Backend",
+      "Développeur React & Angular",
+      "Programmeur compétitif"
+    ]
+  },
+  "about": {
+    "eyebrow": "01 / À PROPOS",
+    "tagLabel": "la forme d'une habitude",
+    "headline": "Chaque bug commence pareil :",
+    "headlineAccent": "quelque chose qui n'aurait pas dû arriver, est arrivé.",
+    "bio1": "Je m'y suis mis en cassant des choses — une appli Java pour un hôtel qui devait survivre à de vrais réceptionnistes, un jeu en temps réel qui devait survivre à de vrais joueurs qui trichent sur le temps. Réparer ce que j'avais cassé m'a plus appris qu'aucun cours.",
+    "bio2": "Aujourd'hui ça ressemble à des services backend pour une banque le jour, et des hackathons, projets perso et certifications le soir. Je m'intéresse aux détails que la plupart des gens sautent : le cas limite, la migration qui échoue, les dix premières secondes d'utilisation d'un nouvel outil.",
+    "traits": [
+      { "title": "Curieux", "description": "Lit le code source avant la doc. Souvent les deux, au final." },
+      { "title": "Bâtisseur", "description": "Prototype le vendredi, avis tranché le lundi. On livre ou on supprime." },
+      { "title": "Résolveur de problèmes", "description": "Plus heureux trois couches sous l'endroit où le bug a été signalé." },
+      { "title": "Compétiteur", "description": "Quatre podiums de hackathon au compteur, toujours partant pour le suivant." }
+    ]
+  },
+  "work": {
+    "eyebrow": "02 / PROJETS SÉLECTIONNÉS",
+    "caseStudies": "études de cas"
+  },
+  "toolbox": {
+    "eyebrow": "03 / BOÎTE À OUTILS",
+    "label": "ce qui est sur l'établi"
+  },
+  "beyond": {
+    "eyebrow": "04 / AU-DELÀ DU CODE",
+    "headline": "Six choses qui me gardent devant le clavier plus longtemps que prévu."
+  },
+  "objectStudy": {
+    "eyebrow": "05 / ÉTUDE D'OBJET",
+    "scrollHint": "scroller pour tourner",
+    "headline": "Trois barres, une intersection —",
+    "headlineAccent": "la forme que je n'arrête pas de dessiner.",
+    "footerLabel": "cross.obj — 3 barres / 18 faces",
+    "studies": [
+      {
+        "tag": "ÉTUDE 01 — MINIMAX",
+        "title": "Apprendre à un bot à assiéger",
+        "description": "Un adversaire minimax à profondeur limitée pour un jeu de territoire en temps réel — calibré pour être juste assez bon pour perdre contre lui exprès.",
+        "meta": "TypeScript · IA de jeu · 2025"
+      },
+      {
+        "tag": "ÉTUDE 02 — CROIX",
+        "title": "La forme que je n'arrête pas de dessiner",
+        "description": "Trois barres qui s'entrecroisent, dix-huit faces, dessinées en solides avec leurs arêtes conservées. Rotation et zoom sont reliés à cette barre de scroll.",
+        "meta": "Three.js · WebGL · 2026"
+      },
+      {
+        "tag": "ÉTUDE 03 — SYNC",
+        "title": "Un état qui reste honnête",
+        "description": "Des salons Socket.IO avec un chrono façon pendule d'échecs par joueur — la partie difficile n'a jamais été le jeu, mais la reconnexion.",
+        "meta": "NestJS · Socket.IO · 2025"
+      },
+      {
+        "tag": "ÉTUDE 04 — ALLOCATION",
+        "title": "Chambres libérées, réattribuées vite",
+        "description": "Une petite heuristique qui reclasse la liste d'attente dès qu'une chambre se libère, plutôt qu'un simple premier arrivé, premier servi.",
+        "meta": "Java · Heuristiques · 2024"
+      }
+    ]
+  },
+  "awardsCertifications": {
+    "eyebrow": "08 / RÉCOMPENSES & CERTIFICATIONS",
+    "awardsLabel": "récompenses",
+    "certificationsLabel": "certifications"
+  },
+  "statsBand": {
+    "projects": "projets livrés",
+    "experience": "années d'expérience",
+    "awards": "podiums en hackathon",
+    "certifications": "certifications obtenues"
   },
   "skills": {
     "title": "Compétences",
@@ -58,11 +123,15 @@
   },
   "experience": {
     "title": "Expérience",
-    "subtitle": "Mon parcours professionnel"
+    "subtitle": "Mon parcours professionnel",
+    "eyebrow": "06 / EXPÉRIENCE",
+    "rangeLabel": "2024 — aujourd'hui"
   },
   "education": {
     "title": "Formation",
-    "subtitle": "Mes études et formations"
+    "subtitle": "Mes études et formations",
+    "eyebrow": "07 / FORMATION",
+    "rangeLabel": "2021 — 2025"
   },
   "projects": {
     "title": "Projets",
@@ -79,10 +148,17 @@
     "more": "plus"
   },
   "contact": {
+    "eyebrow": "09 / CONTACT",
+    "headline": "Un problème",
+    "headlineAccent": "qui mérite d'être résolu ?",
     "title": "Contact",
     "subtitle": "Vous avez une idée de projet ? Discutons-en ensemble",
     "stayInTouch": "Restons en Contact",
-    "description": "Je suis toujours ouvert aux nouvelles opportunités et collaborations. N'hésitez pas à me contacter pour discuter de vos projets.",
+    "description": "Je suis ouvert aux missions freelance, aux collaborations intéressantes, et aux longs messages sur l'architecture logicielle. Je réponds généralement en moins d'une journée.",
+    "linkGithub": "GitHub",
+    "linkLinkedin": "LinkedIn",
+    "linkWhatsapp": "WhatsApp",
+    "linkResume": "CV",
     "form": {
       "name": "Nom",
       "email": "Email",
@@ -100,7 +176,7 @@
     }
   },
   "footer": {
-    "copyright": "Tous droits réservés",
+    "copyright": "conçu à la main, comme toujours",
     "followMe": "Suivez-moi sur les réseaux sociaux",
     "bacToTop": "Retour en Haut"
   },

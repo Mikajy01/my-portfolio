@@ -1,11 +1,11 @@
 {
   "concepts": [
-    { "name": "SOLID Principles", "icon": "gitBranch" },
-    { "name": "JWT / Auth / Security", "icon": "shield" },
-    { "name": "Real-time systems", "icon": "zap" },
-    { "name": "Algorithm optimization", "icon": "target" },
-    { "name": "Concurrency / Sync", "icon": "lock" },
-    { "name": "Problem solving", "icon": "puzzle" }
+    { "name": "SOLID Principles", "icon": "gitBranch", "description": "Rules that make code humane six months later, not just today." },
+    { "name": "JWT / Auth / Security", "icon": "shield", "description": "Where you slow down on purpose, because the fast path is the vulnerable one." },
+    { "name": "Real-time systems", "icon": "zap", "description": "State that has to agree with itself across two sockets and a bad connection." },
+    { "name": "Algorithm optimization", "icon": "target", "description": "The version that used to take four seconds, and now doesn't." },
+    { "name": "Concurrency / Sync", "icon": "lock", "description": "Two things happening at once, refusing to step on each other." },
+    { "name": "Problem solving", "icon": "puzzle", "description": "Twenty tabs open, and eventually the right one has the answer." }
   ],
   "highlights": [
     {

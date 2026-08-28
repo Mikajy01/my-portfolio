@@ -1,56 +1,28 @@
-import {
-  useState,
-  useEffect,
-  useRef,
-  type FormEvent,
-  type ChangeEvent,
-} from "react";
+import { useState, useRef, type FormEvent, type ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
 import emailjs from "@emailjs/browser";
-import { Button } from "../../../shared/components/Button";
-import { Github, Loader2, Mail, MapPin } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import Corner from "../../../shared/components/Corner";
+import { useMagnetic } from "../../../shared/hooks/useMagnetic";
 
-const EMAILJS_SERVICE_ID  = "service_fkx8a9u";
+const EMAILJS_SERVICE_ID = "service_fkx8a9u";
 const EMAILJS_TEMPLATE_ID = "template_4gpy85q";
-const EMAILJS_PUBLIC_KEY  = "ZAqbmky86xYHx5T5d"; 
+const EMAILJS_PUBLIC_KEY = "ZAqbmky86xYHx5T5d";
+
+const ArrowIcon = () => (
+  <svg width="26" height="12" viewBox="0 0 22 10" fill="none" stroke="currentColor" strokeWidth={1.5}>
+    <path d="M0 5h20M16 1l4 4-4 4" />
+  </svg>
+);
 
 const Contact = () => {
   const { t } = useTranslation();
   const formRef = useRef<HTMLFormElement>(null);
-  const sectionRef = useRef<HTMLElement>(null);
+  const emailRef = useMagnetic<HTMLAnchorElement>();
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-slide-up");
-            entry.target.classList.remove("opacity-0");
-          }
-        });
-      },
-      {
-        threshold: 0.3,
-        rootMargin: "-50px 0px -50px 0px",
-      }
-    );
-
-    const elements = sectionRef.current?.querySelectorAll(".observe-animation");
-    elements?.forEach((el) => observer.observe(el));
-
-    return () => {
-      elements?.forEach((el) => observer.unobserve(el));
-      observer.disconnect();
-    };
-  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -60,12 +32,7 @@ const Contact = () => {
     setSubmitStatus("idle");
 
     try {
-      await emailjs.sendForm(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        formRef.current,
-        EMAILJS_PUBLIC_KEY
-      );
+      await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, formRef.current, EMAILJS_PUBLIC_KEY);
       setSubmitStatus("success");
       setFormData({ name: "", email: "", message: "" });
     } catch (err) {
@@ -81,158 +48,116 @@ const Contact = () => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  return (
-    <section
-      id="contact"
-      ref={sectionRef}
-      className="py-16 md:py-24 px-4 md:px-8 relative overflow-hidden bg-surface"
-    >
-      {/* Effets de lumière */}
-      <div className="absolute top-1/4 left-0 w-96 h-96 bg-primary opacity-10 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary opacity-10 rounded-full blur-3xl" />
+  const socialLinks = [
+    { label: t("contact.linkGithub"), value: "@Mikajy01", href: "https://github.com/Mikajy01/" },
+    { label: t("contact.linkLinkedin"), value: "/in/mikajisoa", href: "https://www.linkedin.com/in/mikajisoa-selly-rafaj-ratsimbazafy-7b9365321/" },
+    { label: t("contact.linkWhatsapp"), value: "+261 38 830 7423", href: "https://wa.me/261388307423" },
+    { label: t("contact.linkResume"), value: "PDF ↗", href: "/cv.pdf" },
+  ];
 
-      <div className="max-w-6xl mx-auto relative z-10">
-        <div className="observe-animation opacity-0 transition-all duration-700 mb-12 md:mb-16 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            <span className="text-gradient">{t("contact.title")}</span>
-          </h2>
-          <p className="text-text-secondary max-w-2xl mx-auto">
-            {t("contact.subtitle")}
-          </p>
-          <div className="w-20 h-1 bg-gradient-primary mx-auto rounded-full mt-6" />
+  return (
+    <section id="contact" className="relative z-1 border-t" style={{ borderColor: "var(--color-border)" }}>
+      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-10 py-24 sm:py-32 pb-16">
+        <div data-reveal className="flex items-baseline gap-5 mb-14">
+          <span className="font-mono text-[11px] tracking-[.18em] text-primary">{t("contact.eyebrow")}</span>
+          <span className="flex-1 h-px" style={{ background: "var(--color-border)" }} />
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 md:gap-12">
-          {/* Informations de contact */}
-          <div className="observe-animation opacity-0 transition-all duration-700 delay-200 space-y-6">
-            <div className="glass-effect p-6 md:p-8 rounded-2xl">
-              <h3 className="text-2xl font-bold mb-6 text-gradient-accent">
-                {t("contact.stayInTouch")}
-              </h3>
-              <p className="text-text-secondary mb-8 leading-relaxed">
-                {t("contact.description")}
-              </p>
+        <h2
+          data-reveal
+          className="font-heading font-semibold leading-[.92] tracking-[-.03em] max-w-[16ch] m-0 mb-12"
+          style={{ fontSize: "clamp(2.4rem,8vw,7.2rem)" }}
+        >
+          {t("contact.headline")} <em className="not-italic text-primary">{t("contact.headlineAccent")}</em>
+        </h2>
 
-              <div className="space-y-4">
-                <a
-                  href="mailto:sellyrafaj@gmail.com"
-                  className="flex items-center gap-4 p-4 rounded-xl bg-surface-elevated hover:bg-surface hover:glow-effect transition-all group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Mail className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <div className="text-text-muted text-sm">{t("contact.info.email")}</div>
-                    <div className="text-text-primary font-medium">sellyrafaj@gmail.com</div>
-                  </div>
-                </a>
+        <div data-reveal className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] gap-14">
+          <div>
+            <p className="text-base leading-relaxed text-text-secondary max-w-[46ch] mb-8">
+              {t("contact.description")}
+            </p>
 
-                <a
-                  href="https://github.com/Mikajy01/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-4 p-4 rounded-xl bg-surface-elevated hover:bg-surface hover:glow-effect transition-all group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Github className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <div className="text-text-muted text-sm">GitHub</div>
-                    <div className="text-text-primary font-medium">@Mikajy01</div>
-                  </div>
-                </a>
-
-                <div className="flex items-center gap-4 p-4 rounded-xl bg-surface-elevated">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center">
-                    <MapPin className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <div className="text-text-muted text-sm">{t("contact.info.location")}</div>
-                    <div className="text-text-primary font-medium">Fianarantsoa, Madagascar</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Formulaire de contact */}
-          <div className="observe-animation opacity-0 transition-all duration-700 delay-400">
-            <form
-              ref={formRef}
-              onSubmit={handleSubmit}
-              className="glass-effect p-6 md:p-8 rounded-2xl space-y-6"
+            <a
+              ref={emailRef}
+              href="mailto:sellyrafaj@gmail.com"
+              className="inline-flex items-center gap-4 font-heading font-semibold text-[clamp(1.6rem,3.4vw,2.6rem)] tracking-[-.02em] border-b border-border pb-2.5 mb-10 hover:text-primary hover:border-primary transition-colors"
             >
+              sellyrafaj@gmail.com
+              <ArrowIcon />
+            </a>
+
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-5 max-w-xl">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-text-secondary mb-2">
+                <label htmlFor="name" className="block font-mono text-[10px] tracking-[.14em] uppercase text-text-muted mb-2">
                   {t("contact.form.name")}
                 </label>
                 <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-xl bg-surface-elevated border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-text-primary transition-all"
-                  placeholder={t("contact.form.name")}
+                  type="text" id="name" name="name" value={formData.name} onChange={handleChange} required
+                  className="w-full px-3 py-2.5 border border-border bg-surface font-mono text-sm text-text-primary focus:outline-none focus:border-primary transition-colors"
                 />
               </div>
-
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-text-secondary mb-2">
+                <label htmlFor="email" className="block font-mono text-[10px] tracking-[.14em] uppercase text-text-muted mb-2">
                   {t("contact.form.email")}
                 </label>
                 <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-xl bg-surface-elevated border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-text-primary transition-all"
-                  placeholder="email@example.com"
+                  type="email" id="email" name="email" value={formData.email} onChange={handleChange} required
+                  className="w-full px-3 py-2.5 border border-border bg-surface font-mono text-sm text-text-primary focus:outline-none focus:border-primary transition-colors"
                 />
               </div>
-
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-text-secondary mb-2">
+                <label htmlFor="message" className="block font-mono text-[10px] tracking-[.14em] uppercase text-text-muted mb-2">
                   {t("contact.form.message")}
                 </label>
                 <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={5}
-                  className="w-full px-4 py-3 rounded-xl bg-surface-elevated border border-border focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 text-text-primary transition-all resize-none"
-                  placeholder={t("contact.form.message")}
+                  id="message" name="message" value={formData.message} onChange={handleChange} required rows={4}
+                  className="w-full px-3 py-2.5 border border-border bg-surface font-mono text-sm text-text-primary focus:outline-none focus:border-primary transition-colors resize-none"
                 />
               </div>
 
-              <Button type="submit" disabled={isSubmitting} className="w-full">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="blueprint relative inline-flex items-center gap-2 font-heading font-semibold text-[13px] tracking-widest uppercase px-6 py-3.5 disabled:opacity-50"
+                style={{ background: "var(--color-primary)", color: "var(--color-background)" }}
+              >
+                <Corner />
                 {isSubmitting ? (
-                  <span className="flex items-center justify-center gap-2">
+                  <span className="flex items-center gap-2">
                     <Loader2 className="w-4 h-4 animate-spin" />
                     {t("contact.form.sending")}
                   </span>
                 ) : (
                   t("contact.form.submit")
                 )}
-              </Button>
+              </button>
 
               {submitStatus === "success" && (
-                <div className="p-4 rounded-xl bg-primary/10 border border-primary text-text-primary text-center animate-slide-up">
-                  ✓ {t("contact.form.success")}
-                </div>
+                <p className="font-mono text-xs text-primary">✓ {t("contact.form.success")}</p>
               )}
-
               {submitStatus === "error" && (
-                <div className="p-4 rounded-xl bg-secondary/10 border border-secondary text-secondary text-center animate-slide-up">
-                  ✗ {t("contact.form.error")}
-                </div>
+                <p className="font-mono text-xs text-secondary">✗ {t("contact.form.error")}</p>
               )}
             </form>
+          </div>
+
+          <div className="flex flex-col border-t" style={{ borderColor: "var(--color-border)" }}>
+            {socialLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target={link.href.startsWith("http") ? "_blank" : undefined}
+                rel="noopener noreferrer"
+                className="flex items-center justify-between py-4.5 px-1 border-b font-mono text-[11.5px] tracking-[.14em] uppercase text-text-primary hover:text-primary hover:pl-3.5 transition-all"
+                style={{ borderColor: "var(--color-border)" }}
+              >
+                <span>{link.label}</span>
+                <span className="text-text-muted">{link.value}</span>
+              </a>
+            ))}
+            <div className="pt-6 font-mono text-[10px] tracking-[.14em] uppercase text-text-muted">
+              Fianarantsoa, Madagascar · 21.45°S 47.09°E
+            </div>
           </div>
         </div>
       </div>

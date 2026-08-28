@@ -1,163 +1,253 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { motion, AnimatePresence } from "framer-motion";
-import { ProfileImage } from "./ProfileImage";
-import { Button } from "../../../shared/components/Button";
+import Corner from "../../../shared/components/Corner";
+import ParticleCanvas from "../../../shared/components/ParticleCanvas";
+import { useMagnetic } from "../../../shared/hooks/useMagnetic";
 
-const TITLE_ROTATE_MS = 2600;
+const useClock = () => {
+  const [elapsed, setElapsed] = useState("00:00:00");
+  useEffect(() => {
+    const t0 = Date.now();
+    const tick = () => {
+      const s = Math.floor((Date.now() - t0) / 1000);
+      const p = (n: number) => String(n).padStart(2, "0");
+      setElapsed(`${p(Math.floor(s / 3600))}:${p(Math.floor(s / 60) % 60)}:${p(s % 60)}`);
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+  return elapsed;
+};
 
-export const Hero: React.FC = () => {
+const COMMAND_1 = "whoami";
+const COMMAND_2 = "currently";
+
+// Tape les deux COMMANDES du terminal (pas les réponses, qui s'affichent
+// d'un coup juste après, comme un vrai shell) avec le bruit de frappe en
+// fond. Ne démarre que lorsque le terminal entre réellement dans l'écran,
+// avec un repli sur la première interaction si l'autoplay audio est bloqué.
+const useTerminalTyping = (containerRef: React.RefObject<HTMLElement | null>, isPageLoaded: boolean) => {
+  const [typedCmd1, setTypedCmd1] = useState("");
+  const [typedCmd2, setTypedCmd2] = useState("");
+  const [showOutput1, setShowOutput1] = useState(false);
+  const [showOutput2, setShowOutput2] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    // Le hero est monté (mais masqué) pendant l'écran de chargement — un
+    // IntersectionObserver ne tient pas compte de l'opacité/occlusion, donc
+    // sans cette garde la frappe et le son démarraient avant même que le
+    // loader ait disparu.
+    if (!isPageLoaded) return;
+
+    const el = containerRef.current;
+    const audioEl = audioRef.current;
+    if (!el) return;
+
+    let cancelled = false;
+    let started = false;
+
+    const typeLine = (text: string, setter: (v: string) => void) =>
+      new Promise<void>((resolve) => {
+        let i = 0;
+        const tick = () => {
+          if (cancelled) return resolve();
+          i += 1;
+          setter(text.slice(0, i));
+          if (i < text.length) setTimeout(tick, 55 + Math.random() * 55);
+          else resolve();
+        };
+        tick();
+      });
+
+    const runSequence = async () => {
+      const audio = audioRef.current;
+      audio?.play().catch(() => {});
+      await typeLine(COMMAND_1, setTypedCmd1);
+      if (cancelled) return;
+      audio?.pause();
+
+      await new Promise((r) => setTimeout(r, 800));
+      if (cancelled) return;
+      setShowOutput1(true);
+
+      await new Promise((r) => setTimeout(r, 550));
+      if (cancelled) return;
+
+      audio?.play().catch(() => {});
+      await typeLine(COMMAND_2, setTypedCmd2);
+      if (cancelled) return;
+      audio?.pause();
+
+      await new Promise((r) => setTimeout(r, 800));
+      if (cancelled) return;
+      setShowOutput2(true);
+    };
+
+    const begin = () => {
+      if (started || cancelled) return;
+      started = true;
+
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setTypedCmd1(COMMAND_1);
+        setTypedCmd2(COMMAND_2);
+        setShowOutput1(true);
+        setShowOutput2(true);
+        return;
+      }
+
+      const removers: Array<() => void> = [];
+      const probe = audioRef.current?.play();
+      if (probe) {
+        probe
+          .then(() => {
+            audioRef.current?.pause();
+            runSequence();
+          })
+          .catch(() => {
+            const resume = () => {
+              runSequence();
+              removers.forEach((off) => off());
+            };
+            (["pointerdown", "keydown", "touchstart"] as const).forEach((evt) => {
+              window.addEventListener(evt, resume, { once: true, passive: true });
+              removers.push(() => window.removeEventListener(evt, resume));
+            });
+          });
+      } else {
+        runSequence();
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) begin();
+        });
+      },
+      { threshold: 0.4 }
+    );
+    observer.observe(el);
+
+    return () => {
+      cancelled = true;
+      observer.disconnect();
+      audioEl?.pause();
+    };
+  }, [containerRef, isPageLoaded]);
+
+  return { typedCmd1, typedCmd2, showOutput1, showOutput2, audioRef };
+};
+
+interface HeroProps {
+  isPageLoaded: boolean;
+}
+
+export const Hero: React.FC<HeroProps> = ({ isPageLoaded }) => {
   const { t } = useTranslation();
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const clock = useClock();
+  const exploreRef = useMagnetic<HTMLAnchorElement>();
+  const talkRef = useMagnetic<HTMLAnchorElement>();
+  const terminalRef = useRef<HTMLDivElement>(null);
+  const { typedCmd1, typedCmd2, showOutput1, showOutput2, audioRef } = useTerminalTyping(terminalRef, isPageLoaded);
 
-  const titles = t("hero.titles", { returnObjects: true }) as string[];
-
-  useEffect(() => {
-    setCurrentWordIndex(0);
-  }, [titles.length]);
-
-  useEffect(() => {
-    if (titles.length <= 1) return;
-    const interval = setInterval(() => {
-      setCurrentWordIndex((prev) => (prev + 1) % titles.length);
-    }, TITLE_ROTATE_MS);
-    return () => clearInterval(interval);
-  }, [titles.length]);
-
-  const downloadCV = () => {
-    const link = document.createElement("a");
-    link.href = "/cv.pdf";
-    link.download = "Mikajisoa-Selly-Rafaj-CV.pdf";
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  const scrollToProjects = () => {
-    const element = document.getElementById("projects");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+  const scrollToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <section
       id="hero"
-      className="min-h-screen flex items-center justify-center relative overflow-hidden pt-24 pb-12 px-4 sm:px-6 lg:px-8"
+      className="relative z-1 min-h-screen flex flex-col justify-center max-w-[1320px] mx-auto pt-[140px] pb-10 px-4 sm:px-6 lg:px-10"
     >
-      <div className="container mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-        {/* Colonne texte */}
-        <div className="flex flex-col items-center text-center lg:items-start lg:text-left gap-8 order-2 lg:order-1">
-          <div className="space-y-4">
-            <p className="text-text-secondary text-sm sm:text-base font-medium tracking-wide uppercase">
-              {t("hero.welcome")}
-            </p>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight">
-              <span className="block text-text-primary">{t("hero.IAm")}</span>
-              <span className="block text-gradient mt-2">Mikajisoa Selly-Rafaj</span>
-            </h1>
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <ParticleCanvas density={34} className="absolute inset-0 w-full h-full" />
+      </div>
 
-            <div className="h-9 sm:h-10 flex items-center justify-center lg:justify-start">
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={titles[currentWordIndex]}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -12 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                  className="text-xl sm:text-2xl font-semibold text-primary"
-                >
-                  {titles[currentWordIndex]}
-                </motion.span>
-              </AnimatePresence>
-            </div>
-          </div>
+      <div className="flex items-center gap-3.5 mb-8">
+        <span className="w-11 h-px bg-primary" />
+        <span className="font-mono text-[11px] tracking-[.18em] uppercase text-primary">
+          {t("hero.eyebrowGreeting")}
+        </span>
+        <span className="font-mono text-[11px] tracking-[.18em] uppercase text-text-muted hidden sm:inline">
+          — {t("hero.eyebrowRole")}
+        </span>
+      </div>
 
-          <p className="text-text-secondary text-base sm:text-lg md:text-xl leading-relaxed max-w-2xl">
-            {t("hero.heroDescription")}
+      <h1 className="font-heading font-semibold leading-[0.95] tracking-[-0.03em] max-w-[15ch] text-[clamp(2.6rem,8.6vw,7rem)] text-balance">
+        <span className="block text-text-primary">{t("hero.headline1")}</span>
+        <span className="block text-text-muted">{t("hero.headline2")}</span>
+        <span className="block text-text-primary">
+          {t("hero.headline3")} <em className="not-italic text-primary">{t("hero.headline3Accent")}</em>
+        </span>
+      </h1>
+
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] gap-14 items-end mt-14">
+        <div>
+          <p className="max-w-[46ch] text-base leading-relaxed text-text-secondary mb-8">
+            {t("hero.bio")}
           </p>
-
-          {/* Boutons d'action */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-            <Button
-              variant="primary"
-              size="lg"
-              onClick={downloadCV}
-              icon={
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                  />
-                </svg>
-              }
+          <div className="flex flex-wrap gap-3.5">
+            <a
+              ref={exploreRef}
+              href="#work"
+              onClick={(e) => { e.preventDefault(); scrollToSection("work"); }}
+              className="blueprint relative inline-flex items-center gap-2 font-heading font-semibold text-[13px] tracking-widest uppercase px-6 py-3.5"
+              style={{ background: "var(--color-primary)", color: "var(--color-background)", borderColor: "var(--color-primary)" }}
             >
-              {t("hero.cta.downloadCV")}
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={scrollToProjects}
-              icon={
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                  />
-                </svg>
-              }
+              <Corner />
+              {t("hero.ctaExplore")}
+            </a>
+            <a
+              ref={talkRef}
+              href="#contact"
+              onClick={(e) => { e.preventDefault(); scrollToSection("contact"); }}
+              className="inline-flex items-center gap-2 font-heading font-semibold text-[13px] tracking-widest uppercase px-6 py-3.5 border border-border text-text-primary hover:border-primary transition-colors"
             >
-              {t("hero.cta.seeProject")}
-            </Button>
-          </div>
-
-          {/* Stats rapides */}
-          <div className="grid grid-cols-3 gap-6 sm:gap-10 pt-4 max-w-md">
-            <div>
-              <div className="text-2xl sm:text-3xl font-bold text-gradient">3+</div>
-              <div className="text-xs sm:text-sm text-text-secondary mt-1">
-                {t("hero.stats.yearsExperience")}
-              </div>
-            </div>
-            <div>
-              <div className="text-2xl sm:text-3xl font-bold text-gradient">10+</div>
-              <div className="text-xs sm:text-sm text-text-secondary mt-1">
-                {t("hero.stats.projectsCompleted")}
-              </div>
-            </div>
-            <div>
-              <div className="text-2xl sm:text-3xl font-bold text-gradient">10+</div>
-              <div className="text-xs sm:text-sm text-text-secondary mt-1">
-                {t("hero.stats.satisfiedClients")}
-              </div>
-            </div>
+              {t("hero.ctaTalk")}
+            </a>
           </div>
         </div>
 
-        {/* Photo de profil : centrée sur mobile, à droite et plus grande sur desktop */}
-        <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
-          <div className="w-64 sm:w-80 md:w-96 lg:w-md xl:w-lg">
-            <ProfileImage />
+        <div
+          className="blueprint relative px-5 py-4.5 font-mono text-[11.5px] leading-loose tracking-[.04em]"
+          style={{ background: "color-mix(in srgb, #000 22%, transparent)" }}
+        >
+          <Corner />
+          <div className="flex justify-between pb-2.5 mb-2.5 border-b text-text-muted" style={{ borderColor: "var(--color-border)" }}>
+            <span>~/mikajisoa — session</span>
+            <span>{clock}</span>
           </div>
+          <div ref={terminalRef} className="text-text-secondary">
+            <span className="text-primary">›</span> {typedCmd1}
+            {!showOutput1 && (
+              <span className="inline-block w-[7px] h-3.5 bg-primary ml-1.5 align-middle" style={{ animation: "caretBlink 1.1s step-end infinite" }} />
+            )}
+          </div>
+          {showOutput1 && <div>{t("hero.terminalWhoami")}</div>}
+
+          {showOutput1 && (
+            <div className="text-text-secondary mt-2.5">
+              <span className="text-primary">›</span> {typedCmd2}
+              {!showOutput2 && (
+                <span className="inline-block w-[7px] h-3.5 bg-primary ml-1.5 align-middle" style={{ animation: "caretBlink 1.1s step-end infinite" }} />
+              )}
+            </div>
+          )}
+          {showOutput2 && (
+            <div>
+              {t("hero.terminalCurrently")}
+              <span className="inline-block w-[7px] h-3.5 bg-primary ml-1.5 align-middle" style={{ animation: "caretBlink 1.1s step-end infinite" }} />
+            </div>
+          )}
+          <audio ref={audioRef} src="/sounds/keyboard-typing.mp3" preload="auto" />
         </div>
       </div>
 
-      {/* Indicateur de scroll */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce hidden md:block">
-        <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 14l-7 7m0 0l-7-7m7 7V3"
-          />
-        </svg>
+      <div className="hidden md:flex items-center gap-3 mt-16 font-mono text-[10px] tracking-[.2em] uppercase text-text-muted">
+        <span>{t("hero.scroll")}</span>
+        <span className="w-[90px] h-px" style={{ background: "linear-gradient(90deg, var(--color-text-muted), transparent)" }} />
       </div>
     </section>
   );

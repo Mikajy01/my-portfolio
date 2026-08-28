@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { twMerge } from "tailwind-merge";
+import Corner from "./Corner";
 
 interface ModalProps {
   isOpen: boolean;
@@ -64,16 +65,19 @@ const Modal: React.FC<ModalProps> = ({
             exit={{ opacity: 0, scale: 0.97, y: 8 }}
             transition={transition}
             className={twMerge(
-              "relative w-full max-w-lg z-10 bg-surface-elevated border border-border rounded-(--radius-card) shadow-2xl p-8 text-text-primary",
+              "blueprint relative w-full max-w-lg z-10 border p-8 text-text-primary",
               className
             )}
+            style={{ background: "var(--color-surface-elevated)", borderColor: "var(--color-border)" }}
           >
+            <Corner />
             <button
               onClick={onClose}
               aria-label="Fermer"
-              className="absolute top-4 right-4 p-2 text-text-muted hover:text-text-primary transition-colors bg-surface rounded-full hover:bg-border-light"
+              className="blueprint absolute top-4 right-4 w-8 h-8 grid place-items-center border border-border bg-surface-elevated text-text-muted hover:text-primary hover:border-primary transition-colors"
             >
-              <X size={20} />
+              <Corner />
+              <X size={16} />
             </button>
 
             <div className="mt-4">{children}</div>

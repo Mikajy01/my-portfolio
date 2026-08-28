@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Corner from "../shared/components/Corner";
 
 const LOAD_DURATION = 1100;
 
@@ -41,15 +42,17 @@ export const AppLoader = ({ onComplete }: { onComplete: () => void }) => {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="text-2xl sm:text-3xl font-bold tracking-tight text-gradient"
+            className="blueprint relative w-14 h-14 grid place-items-center border font-heading font-semibold text-lg text-primary"
+            style={{ borderColor: "var(--color-border)" }}
           >
-            MR. BUG
+            <Corner />
+            MSR
           </motion.div>
 
-          <div className="w-40 sm:w-48 h-1 rounded-full bg-border overflow-hidden">
+          <div className="w-40 sm:w-48 h-px overflow-hidden" style={{ background: "var(--color-border)" }}>
             <div
-              className="h-full rounded-full bg-gradient-primary"
-              style={{ width: `${progress}%`, transition: "width 0.1s linear" }}
+              className="h-full"
+              style={{ width: `${progress}%`, background: "var(--color-primary)", transition: "width 0.1s linear" }}
             />
           </div>
         </motion.div>

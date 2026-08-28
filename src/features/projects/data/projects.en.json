@@ -1,5 +1,59 @@
 [
   {
+    "id": "educore",
+    "title": "EduCore – Academic Management System",
+    "description": "Multi-institution academic management platform: enrollment, grades, report cards, attendance, finance, HR and more.",
+    "fullDescription": "EduCore is a comprehensive academic management platform built for multi-institution, multi-level university programs. It covers more than twenty modules: institutions, levels, classes and subjects, enrollment, evaluations and grades, report cards, discipline and sanctions, attendance, schedules, finance and payroll, documents and certificates, internships, announcements and a parent portal. Backend built with NestJS and TypeORM on PostgreSQL with Swagger documentation and Excel/PDF exports. Frontend in React 19 and TypeScript with a rich text editor (TipTap) and an interactive calendar.",
+    "tags": [
+      "NestJS",
+      "TypeORM",
+      "PostgreSQL",
+      "Swagger",
+      "React 19",
+      "TypeScript",
+      "TipTap",
+      "React Big Calendar"
+    ],
+    "image": "images/projects/educore/login.png",
+    "images": [
+      {
+        "url": "images/projects/educore/login.png",
+        "description": "Login page"
+      }
+    ],
+    "link": "https://educore-three.vercel.app",
+    "github": null,
+    "type": "professional",
+    "note": 9
+  },
+  {
+    "id": "espm",
+    "title": "ESPM – École Supérieure Paramédicale de Madagascar",
+    "description": "Institutional website and student login portal for the École Supérieure Paramédicale de Madagascar.",
+    "fullDescription": "Built the institutional website for ESPM (presentation, programs, partners, contact) with a clean architecture on the frontend (domain / application / infrastructure / presentation layers) in React 19, TypeScript and Vite. NestJS backend with Prisma and JWT authentication, data consumed via React Query. Forms validated with React Hook Form and Zod, global state managed with Zustand.",
+    "tags": [
+      "React 19",
+      "TypeScript",
+      "NestJS",
+      "Prisma",
+      "JWT",
+      "React Query",
+      "Zustand",
+      "Clean Architecture"
+    ],
+    "image": "images/projects/espm/home.png",
+    "images": [
+      {
+        "url": "images/projects/espm/home.png",
+        "description": "Institutional website homepage"
+      }
+    ],
+    "link": "https://www.espm.mg",
+    "github": null,
+    "type": "professional",
+    "note": 7
+  },
+  {
     "id": "hotel-management-system",
     "title": "Hotel Management System",
     "description": "Multi-hotel SaaS platform with dynamic customization, reservation management, and Stripe payments.",

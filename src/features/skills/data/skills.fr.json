@@ -1,11 +1,11 @@
 {
   "concepts": [
-    { "name": "Principes SOLID", "icon": "gitBranch" },
-    { "name": "JWT / Auth / Sécurité", "icon": "shield" },
-    { "name": "Systèmes temps réel", "icon": "zap" },
-    { "name": "Optimisation algo", "icon": "target" },
-    { "name": "Concurrence / Sync", "icon": "lock" },
-    { "name": "Résolution de problèmes", "icon": "puzzle" }
+    { "name": "Principes SOLID", "icon": "gitBranch", "description": "Des règles qui rendent le code humain six mois plus tard, pas seulement aujourd'hui." },
+    { "name": "JWT / Auth / Sécurité", "icon": "shield", "description": "Là où on ralentit exprès, parce que le chemin rapide est celui qui est vulnérable." },
+    { "name": "Systèmes temps réel", "icon": "zap", "description": "Un état qui doit rester cohérent entre deux sockets et une connexion capricieuse." },
+    { "name": "Optimisation algo", "icon": "target", "description": "La version qui mettait quatre secondes, et qui ne les met plus." },
+    { "name": "Concurrence / Sync", "icon": "lock", "description": "Deux choses qui se passent en même temps, sans se marcher dessus." },
+    { "name": "Résolution de problèmes", "icon": "puzzle", "description": "Vingt onglets ouverts, et la bonne réponse finit par sortir de l'un d'eux." }
   ],
   "highlights": [
     {

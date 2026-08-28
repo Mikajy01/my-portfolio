@@ -1,84 +1,51 @@
-import Skills from "../features/skills";
+import { Toolbox, BeyondTheCode } from "../features/skills";
 import Projects from "../features/projects";
 import Contact from "../features/contact";
 import { Header } from "../shared/components/Header";
 import { Hero } from "../features/hero";
-import { Footer } from "../shared/components/Footer";
-import { Education } from "../features/education";
+import { About } from "../features/about";
+import { AwardsCertifications } from "../features/awards";
 import { Experience } from "../features/experience";
-import { Awards } from "../features/awards";
-import { Certifications } from "../features/certifications";
-import { GateReveal } from "../shared/components/GateReveal";
-import { ScrollProgressRail } from "../shared/components/ScrollProgressRail";
+import { Education } from "../features/education";
+import { ObjectStudy } from "../features/object-study";
+import { Footer } from "../shared/components/Footer";
+import { Crosshair } from "../shared/components/Crosshair";
+import StatsBand from "../shared/components/StatsBand";
 import { LanguageProvider } from "../shared/context/LanguageContext";
 import { useState, useCallback } from "react";
-import { useTranslation } from "react-i18next";
 import { AppLoader } from "./AppLoader";
 import { motion } from "framer-motion";
 
-const AppContent = () => {
-  const { t } = useTranslation();
-
-  const railSections = [
-    { id: "hero", label: t("nav.home") },
-    { id: "skills", label: t("nav.skills") },
-    { id: "projects", label: t("nav.projects") },
-    { id: "awards", label: t("nav.awards") },
-    { id: "certifications", label: t("nav.certifications") },
-    { id: "experience", label: t("nav.experience") },
-    { id: "education", label: t("nav.education") },
-    { id: "contact", label: t("nav.contact") },
-  ];
-
-  return (
-    <>
-      <Header />
-      <ScrollProgressRail sections={railSections} />
-
-      <div className="relative min-h-screen bg-background">
-        {/* Grille de fond, très subtile */}
-        <div className="fixed inset-0 pointer-events-none opacity-[0.04]">
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `
-                linear-gradient(var(--color-primary) 1px, transparent 1px),
-                linear-gradient(90deg, var(--color-primary) 1px, transparent 1px)
-              `,
-              backgroundSize: "50px 50px",
-            }}
-          />
-        </div>
-
-        <main className="relative">
-          <Hero />
-          <GateReveal>
-            <Skills />
-          </GateReveal>
-          <GateReveal>
-            <Projects />
-          </GateReveal>
-          <GateReveal>
-            <Awards />
-          </GateReveal>
-          <GateReveal>
-            <Certifications />
-          </GateReveal>
-          <GateReveal>
-            <Experience />
-          </GateReveal>
-          <GateReveal>
-            <Education />
-          </GateReveal>
-          <GateReveal>
-            <Contact />
-          </GateReveal>
-        </main>
-        <Footer />
+const AppContent = ({ isPageLoaded }: { isPageLoaded: boolean }) => (
+  <div className="relative min-h-screen bg-background overflow-x-clip">
+    {/* Grille de fond, façon plan technique */}
+    <div aria-hidden className="fixed inset-0 pointer-events-none z-0 flex justify-center">
+      <div className="w-full max-w-[1320px] px-4 sm:px-6 lg:px-10 grid grid-cols-6">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="border-l" style={{ borderColor: "color-mix(in srgb, var(--color-text-primary) 4%, transparent)" }} />
+        ))}
       </div>
-    </>
-  );
-};
+    </div>
+
+    <Crosshair />
+    <Header />
+
+    <main className="relative">
+      <Hero isPageLoaded={isPageLoaded} />
+      <StatsBand />
+      <About />
+      <Projects />
+      <Toolbox />
+      <BeyondTheCode />
+      <ObjectStudy />
+      <Experience />
+      <Education />
+      <AwardsCertifications />
+      <Contact />
+    </main>
+    <Footer />
+  </div>
+);
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -93,7 +60,7 @@ function App() {
         animate={{ opacity: isLoaded ? 1 : 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
       >
-        <AppContent />
+        <AppContent isPageLoaded={isLoaded} />
       </motion.div>
     </LanguageProvider>
   );

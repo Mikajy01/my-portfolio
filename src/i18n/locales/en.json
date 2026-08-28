@@ -1,36 +1,101 @@
 {
   "nav": {
     "home": "Home",
-    "skills": "Skills",
-    "awards": "Achievements & Awards",
-    "projects": "Projects",
-    "certifications": "Certifications",
+    "about": "About",
+    "work": "Work",
     "journey": "Journey",
-    "experience": "Experience",
-    "education": "Education",
-    "contact": "Contact"
+    "contact": "Contact",
+    "openToWork": "open to work"
   },
   "hero": {
-    "welcome": "Welcome to my portfolio",
-    "IAm": "I am",
-    "heroDescription": "I don't just write code — I debug reality. From pixel-perfect frontends to bulletproof backends, I hunt bugs before they hunt you. React, Angular, NestJS, Node.js... and a suspicious number of open terminals.",
+    "eyebrowGreeting": "Hi, I'm Mikajisoa",
+    "eyebrowRole": "full-stack developer, Fianarantsoa",
+    "headline1": "I find the bugs,",
+    "headline2": "before your users do,",
+    "headline3": "then fix them",
+    "headline3Accent": "for good.",
+    "bio": "I'm a backend-leaning full-stack developer who takes systems apart to see the wiring. Mostly product engineering for real businesses — sometimes real-time games, sometimes a hackathon algorithm at 2am that only had to work once.",
+    "ctaExplore": "Explore my work",
+    "ctaTalk": "Let's talk",
+    "terminalWhoami": "developer · bug hunter · hackathon regular",
+    "terminalCurrently": "shipping EduCore, chasing the next podium",
+    "scroll": "scroll",
     "titles": [
       "Full-Stack Developer",
-      "AI Developer",
-      "React & Angular Expert",
-      "Backend Architect"
-    ],
-    "subtitle": "Building exceptional digital experiences",
-    "cta": {
-      "getInTouch": "Get In Touch",
-      "downloadCV": "Download my CV",
-      "seeProject": "See My Projects"
-    },
-    "stats": {
-      "yearsExperience": "Years of experience",
-      "projectsCompleted": "Projects completed",
-      "satisfiedClients": "Satisfied clients"
-    }
+      "Backend Architect",
+      "React & Angular Developer",
+      "Competitive Programmer"
+    ]
+  },
+  "about": {
+    "eyebrow": "01 / ABOUT",
+    "tagLabel": "the shape of a habit",
+    "headline": "Every bug starts the same way:",
+    "headlineAccent": "something that shouldn't happen, happened.",
+    "bio1": "I got into this by breaking things — a Java desktop app for a hotel that had to survive real receptionists, a real-time game that had to survive real players cheating the clock. Fixing what I'd broken taught me more than any course did.",
+    "bio2": "These days that looks like backend services at a bank by day, and hackathons, side projects and certifications by night. I care about the parts most people skip: the edge case, the failed migration, the first ten seconds of using something new.",
+    "traits": [
+      { "title": "Curious", "description": "Reads the source before the docs. Usually both, eventually." },
+      { "title": "Builder", "description": "Prototype on Friday, opinion on Monday. Ship or delete." },
+      { "title": "Problem solver", "description": "Happiest three layers below where the bug was reported." },
+      { "title": "Competitor", "description": "Four hackathon podiums in, still shows up for the next one." }
+    ]
+  },
+  "work": {
+    "eyebrow": "02 / SELECTED WORK",
+    "caseStudies": "case studies"
+  },
+  "toolbox": {
+    "eyebrow": "03 / TOOLBOX",
+    "label": "what's on the bench"
+  },
+  "beyond": {
+    "eyebrow": "04 / BEYOND THE CODE",
+    "headline": "Six things that keep me at the keyboard longer than planned."
+  },
+  "objectStudy": {
+    "eyebrow": "05 / OBJECT STUDY",
+    "scrollHint": "scroll to rotate",
+    "headline": "Three bars, one intersection —",
+    "headlineAccent": "the shape I keep drawing.",
+    "footerLabel": "cross.obj — 3 bars / 18 faces",
+    "studies": [
+      {
+        "tag": "STUDY 01 — MINIMAX",
+        "title": "Teaching a bot to besiege",
+        "description": "A depth-limited minimax opponent for a real-time territory game — tuned to be good enough to lose to on purpose.",
+        "meta": "TypeScript · Game AI · 2025"
+      },
+      {
+        "tag": "STUDY 02 — CROSS",
+        "title": "The shape I keep drawing",
+        "description": "Three intersecting bars, eighteen faces, drawn as solids with their edges kept. Rotation and dolly are bound to this scrollbar.",
+        "meta": "Three.js · WebGL · 2026"
+      },
+      {
+        "tag": "STUDY 03 — SYNC",
+        "title": "State, kept honest",
+        "description": "Socket rooms with a chess-clock timer per player — the hard part was never the game, it was the reconnect.",
+        "meta": "NestJS · Socket.IO · 2025"
+      },
+      {
+        "tag": "STUDY 04 — ALLOCATION",
+        "title": "Freed rooms, refilled fast",
+        "description": "A small heuristic that re-ranks the waiting list the moment a room opens, instead of first-come-first-served.",
+        "meta": "Java · Heuristics · 2024"
+      }
+    ]
+  },
+  "awardsCertifications": {
+    "eyebrow": "08 / AWARDS & CERTIFICATIONS",
+    "awardsLabel": "awards",
+    "certificationsLabel": "certifications"
+  },
+  "statsBand": {
+    "projects": "projects shipped",
+    "experience": "years of experience",
+    "awards": "hackathon podiums",
+    "certifications": "certifications earned"
   },
   "skills": {
     "title": "Skills",
@@ -58,11 +123,15 @@
   },
   "experience": {
     "title": "Experience",
-    "subtitle": "My professional journey"
+    "subtitle": "My professional journey",
+    "eyebrow": "06 / EXPERIENCE",
+    "rangeLabel": "2024 — now"
   },
   "education": {
     "title": "Education",
-    "subtitle": "My academic background"
+    "subtitle": "My academic background",
+    "eyebrow": "07 / EDUCATION",
+    "rangeLabel": "2021 — 2025"
   },
   "projects": {
     "title": "Projects",
@@ -79,10 +148,17 @@
     "more": "more"
   },
   "contact": {
+    "eyebrow": "09 / CONTACT",
+    "headline": "Have a problem",
+    "headlineAccent": "worth solving?",
     "title": "Contact",
     "subtitle": "Got a project idea? Let's discuss it together",
     "stayInTouch": "Stay In Touch",
-    "description": "I'm always open to new opportunities and collaborations. Feel free to reach out to discuss your projects.",
+    "description": "I'm open to freelance work, interesting collaborations, and long messages about system design. Reply time is usually under a day.",
+    "linkGithub": "GitHub",
+    "linkLinkedin": "LinkedIn",
+    "linkWhatsapp": "WhatsApp",
+    "linkResume": "Résumé",
     "form": {
       "name": "Name",
       "email": "Email",
@@ -100,7 +176,7 @@
     }
   },
   "footer": {
-    "copyright": "All rights reserved",
+    "copyright": "built from scratch, as usual",
     "followMe": "Follow me on social media",
     "bacToTop": "Back to Top"
   },
