@@ -34,7 +34,7 @@ const LanguageSwitcher = () => {
 
       {isOpen && (
         <div
-          className="blueprint absolute right-0 mt-2 w-28 border z-50"
+          className="blueprint absolute right-0 mt-3 w-28 border z-50"
           style={{ background: "var(--color-background)", borderColor: "var(--color-border)" }}
         >
           <Corner />

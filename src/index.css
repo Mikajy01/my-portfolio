@@ -122,8 +122,16 @@
 }
 
 /* Coins en équerre façon plan technique */
-.blueprint {
-  position: relative;
+/* En layer "components" : une classe Tailwind (absolute, fixed, sticky…)
+   posée sur le même élément doit pouvoir l'emporter sur ce position:relative
+   par défaut. Hors layer, une règle non-layée bat toujours une règle Tailwind
+   layée — peu importe l'ordre ou la spécificité — ce qui empêchait ces
+   boutons d'être réellement absolute et les faisait pousser le reste du
+   layout. */
+@layer components {
+  .blueprint {
+    position: relative;
+  }
 }
 .blueprint > .corner {
   position: absolute;
@@ -172,6 +180,26 @@
 @keyframes pulseDot {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.35; transform: scale(0.7); }
+}
+/* Point qui parcourt la ligne de mesure sous le portrait du hero */
+.hero-scan-dot {
+  animation: heroScan 3.2s ease-in-out infinite;
+}
+@keyframes heroScan {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(244px); }
+}
+/* Orbite discrète des icônes de stack autour du portrait du hero : l'anneau
+   tourne, chaque icône contre-tourne à la même vitesse pour rester droite. */
+@keyframes heroOrbitSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.hero-orbit {
+  animation: heroOrbitSpin 26s linear infinite;
+}
+.hero-orbit-counter {
+  animation: heroOrbitSpin 26s linear infinite reverse;
 }
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(30px); }

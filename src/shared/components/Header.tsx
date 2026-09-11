@@ -48,7 +48,7 @@ const JourneyDropdown: React.FC<{
 
       {isOpen && (
         <div
-          className="blueprint absolute top-full left-1/2 -translate-x-1/2 mt-3 w-44 border z-50"
+          className="blueprint absolute top-full right-0 mt-3 w-44 border z-50"
           style={{ background: "var(--color-background)", borderColor: "var(--color-border)" }}
         >
           <Corner />
@@ -199,7 +199,7 @@ export const Header: React.FC = () => {
             </svg>
           </button>
 
-          <div className="hidden md:flex items-center gap-2 pl-2">
+          <div className="hidden md:flex items-center gap-4 pl-2">
             <ThemeSwitcher />
             <LanguageSwitcher />
           </div>
@@ -254,7 +254,7 @@ export const Header: React.FC = () => {
                 );
               })}
             </ul>
-            <div className="flex items-center gap-3 pt-3 mt-2 border-t" style={{ borderColor: "var(--color-border)" }}>
+            <div className="flex items-center gap-4 pt-3 mt-2 border-t" style={{ borderColor: "var(--color-border)" }}>
               <ThemeSwitcher />
               <LanguageSwitcher />
             </div>

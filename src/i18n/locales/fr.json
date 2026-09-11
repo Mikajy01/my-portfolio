@@ -1,4 +1,8 @@
 {
+  "loader": {
+    "status": "séquence de démarrage terminée",
+    "enter": "Entrer"
+  },
   "nav": {
     "home": "Accueil",
     "about": "À propos",
@@ -10,14 +14,14 @@
   "hero": {
     "eyebrowGreeting": "Salut, je suis Mikajisoa",
     "eyebrowRole": "développeur full-stack, Fianarantsoa",
-    "headline1": "Je traque les bugs,",
-    "headline2": "avant vos utilisateurs,",
-    "headline3": "puis je les corrige",
-    "headline3Accent": "pour de bon.",
-    "bio": "Je suis développeur full-stack, plutôt orienté backend, et j'aime démonter les systèmes pour voir comment ils sont câblés. Le plus souvent pour de vraies entreprises — parfois un jeu temps réel, parfois un algorithme de hackathon codé à 2h du matin qui ne devait marcher qu'une fois.",
+    "headline1": "Je construis",
+    "headline2": "des produits,",
+    "headline3": "et je traque",
+    "headline3Accent": "les failles.",
+    "bio": "Je suis développeur full-stack, plutôt orienté backend, disponible pour des missions freelance ou un poste. J'aime démonter les systèmes pour voir comment ils sont câblés. Le plus souvent pour de vraies entreprises — parfois un jeu temps réel, parfois un algorithme de hackathon codé à 2h du matin qui ne devait marcher qu'une fois.",
     "ctaExplore": "Voir mes projets",
     "ctaTalk": "Discutons",
-    "terminalWhoami": "développeur · chasseur de bugs · habitué des hackathons",
+    "terminalWhoami": "développeur full-stack · chasseur de bugs à l'occasion · habitué des hackathons",
     "terminalCurrently": "je livre EduCore, je vise le prochain podium",
     "scroll": "scroll",
     "titles": [
@@ -30,14 +34,14 @@
   "about": {
     "eyebrow": "01 / À PROPOS",
     "tagLabel": "la forme d'une habitude",
-    "headline": "Chaque bug commence pareil :",
-    "headlineAccent": "quelque chose qui n'aurait pas dû arriver, est arrivé.",
+    "headline": "Je construis des logiciels solides,",
+    "headlineAccent": "en partant toujours de ce qui pourrait casser.",
     "bio1": "Je m'y suis mis en cassant des choses — une appli Java pour un hôtel qui devait survivre à de vrais réceptionnistes, un jeu en temps réel qui devait survivre à de vrais joueurs qui trichent sur le temps. Réparer ce que j'avais cassé m'a plus appris qu'aucun cours.",
     "bio2": "Aujourd'hui ça ressemble à des services backend pour une banque le jour, et des hackathons, projets perso et certifications le soir. Je m'intéresse aux détails que la plupart des gens sautent : le cas limite, la migration qui échoue, les dix premières secondes d'utilisation d'un nouvel outil.",
     "traits": [
       { "title": "Curieux", "description": "Lit le code source avant la doc. Souvent les deux, au final." },
       { "title": "Bâtisseur", "description": "Prototype le vendredi, avis tranché le lundi. On livre ou on supprime." },
-      { "title": "Résolveur de problèmes", "description": "Plus heureux trois couches sous l'endroit où le bug a été signalé." },
+      { "title": "Résolveur de problèmes", "description": "Remonte à la cause racine plutôt que de patcher le symptôme." },
       { "title": "Compétiteur", "description": "Quatre podiums de hackathon au compteur, toujours partant pour le suivant." }
     ]
   },
@@ -67,10 +71,10 @@
         "meta": "TypeScript · IA de jeu · 2025"
       },
       {
-        "tag": "ÉTUDE 02 — CROIX",
-        "title": "La forme que je n'arrête pas de dessiner",
-        "description": "Trois barres qui s'entrecroisent, dix-huit faces, dessinées en solides avec leurs arêtes conservées. Rotation et zoom sont reliés à cette barre de scroll.",
-        "meta": "Three.js · WebGL · 2026"
+        "tag": "ÉTUDE 02 — COUCHES",
+        "title": "Un frontend découpé en couches",
+        "description": "Domain, application, infrastructure, presentation — la même discipline d'inversion de dépendances que le backend, appliquée à une appli React que la plupart auraient laissée en un seul dossier de composants.",
+        "meta": "React 19 · Clean Architecture · 2025"
       },
       {
         "tag": "ÉTUDE 03 — SYNC",
