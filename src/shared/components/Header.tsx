@@ -93,6 +93,7 @@ export const Header: React.FC = () => {
       children: [
         { id: "experience", label: t("experience.title") },
         { id: "education", label: t("education.title") },
+        { id: "awards-certifications", label: t("nav.awards") },
       ],
     },
     { type: "flat", id: "contact", label: t("nav.contact") },
