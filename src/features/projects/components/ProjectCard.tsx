@@ -10,7 +10,9 @@ interface ProjectCardProps {
   type: "professional" | "personal";
   category: string;
   year: string;
-  variant: "featured" | "compact" | "wide";
+  variant: "hero" | "grid" | "list";
+  /** Numéro de rang affiché par le variant "list" (ex: "03"). */
+  index?: number;
   onViewDetails: () => void;
 }
 
@@ -69,53 +71,69 @@ const Tags: React.FC<{ tags: string[] }> = ({ tags }) => (
 );
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
-  title, description, tags, image, type, category, year, variant, onViewDetails,
+  title, description, tags, image, type, category, year, variant, index, onViewDetails,
 }) => {
-  if (variant === "featured") {
+  // Rangée indexée, sans image ni cadre "blueprint" — un objet volontairement
+  // différent des cartes (pas juste les mêmes blocs redisposés), pour les
+  // projets secondaires de la liste.
+  if (variant === "list") {
     return (
       <button
         onClick={onViewDetails}
         data-reveal
-        className="blueprint group relative grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] gap-0 text-left w-full border border-border hover:border-primary transition-colors"
+        className="group relative flex items-center gap-4 sm:gap-7 w-full py-5 sm:py-6 border-b text-left transition-colors hover:border-primary"
+        style={{ borderColor: "var(--color-border)" }}
+      >
+        <span className="shrink-0 font-mono text-[11px] text-text-muted tabular-nums">
+          {String((index ?? 0) + 1).padStart(2, "0")}
+        </span>
+        <span className="shrink-0 text-primary">
+          {type === "professional" ? <Briefcase className="w-3.5 h-3.5" /> : <Heart className="w-3.5 h-3.5" />}
+        </span>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-baseline gap-3 flex-wrap">
+            <h3 className="font-heading font-semibold text-[1.3rem] sm:text-[1.5rem] leading-none tracking-[-.02em] truncate">
+              {title}
+            </h3>
+            <span className="font-mono text-[10px] tracking-[.14em] uppercase text-text-muted hidden sm:inline shrink-0">
+              {category} · {year}
+            </span>
+          </div>
+          <p className="mt-1.5 text-sm text-text-secondary truncate">{description}</p>
+        </div>
+        <div className="hidden lg:flex shrink-0 max-w-[200px] flex-wrap justify-end gap-2">
+          <Tags tags={tags.slice(0, 2)} />
+        </div>
+        <ArrowIcon color="var(--color-primary)" />
+      </button>
+    );
+  }
+
+  if (variant === "hero") {
+    return (
+      <button
+        onClick={onViewDetails}
+        data-reveal
+        className="blueprint group relative grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] lg:items-start gap-0 text-left w-full border border-border hover:border-primary transition-colors"
       >
         <Corner />
+        {/* lg:items-start (au lieu du stretch par défaut d'une grid row) :
+            la colonne texte garde sa hauteur naturelle au lieu d'être étirée
+            à la hauteur de l'image, ce qui créait un grand vide entre la
+            description et les tags pour les descriptions courtes. */}
         <div className="p-8 sm:p-11 sm:pb-10 flex flex-col">
           <Meta category={category} year={year} type={type} />
           <h3 className="font-heading font-semibold leading-[.96] tracking-[-.025em] text-[clamp(1.9rem,4.4vw,3.6rem)] mb-4">
             {title}
           </h3>
-          <p className="text-[15.5px] leading-relaxed text-text-secondary max-w-[42ch] mb-auto">{description}</p>
-          <div className="mt-8 mb-6"><Tags tags={tags} /></div>
+          <p className="text-[15.5px] leading-relaxed text-text-secondary max-w-[42ch] mb-6">{description}</p>
+          <div className="mb-6"><Tags tags={tags} /></div>
           <div className="flex items-center gap-2.5 font-mono text-[11px] tracking-[.16em] uppercase text-primary">
             <span>Details</span>
             <ArrowIcon />
           </div>
         </div>
-        <Visual image={image} title={title} className="border-t lg:border-t-0 lg:border-l min-h-[280px] lg:min-h-[440px]" />
-      </button>
-    );
-  }
-
-  if (variant === "wide") {
-    return (
-      <button
-        onClick={onViewDetails}
-        data-reveal
-        className="blueprint group relative grid grid-cols-1 sm:grid-cols-[320px_minmax(0,1fr)] items-stretch text-left w-full border border-border hover:border-primary transition-colors"
-      >
-        <Corner />
-        <Visual image={image} title={title} className="border-b sm:border-b-0 sm:border-r min-h-[210px]" />
-        <div className="p-7 sm:p-9 flex items-center gap-10 flex-wrap">
-          <div className="flex-1 min-w-[260px]">
-            <Meta category={category} year={year} type={type} />
-            <h3 className="font-heading font-semibold text-[2.1rem] leading-none tracking-[-.02em] mb-2.5">{title}</h3>
-            <p className="text-[14.5px] leading-relaxed text-text-secondary max-w-[52ch] m-0">{description}</p>
-          </div>
-          <div className="flex items-center gap-5">
-            <div className="flex flex-wrap gap-2 max-w-[200px]"><Tags tags={tags} /></div>
-            <ArrowIcon color="var(--color-primary)" />
-          </div>
-        </div>
+        <Visual image={image} title={title} className="border-t lg:border-t-0 lg:border-l min-h-[280px] lg:min-h-[440px] lg:self-stretch" />
       </button>
     );
   }

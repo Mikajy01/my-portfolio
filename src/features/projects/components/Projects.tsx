@@ -40,15 +40,50 @@ const INITIAL_PROJECTS_COUNT = 8;
 const getProjectsByLanguage = (language: string): Project[] =>
   (language.startsWith("fr") ? projectsFr : projectsEn) as Project[];
 
-type Variant = "featured" | "compact" | "wide";
+type Variant = "hero" | "grid" | "list";
+type AssignedProject = { project: Project; variant: Variant; index: number };
 
-// Groupe les projets par lots de 4 : 1 mis en avant, 2 côte à côte, 1 en large.
-function assignVariants(projects: Project[]): { project: Project; variant: Variant }[] {
-  const out: { project: Project; variant: Variant }[] = [];
-  for (let i = 0; i < projects.length; i++) {
-    const pos = i % 4;
-    const variant: Variant = pos === 0 ? "featured" : pos === 3 ? "wide" : "compact";
-    out.push({ project: projects[i], variant });
+// "hero" une seule fois (le tout premier, donc le mieux noté dans l'onglet
+// courant) — pas à chaque lot de 4, sinon la mise en avant perd son sens.
+// Le reste alterne 2 cartes grille / 1 rangée liste, pour un vrai contraste
+// visuel plutôt que le même habillage juste redisposé.
+function assignVariants(projects: Project[]): AssignedProject[] {
+  return projects.map((project, i) => {
+    if (i === 0) return { project, variant: "hero" as Variant, index: i };
+    const variant: Variant = (i - 1) % 3 === 2 ? "list" : "grid";
+    return { project, variant, index: i };
+  });
+}
+
+type RowBlock =
+  | { kind: "solo"; item: AssignedProject }
+  | { kind: "pair"; items: [AssignedProject, AssignedProject] }
+  | { kind: "list"; items: AssignedProject[] };
+
+// Regroupe les items assignés en blocs de rendu : les "grid" consécutifs vont
+// par paires (grille 2 colonnes), les "list" consécutifs forment un seul bloc
+// de rangées empilées (séparateurs seulement, pas de gap de carte entre eux),
+// "hero" reste toujours seul sur sa ligne.
+function groupIntoBlocks(assigned: AssignedProject[]): RowBlock[] {
+  const out: RowBlock[] = [];
+  let i = 0;
+  while (i < assigned.length) {
+    const cur = assigned[i];
+    if (cur.variant === "list") {
+      const items = [cur];
+      i += 1;
+      while (assigned[i]?.variant === "list") {
+        items.push(assigned[i]);
+        i += 1;
+      }
+      out.push({ kind: "list", items });
+    } else if (cur.variant === "grid" && assigned[i + 1]?.variant === "grid") {
+      out.push({ kind: "pair", items: [cur, assigned[i + 1]] });
+      i += 2;
+    } else {
+      out.push({ kind: "solo", item: cur });
+      i += 1;
+    }
   }
   return out;
 }
@@ -97,21 +132,7 @@ const Projects = () => {
     { key: "personal", label: t("projects.personal") },
   ];
 
-  const rows = useMemo(() => {
-    const assigned = assignVariants(displayedProjects);
-    const out: { project: Project; variant: Variant }[][] = [];
-    let i = 0;
-    while (i < assigned.length) {
-      if (assigned[i].variant === "compact" && assigned[i + 1]?.variant === "compact") {
-        out.push([assigned[i], assigned[i + 1]]);
-        i += 2;
-      } else {
-        out.push([assigned[i]]);
-        i += 1;
-      }
-    }
-    return out;
-  }, [displayedProjects]);
+  const blocks = useMemo(() => groupIntoBlocks(assignVariants(displayedProjects)), [displayedProjects]);
 
   return (
     <section id="work" className="relative z-1 max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-10 py-16 lg:py-28">
@@ -148,28 +169,45 @@ const Projects = () => {
       </div>
 
       <div className="flex flex-col gap-7">
-        {rows.map((row, i) => (
-          <div key={i} className={row.length === 2 ? "grid grid-cols-1 sm:grid-cols-2 gap-7" : ""}>
-            {row.map(({ project, variant }) => {
-              const meta = PROJECT_META[project.id];
-              const category = meta ? (language.startsWith("fr") ? meta.categoryFr : meta.categoryEn) : project.type;
-              return (
-                <ProjectCard
-                  key={project.id}
-                  title={project.title}
-                  description={project.description}
-                  tags={project.tags}
-                  image={project.image}
-                  type={project.type}
-                  category={category}
-                  year={meta?.year ?? ""}
-                  variant={variant}
-                  onViewDetails={() => handleOpenModal(project)}
-                />
-              );
-            })}
-          </div>
-        ))}
+        {blocks.map((block, bi) => {
+          const renderCard = ({ project, variant, index }: AssignedProject) => {
+            const meta = PROJECT_META[project.id];
+            const category = meta ? (language.startsWith("fr") ? meta.categoryFr : meta.categoryEn) : project.type;
+            return (
+              <ProjectCard
+                key={project.id}
+                title={project.title}
+                description={project.description}
+                tags={project.tags}
+                image={project.image}
+                type={project.type}
+                category={category}
+                year={meta?.year ?? ""}
+                variant={variant}
+                index={index}
+                onViewDetails={() => handleOpenModal(project)}
+              />
+            );
+          };
+
+          if (block.kind === "pair") {
+            return (
+              <div key={bi} className="grid grid-cols-1 sm:grid-cols-2 gap-7">
+                {block.items.map(renderCard)}
+              </div>
+            );
+          }
+
+          if (block.kind === "list") {
+            return (
+              <div key={bi} className="flex flex-col border-t" style={{ borderColor: "var(--color-border)" }}>
+                {block.items.map(renderCard)}
+              </div>
+            );
+          }
+
+          return <div key={bi}>{renderCard(block.item)}</div>;
+        })}
       </div>
 
       {isShowingLess && (

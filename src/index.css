@@ -165,6 +165,42 @@
   opacity: 0.5;
 }
 
+/* Palette dédiée à la section "étude d'objet" (scène Three.js + cartes
+   d'étude) : même cascade clair/sombre que le reste du site (voir :root /
+   :root.dark plus haut), mais recalibrée pour cette section — les cartes
+   d'étude utilisent un fond semi-transparent teinté plutôt qu'un bloc opaque,
+   et la scène 3D a besoin d'une couleur de remplissage et d'arêtes propres.
+   Résultat voulu : en sombre, des arêtes claires sur un objet quasi noir
+   (comme un négatif de plan) ; en clair, des arêtes foncées sur un objet
+   presque blanc (le même plan en positif) — les deux variantes classiques
+   du tirage "blueprint". */
+.object-scene {
+  --color-background: color-mix(in srgb, #dce6f0 55%, #fff);
+  --color-surface: color-mix(in srgb, #dce6f0 70%, #fff);
+  --color-text-primary: #182530;
+  --color-text-secondary: color-mix(in srgb, #182530 65%, transparent);
+  --color-text-muted: color-mix(in srgb, #182530 45%, transparent);
+  --color-primary: #416180;
+  --color-border: color-mix(in srgb, #182530 14%, transparent);
+  --object-card-tint: color-mix(in srgb, #fff 58%, transparent);
+  --object-fill: #d7e3ee;
+  --object-edge: #416180;
+  --object-faint-opacity: 0.32;
+}
+:root.dark .object-scene {
+  --color-background: color-mix(in srgb, #1d2d3d 80%, #000);
+  --color-surface: color-mix(in srgb, #1d2d3d 92%, #000);
+  --color-text-primary: #f5f5f8;
+  --color-text-secondary: color-mix(in srgb, #f5f5f8 65%, transparent);
+  --color-text-muted: color-mix(in srgb, #f5f5f8 45%, transparent);
+  --color-primary: #94bce3;
+  --color-border: color-mix(in srgb, #f5f5f8 13%, transparent);
+  --object-card-tint: color-mix(in srgb, #000 42%, transparent);
+  --object-fill: #0d151d;
+  --object-edge: #94bce3;
+  --object-faint-opacity: 0.16;
+}
+
 /* ============================================
    ANIMATIONS
    ============================================ */

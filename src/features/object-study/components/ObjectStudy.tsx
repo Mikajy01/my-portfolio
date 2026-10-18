@@ -19,9 +19,6 @@ function setupScene(
   pointerRef: React.RefObject<{ x: number; y: number }>
 ) {
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  // Lu depuis le canvas (pas document.documentElement) pour hériter la
-  // surcharge --color-primary forcée en sombre sur cette section.
-  const accent = getComputedStyle(canvas).getPropertyValue("--color-primary").trim() || "#94bce3";
 
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -30,8 +27,29 @@ function setupScene(
   camera.position.set(0, 0, 11);
 
   const solid = new THREE.MeshBasicMaterial({ color: new THREE.Color("#0d151d") });
-  const edge = new THREE.LineBasicMaterial({ color: new THREE.Color(accent), transparent: true, opacity: 0.92 });
-  const faint = new THREE.LineBasicMaterial({ color: new THREE.Color(accent), transparent: true, opacity: 0.16 });
+  const edge = new THREE.LineBasicMaterial({ color: new THREE.Color("#94bce3"), transparent: true, opacity: 0.92 });
+  const faint = new THREE.LineBasicMaterial({ color: new THREE.Color("#94bce3"), transparent: true, opacity: 0.16 });
+
+  // Lues depuis le canvas (pas document.documentElement) pour hériter la
+  // palette clair/sombre de .object-scene — relues à chaque appel pour
+  // pouvoir suivre un bascule de thème en direct (voir l'observer plus bas).
+  const applyPalette = () => {
+    const cs = getComputedStyle(canvas);
+    const fill = cs.getPropertyValue("--object-fill").trim() || "#0d151d";
+    const edgeColor = cs.getPropertyValue("--object-edge").trim() || "#94bce3";
+    const faintOpacity = parseFloat(cs.getPropertyValue("--object-faint-opacity")) || 0.16;
+    solid.color.set(fill);
+    edge.color.set(edgeColor);
+    faint.color.set(edgeColor);
+    faint.opacity = faintOpacity;
+  };
+  applyPalette();
+
+  // Le bascule clair/sombre modifie juste la classe "dark" sur <html> (voir
+  // ThemeSwitcher) — un MutationObserver est le moyen le plus découplé de
+  // s'y accrocher depuis ici sans dépendre d'un contexte de thème partagé.
+  const themeObserver = new MutationObserver(applyPalette);
+  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
 
   const cross = new THREE.Group();
   ([[3.4, 1.15, 1.15], [1.15, 3.4, 1.15], [1.15, 1.15, 3.4]] as [number, number, number][]).forEach((d) => {
@@ -93,6 +111,7 @@ function setupScene(
   return () => {
     cancelAnimationFrame(raf);
     window.removeEventListener("resize", resize);
+    themeObserver.disconnect();
     renderer.dispose();
   };
 }
@@ -174,25 +193,12 @@ export const ObjectStudy: React.FC = () => {
     <section
       ref={sectionRef}
       id="object"
-      className="relative z-1 border-t"
-      style={
-        {
-          height: "460vh",
-          borderColor: "var(--color-border)",
-          background: "var(--color-background)",
-          // Cette section reste volontairement sombre quel que soit le thème
-          // du site : le rendu Three.js et les cartes en dessous supposent un
-          // fond noir (accents clairs, cartes semi-transparentes noires), ce
-          // qui devient illisible sur le thème clair sans cette isolation.
-          "--color-background": "color-mix(in srgb, #1d2d3d 80%, #000)",
-          "--color-surface": "color-mix(in srgb, #1d2d3d 92%, #000)",
-          "--color-text-primary": "#f5f5f8",
-          "--color-text-secondary": "color-mix(in srgb, #f5f5f8 65%, transparent)",
-          "--color-text-muted": "color-mix(in srgb, #f5f5f8 45%, transparent)",
-          "--color-primary": "#94bce3",
-          "--color-border": "color-mix(in srgb, #f5f5f8 13%, transparent)",
-        } as React.CSSProperties
-      }
+      className="object-scene relative z-1 border-t"
+      style={{
+        height: "460vh",
+        borderColor: "var(--color-border)",
+        background: "var(--color-background)",
+      }}
     >
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col">
         <canvas ref={canvasRef} aria-hidden="true" className="absolute inset-0 w-full h-full z-0" />
@@ -226,7 +232,7 @@ export const ObjectStudy: React.FC = () => {
               <div
                 key={study.tag}
                 className="blueprint relative flex-none w-[340px] sm:w-[380px] px-6 py-6 sm:px-7"
-                style={{ background: "color-mix(in srgb, #000 42%, transparent)", backdropFilter: "blur(3px)", borderColor: "var(--color-border)" }}
+                style={{ background: "var(--object-card-tint)", backdropFilter: "blur(3px)", borderColor: "var(--color-border)" }}
               >
                 <Corner />
                 <div className="font-mono text-[10px] tracking-[.18em] text-primary mb-5">{study.tag}</div>
