@@ -88,6 +88,12 @@
         "title": "Chambres libérées, réattribuées vite",
         "description": "Une petite heuristique qui reclasse la liste d'attente dès qu'une chambre se libère, plutôt qu'un simple premier arrivé, premier servi.",
         "meta": "Java · Heuristiques · 2024"
+      },
+      {
+        "tag": "ÉTUDE 05 — MULTI-TENANT",
+        "title": "Un établissement, sa propre configuration",
+        "description": "EduCore fait tourner plusieurs établissements sur une seule instance — chacun avec son propre barème de notation, ses modules activés et son calendrier — sans jamais mélanger les données ni dupliquer le code.",
+        "meta": "NestJS · TypeORM · Multi-tenant · 2025"
       }
     ]
   },
@@ -150,6 +156,7 @@
     "personal": "Personnel",
     "viewAll": "Voir Tous",
     "seeMore": "Voir plus",
+    "seeLess": "Voir moins",
     "more": "plus"
   },
   "contact": {

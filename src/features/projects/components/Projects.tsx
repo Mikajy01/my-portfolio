@@ -18,6 +18,7 @@ const PROJECT_META: Record<string, { categoryFr: string; categoryEn: string; yea
   "rock-paper-scissors-online": { categoryFr: "Jeu temps réel", categoryEn: "Realtime game", year: "2023" },
   "barbleu": { categoryFr: "Logiciel de gestion", categoryEn: "Business software", year: "2023" },
   "java-reservation-optimizer": { categoryFr: "Logiciel desktop", categoryEn: "Desktop software", year: "2023" },
+  "signetis": { categoryFr: "API bancaire", categoryEn: "Banking API", year: "2025" },
 };
 
 const useImagePreloader = () => {

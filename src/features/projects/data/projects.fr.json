@@ -14,10 +14,10 @@
       "TipTap",
       "React Big Calendar"
     ],
-    "image": "images/projects/educore/login.png",
+    "image": "images/projects/educore/login.webp",
     "images": [
       {
-        "url": "images/projects/educore/login.png",
+        "url": "images/projects/educore/login.webp",
         "description": "Page de connexion"
       }
     ],
@@ -41,10 +41,10 @@
       "Zustand",
       "Clean Architecture"
     ],
-    "image": "images/projects/espm/home.png",
+    "image": "images/projects/espm/home.webp",
     "images": [
       {
-        "url": "images/projects/espm/home.png",
+        "url": "images/projects/espm/home.webp",
         "description": "Page d'accueil du site institutionnel"
       }
     ],
@@ -172,18 +172,18 @@
       "Attendance Tracking",
       "Report Card Generation"
     ],
-    "image": "images/projects/sms/login.jpg",
+    "image": "images/projects/sms/login.webp",
     "images": [
       {
-        "url": "images/projects/sms/login.jpg",
+        "url": "images/projects/sms/login.webp",
         "description": "Page d'authentification"
       },
       {
-        "url": "images/projects/sms/enrollment.jpg",
+        "url": "images/projects/sms/enrollment.webp",
         "description": "Inscription / réinscription des élèves"
       },
       {
-        "url": "images/projects/sms/grades.jpg",
+        "url": "images/projects/sms/grades.webp",
         "description": "Gestion des notes, moyenne et rang"
       }
     ],
@@ -245,22 +245,22 @@
       "Frontend",
       "Backend"
     ],
-    "image": "images/projects/rps/home.jpg",
+    "image": "images/projects/rps/home.webp",
     "images": [
       {
-        "url": "images/projects/rps/home.jpg",
+        "url": "images/projects/rps/home.webp",
         "description": "Page d'accueil du jeu"
       },
       {
-        "url": "images/projects/rps/game_start.jpg",
+        "url": "images/projects/rps/game_start.webp",
         "description": "Début d'une partie avec un ami"
       },
       {
-        "url": "images/projects/rps/winning.jpg",
+        "url": "images/projects/rps/winning.webp",
         "description": "Écran de victoire"
       },
       {
-        "url": "images/projects/rps/loosing.jpg",
+        "url": "images/projects/rps/loosing.webp",
         "description": "Écran de défaite"
       }
     ],
@@ -282,26 +282,26 @@
       "Facturation",
       "Rôles & validation"
     ],
-    "image": "images/projects/barbleu/admin_dashboard.jpg",
+    "image": "images/projects/barbleu/admin_dashboard.webp",
     "images": [
       {
-        "url": "images/projects/barbleu/admin_dashboard.jpg",
+        "url": "images/projects/barbleu/admin_dashboard.webp",
         "description": "Dashboard administrateur"
       },
       {
-        "url": "images/projects/barbleu/rooms_karaoke_management.jpg",
+        "url": "images/projects/barbleu/rooms_karaoke_management.webp",
         "description": "Gestion des chambres (compte à rebours + alerte sonore fin de réservation) + gestion du karaoké"
       },
       {
-        "url": "images/projects/barbleu/users_validation.jpg",
+        "url": "images/projects/barbleu/users_validation.webp",
         "description": "Gestion des utilisateurs (liste d’attente + validation admin)"
       },
       {
-        "url": "images/projects/barbleu/login.jpg",
+        "url": "images/projects/barbleu/login.webp",
         "description": "Page de connexion"
       },
       {
-        "url": "images/projects/barbleu/sales_invoice.jpg",
+        "url": "images/projects/barbleu/sales_invoice.webp",
         "description": "Partie vente avec génération de facture (VIP/standard + consignation)"
       }
     ],
@@ -354,6 +354,35 @@
     "github": "https://github.com/Mikajy01/gestion_reservation_chambre.git",
     "type": "professional",
     "note": 8
+  },
+  {
+    "id": "signetis",
+    "title": "Signetis API – Backend bancaire pour AccèsBanque Madagascar",
+    "description": "Backend bancaire pour AccèsBanque Madagascar : comptes, crédits, transactions et signature électronique sur tablette en temps réel.",
+    "fullDescription": "API backend développée pour AccèsBanque Madagascar avec NestJS : gestion des comptes, crédits et transactions bancaires, authentification LDAP, stockage de documents sur AWS S3. Inclut un module de signature électronique sur tablette en temps réel — chambres de pairing sécurisées par OTP, communication WebSocket mise à l'échelle avec Redis, et notifications par webhooks. Pipeline CI/CD avec Jenkins et déploiement Kubernetes via Helm, qualité de code suivie avec SonarQube.",
+    "tags": [
+      "NestJS",
+      "Prisma",
+      "MSSQL",
+      "Socket.IO",
+      "Redis",
+      "LDAP",
+      "JWT",
+      "AWS S3",
+      "Jenkins CI/CD",
+      "Kubernetes"
+    ],
+    "image": "images/projects/signetis/login.webp",
+    "images": [
+      {
+        "url": "images/projects/signetis/login.webp",
+        "description": "Page de connexion"
+      }
+    ],
+    "link": null,
+    "github": null,
+    "type": "professional",
+    "note": 9
   }
 ]
 

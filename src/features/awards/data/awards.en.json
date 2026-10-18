@@ -5,7 +5,7 @@
     "event": "Emihack 4.0",
     "year": "2026",
     "description": "Team development hackathon: design and ship a complete solution within a limited time. First place won with team OMNIA.",
-    "image": "images/awards/OMNIA.jpg",
+    "image": "images/awards/OMNIA.webp",
     "icon": "trophy"
   },
   {
@@ -14,7 +14,7 @@
     "event": "Emihack 4.0",
     "year": "2026",
     "description": "Solo algorithmic competition: solve as many problems as possible in the shortest time. Individual first place.",
-    "image": "images/awards/algo_2026.jpg",
+    "image": "images/awards/algo_2026.webp",
     "icon": "trophy"
   },
   {
@@ -23,7 +23,7 @@
     "event": "Emihack 3.0",
     "year": "2025",
     "description": "Algorithmic competition: solve as many problems as possible in the shortest time. Performance and execution speed rewarded.",
-    "image": "images/awards/emihack.jpg",
+    "image": "images/awards/emihack.webp",
     "icon": "trophy"
   },
   {
@@ -32,7 +32,7 @@
     "event": "Cloudflight Coding Contest Fianarantsoa",
     "year": "2024",
     "description": "International team programming competition where participants solve complex algorithmic problems in a limited time, using the language of their choice to test their logic and execution speed.",
-    "image": "images/awards/ccc.jpg",
+    "image": "images/awards/ccc.webp",
     "icon": "medal"
   }
 ]

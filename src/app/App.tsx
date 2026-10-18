@@ -13,7 +13,7 @@ import { Crosshair } from "../shared/components/Crosshair";
 import StatsBand from "../shared/components/StatsBand";
 import { LanguageProvider } from "../shared/context/LanguageContext";
 import { AudioProvider } from "../shared/context/AudioContext";
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import { AppLoader } from "./AppLoader";
 import { getDestinationGeometry } from "./hyperspaceGeometry";
 
@@ -63,8 +63,11 @@ function App() {
 
   // Cache le site derrière un cercle nul jusqu'au saut — mutation directe du
   // DOM (pas via le prop style React) pour ne jamais entrer en conflit avec
-  // les mises à jour imperatives de la boucle ci-dessous.
-  useEffect(() => {
+  // les mises à jour imperatives de la boucle ci-dessous. useLayoutEffect
+  // (plutôt que useEffect) applique le clip avant la toute première peinture
+  // du navigateur, pour qu'aucune frame ne laisse voir le site derrière le
+  // loader.
+  useLayoutEffect(() => {
     revealRef.current?.style.setProperty("clip-path", "circle(0px at 50% 50%)");
   }, []);
 

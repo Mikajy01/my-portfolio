@@ -88,6 +88,12 @@
         "title": "Freed rooms, refilled fast",
         "description": "A small heuristic that re-ranks the waiting list the moment a room opens, instead of first-come-first-served.",
         "meta": "Java · Heuristics · 2024"
+      },
+      {
+        "tag": "STUDY 05 — MULTI-TENANT",
+        "title": "One establishment, its own setup",
+        "description": "EduCore runs multiple establishments on a single instance — each with its own grading scale, enabled modules and calendar — without ever mixing data or forking the codebase.",
+        "meta": "NestJS · TypeORM · Multi-tenant · 2025"
       }
     ]
   },
@@ -150,6 +156,7 @@
     "personal": "Personal",
     "viewAll": "View All",
     "seeMore": "See more",
+    "seeLess": "See less",
     "more": "more"
   },
   "contact": {

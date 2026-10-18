@@ -6,6 +6,42 @@ import { Briefcase, Heart } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { type Project } from "../data/projects";
 
+const DESCRIPTION_TRUNCATE_LENGTH = 260;
+const CAPTION_TRUNCATE_LENGTH = 90;
+
+// Coupe au dernier espace avant la limite pour ne pas trancher un mot en deux.
+function truncateAtWord(text: string, limit: number) {
+  const slice = text.slice(0, limit);
+  const lastSpace = slice.lastIndexOf(" ");
+  return `${(lastSpace > limit * 0.6 ? slice.slice(0, lastSpace) : slice).trimEnd()}…`;
+}
+
+// Démonté/remonté via `key` à chaque changement de projet (ou d'image, pour
+// la légende) : son état `expanded` n'a donc pas besoin d'être réinitialisé
+// manuellement.
+const TruncatedText: React.FC<{ text: string; limit: number; className: string; toggleClassName: string }> = ({
+  text,
+  limit,
+  className,
+  toggleClassName,
+}) => {
+  const { t } = useTranslation();
+  const [expanded, setExpanded] = useState(false);
+  const isLong = text.length > limit;
+  const shown = expanded || !isLong ? text : truncateAtWord(text, limit);
+
+  return (
+    <p className={className}>
+      {shown}
+      {isLong && (
+        <button type="button" onClick={() => setExpanded((v) => !v)} className={toggleClassName}>
+          {expanded ? t("projects.seeLess") : t("projects.seeMore")}
+        </button>
+      )}
+    </p>
+  );
+};
+
 const OptimizedImage: React.FC<{ src: string; alt: string; className?: string }> = ({ src, alt, className }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   return (
@@ -72,7 +108,13 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
             </div>
 
             <div className="flex-1 min-h-0 overflow-y-auto scroll-thin space-y-6 py-5">
-              <p className="text-text-secondary leading-relaxed">{project.fullDescription || project.description}</p>
+              <TruncatedText
+                key={project.id}
+                text={project.fullDescription || project.description}
+                limit={DESCRIPTION_TRUNCATE_LENGTH}
+                className="text-text-secondary leading-relaxed"
+                toggleClassName="ml-1.5 font-mono text-[11px] tracking-wide text-primary hover:underline"
+              />
 
               {project.images.length > 0 && (
                 <div className="relative group">
@@ -131,9 +173,15 @@ const ProjectModal = ({ isOpen, onClose, project }: ProjectModalProps) => {
                     </div>
                   )}
 
-                  <p className="mt-2 text-sm text-text-secondary text-center italic">
-                    {project.images[currentIndex]?.description}
-                  </p>
+                  {project.images[currentIndex] && (
+                    <TruncatedText
+                      key={`${project.id}-${currentIndex}`}
+                      text={project.images[currentIndex].description}
+                      limit={CAPTION_TRUNCATE_LENGTH}
+                      className="mt-2 text-sm text-text-secondary text-center italic"
+                      toggleClassName="ml-1.5 not-italic font-mono text-[11px] tracking-wide text-primary hover:underline"
+                    />
+                  )}
                 </div>
               )}
 

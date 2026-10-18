@@ -241,9 +241,41 @@ export const Hero: React.FC<HeroProps> = ({ isPageLoaded }) => {
         <div className="flex flex-col items-end">
           <div className="hidden lg:block blueprint relative w-[250px] shrink-0 self-center mb-6">
             <Corner />
-            <div className="relative">
+            {/* "isolate" borne un contexte d'empilement local : les formes
+                organiques ci-dessous (-z-10) restent cantonnées derrière le
+                portrait sans passer derrière toute la section Hero. */}
+            <div className="relative isolate">
+              {/* Deux taches organiques en contrepoint des lignes droites du
+                  cadre blueprint — même forme, réutilisée à une autre échelle
+                  et rotation pour éviter de dupliquer le path. */}
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 200 200"
+                className="absolute -z-10 -top-10 -left-14 w-[220px] h-[220px] pointer-events-none"
+                style={{ filter: "blur(2px)" }}
+              >
+                <path
+                  d="M54.5,-67.3C68.6,-59.2,76.6,-41.6,79.6,-23.7C82.6,-5.8,80.6,12.4,73.1,27.7C65.6,43,52.6,55.4,37.6,64.2C22.6,73,5.6,78.2,-11.9,78.6C-29.4,79,-58.8,74.6,-75.4,60.3C-92,46,-95.8,21.8,-93.4,-0.8C-91,-23.4,-82.4,-44.4,-67.4,-54.1C-52.4,-63.8,-26.2,-62.2,-5.1,-65.6C16,-69,32,-75.4,54.5,-67.3Z"
+                  fill="var(--color-primary)"
+                  fillOpacity="0.22"
+                  transform="translate(100,100)"
+                />
+              </svg>
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 200 200"
+                className="absolute -z-10 -bottom-12 -right-10 w-40 h-40 pointer-events-none"
+                style={{ filter: "blur(1px)" }}
+              >
+                <path
+                  d="M54.5,-67.3C68.6,-59.2,76.6,-41.6,79.6,-23.7C82.6,-5.8,80.6,12.4,73.1,27.7C65.6,43,52.6,55.4,37.6,64.2C22.6,73,5.6,78.2,-11.9,78.6C-29.4,79,-58.8,74.6,-75.4,60.3C-92,46,-95.8,21.8,-93.4,-0.8C-91,-23.4,-82.4,-44.4,-67.4,-54.1C-52.4,-63.8,-26.2,-62.2,-5.1,-65.6C16,-69,32,-75.4,54.5,-67.3Z"
+                  fill="var(--color-primary)"
+                  fillOpacity="0.14"
+                  transform="translate(100,100) rotate(150) scale(0.85)"
+                />
+              </svg>
               <img
-                src="/images/profile_picture_2.png"
+                src="/images/profile_picture_2.webp"
                 alt="Mikajisoa Selly-Rafaj"
                 className="w-full h-auto"
                 style={{
